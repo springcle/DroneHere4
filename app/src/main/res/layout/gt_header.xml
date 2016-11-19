@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#eaeaea"
+    android:id="@+id/relll">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="일시"
+        android:textSize="14sp"
+        android:textColor="#b2000000"
+        android:includeFontPadding="false"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginBottom="18dp"
+        android:id="@+id/gt_title"
+        android:layout_alignParentStart="true" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="내용"
+        android:includeFontPadding="false"
+        android:id="@+id/gt_content"
+        android:layout_marginLeft="16dp"
+        android:textSize="14sp"
+        android:textColor="#80000000"
+        android:layout_marginRight="16dp"
+        android:layout_below="@+id/gt_title"
+        android:layout_alignParentStart="true" />
+    <Button
+        android:id="@+id/gt_btn"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:textColor="#949fd3"
+        android:textSize="13sp"
+        android:layout_below="@id/gt_title"
+        android:text="상세 내용 보기"
+        android:layout_marginStart="16dp"
+        android:padding="0dp"
+        android:layout_marginEnd="16dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#eaeaea"
+        android:id="@+id/relativeLayout2"
+        android:layout_below="@+id/gt_content"
+        android:layout_marginTop="28dp"
+        android:layout_alignParentEnd="true"></RelativeLayout>
+</RelativeLayout>

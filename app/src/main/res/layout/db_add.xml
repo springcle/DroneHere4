@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:text="New Button"
+        android:id="@+id/dr_add"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/box_0"
+        android:textColor="#cc474747"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="16dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        android:layout_gravity="center_horizontal"
+        android:background="#eaeaea"></RelativeLayout>
+</LinearLayout>

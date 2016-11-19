@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back_02"
+    tools:context=".login.JoinDronePick"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/join_nick"
+        android:hint="닉네임"
+        android:textSize="15sp"
+        android:background="@drawable/b_04"
+        android:textColor="#079b34"
+        android:layout_above="@+id/imageView11"
+        android:layout_centerHorizontal="true"
+        android:textColorHint="#99007ac2"
+        android:paddingLeft="16dp"
+        android:layout_marginBottom="24dp" />
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:background="@drawable/check2"
+        android:id="@+id/searchNot"
+        android:layout_above="@+id/search"
+        android:textOn=""
+        android:textOff=""
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="14dp" />
+
+    <Button
+        android:layout_width="252dp"
+        android:layout_height="44dp"
+        android:background="@drawable/b_11_1"
+        android:id="@+id/search"
+        android:layout_above="@+id/joinjoin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="14dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/joinjoin"
+        android:background="@drawable/b_03"
+        android:visibility="invisible"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView11"
+        android:background="@drawable/i_08"
+        android:layout_above="@+id/searchNot"
+        android:layout_alignStart="@+id/searchNot"
+        android:layout_marginBottom="9dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView12"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="230dp"
+        android:layout_height="150dp"
+        android:id="@+id/imageView13"
+        android:background="@drawable/i_06"
+        android:layout_below="@+id/imageView12"
+        android:layout_alignEnd="@+id/imageView12" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView14"
+        android:background="@drawable/i_07"
+        android:layout_above="@+id/join_nick"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="21dp" />
+</RelativeLayout>

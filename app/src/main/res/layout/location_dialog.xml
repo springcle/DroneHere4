@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:rowCount="3"
+    android:columnCount="2"
+    android:id="@+id/dial">
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="128dp"
+        android:id="@+id/dial_image1"
+        android:layout_marginBottom="44dp"
+        android:layout_marginRight="10dp"/>
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="128dp"
+        android:id="@+id/dial_image2"
+        android:layout_marginBottom="44dp"/>
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="128dp"
+        android:id="@+id/dial_image3"
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="10dp"/>
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="128dp"
+        android:id="@+id/dial_image4"
+        android:layout_marginBottom="50dp"/>
+
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="52dp"
+        android:id="@+id/dial_btn"
+        android:layout_columnSpan="2"
+        />
+</GridLayout>

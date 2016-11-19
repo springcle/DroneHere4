@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#eaeaea"
+    android:layout_height="match_parent"
+    tools:context="com.example.ksj_notebook.dronehere.Gathering.TabGatherWriteReview">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="New Text"
+        android:id="@+id/RvWrite_title"
+        android:background="#1b52ac"
+        android:textSize="16sp"
+        android:textColor="#fcfcfc"
+        android:includeFontPadding="false"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="장소를 평가해 주세요"
+        android:id="@+id/textView2"
+        android:layout_marginStart="16dp"
+        android:textSize="14sp"
+        android:textColor="#078e2a"
+        android:includeFontPadding="false"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="22dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="별점을 남겨주세요"
+        android:id="@+id/textView4"
+        android:layout_marginStart="16dp"
+        android:includeFontPadding="false"
+        android:textSize="14sp"
+        android:textColor="#3b89dd"
+        android:layout_marginBottom="11dp" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:id="@+id/ratingBar"
+        android:layout_marginStart="72dp"
+        android:layout_marginBottom="22dp"
+        style="@style/StarRatingBar2"
+        android:numStars="5"
+        android:stepSize="1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="11dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="한줄 리뷰를 남겨주세요."
+            android:includeFontPadding="false"
+            android:id="@+id/textView3"
+            android:textSize="14sp"
+            android:textColor="#3b89dd" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" (선택)"
+            android:includeFontPadding="false"
+            android:id="@+id/textView5"
+            android:textSize="12sp"
+            android:textColor="#7f7f7f" />
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:id="@+id/editt"
+        android:inputType="textMultiLine"
+        android:textSize="15sp"
+        android:gravity="top"
+
+        android:paddingRight="9dp"
+        android:paddingLeft="9dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:includeFontPadding="false"
+
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="22dp"
+        android:textColor="#078e2a"
+
+        android:background="#fcfcfc"
+        android:singleLine="false"
+        android:maxLength="47"
+        android:maxLines="3"
+        android:lines="3"
+        android:textColorHint="#7f7f7f" />
+
+    <Button
+        android:layout_width="78dp"
+        android:layout_height="34dp"
+        android:id="@+id/RvWrite_button"
+        android:layout_gravity="end"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/b_1"/>
+
+
+</LinearLayout>

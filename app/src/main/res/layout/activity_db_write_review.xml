@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eaeaea"
+    tools:context=".Dronedb.DroneDetailReviewWrite"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="New Text"
+        android:id="@+id/drrv_name"
+        android:background="#1b52ac"
+        android:autoText="false"
+        android:textColor="#ffffff"
+        android:textSize="21sp"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView9"
+        android:text="드론에 관해 댓글을 남겨주세요."
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="11dp"
+        android:textSize="14sp"
+        android:textColor="#078e2a" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="별점을 남겨주세요"
+        android:id="@+id/textView10"
+        android:textColor="#3b89dd"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="11dp" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:id="@+id/drrv_ratingbar"
+        android:layout_marginLeft="72dp"
+        style="@style/StarRatingBar2"
+        android:layout_marginBottom="22dp"
+        android:stepSize="1" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="한줄 리뷰를 남겨주세요."
+            android:id="@+id/textView11"
+            android:layout_marginLeft="16dp"
+            android:textSize="14sp"
+            android:textColor="#3b89dd"
+            android:layout_marginBottom="11dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(선택)"
+            android:id="@+id/textView12"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:id="@+id/drrv_edit"
+        android:background="#ffffff"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:padding="9dp"
+        android:textColorHint="#7f7f7f"
+        android:layout_marginBottom="22dp"
+        android:textColor="#078e2a"
+        android:textSize="15sp"
+        android:gravity="top" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="78dp"
+            android:layout_height="34dp"
+            android:id="@+id/drrv_btn"
+            android:background="@drawable/b_1"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="16dp" />
+    </RelativeLayout>
+
+</LinearLayout>

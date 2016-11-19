@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#1b52ac"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="21sp"
+        android:textColor="#fcfcfc"
+        android:includeFontPadding="false"
+        android:paddingTop="22dp"
+        android:paddingBottom="22dp"
+        android:paddingLeft="72dp"
+        android:id="@+id/gath_title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:textSize="14sp"
+        android:paddingLeft="48dp"
+        android:includeFontPadding="false"
+        android:textColor="#9afcfcfc"
+        android:id="@+id/gath_address" />
+
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingLeft="48dp"
+            android:id="@+id/linn1">
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:id="@+id/gath_raingbar"
+                android:isIndicator="true"
+                style="@style/StarRatingBar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:textSize="12sp"
+                android:textColor="#e6fcfcfc"
+                android:id="@+id/gath_rating"
+                android:layout_marginLeft="15dp"/>
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="48dp"
+        android:paddingTop="15dp"
+        android:id="@+id/linn2">
+
+        <TextView
+            android:layout_width="147dp"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:textSize="14sp"
+            android:textColor="#e6fcfcfc"
+            android:includeFontPadding="false"
+            android:id="@+id/gath_info1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:textSize="14sp"
+            android:textColor="#e6fcfcfc"
+            android:includeFontPadding="false"
+            android:id="@+id/gath_info2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="48dp"
+        android:paddingTop="9dp"
+        android:paddingBottom="20dp"
+        android:id="@+id/linn3">
+
+        <TextView
+            android:layout_width="147dp"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:textSize="14sp"
+            android:textColor="#e6fcfcfc"
+            android:includeFontPadding="false"
+            android:id="@+id/gath_info3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:textSize="14sp"
+            android:textColor="#e6fcfcfc"
+            android:includeFontPadding="false"
+            android:id="@+id/gath_info4" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/gath_content"
+        android:paddingLeft="34dp"
+        android:textSize="14sp"
+        android:textColor="#b2fcfcfc"
+        android:paddingRight="34dp"
+        android:paddingBottom="18dp"/>
+
+
+</LinearLayout>

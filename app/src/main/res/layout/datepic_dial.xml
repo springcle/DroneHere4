@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+
+    <TextView
+        android:layout_width="328dp"
+        android:layout_height="wrap_content"
+        android:background="#1b52ac"
+        android:padding="12dp"
+        android:textColor="#ffffff"
+        android:id="@+id/datepic_tx"/>
+
+    <com.github.sundeepk.compactcalendarview.CompactCalendarView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/compactcalendar_view"
+        android:layout_width="328dp"
+        android:layout_height="250dp"
+        android:paddingTop="20dp"
+
+        app:compactCalendarTextSize="12sp"
+        app:compactCalendarBackgroundColor="#eaeaea"
+        app:compactCalendarTextColor="#1b52ac"
+        app:compactCalendarCurrentDayBackgroundColor="#01c117"
+        android:layout_below="@+id/datepic_tx"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

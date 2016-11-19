@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/dblist"
+    android:background="#ffffff">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/drrr"
+        android:paddingRight="31dp">
+
+        <ImageView
+            android:layout_width="112dp"
+            android:layout_height="78dp"
+            android:id="@+id/drone_image"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="22dp"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/drone_name"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/drone_image"
+            android:layout_marginTop="17dp"
+            android:textSize="16sp"
+            android:textColor="#0068d3"
+            android:layout_marginBottom="11dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/drone_name"
+            android:layout_alignLeft="@+id/drone_name"
+            android:layout_marginBottom="16dp"
+            android:id="@+id/linearLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/drone_manufactor"
+                android:textStyle="bold"
+                android:layout_below="@id/drone_name"
+                android:layout_toRightOf="@id/drone_image"
+                android:textColor="#e4474747"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="match_parent"
+                android:id="@+id/imageView7"
+                android:background="@drawable/line_3"
+                android:layout_alignBottom="@+id/drone_manufactor"
+                android:layout_toRightOf="@+id/drone_manufactor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/drone_price"
+                android:textStyle="bold"
+                android:textColor="#e4474747"
+                android:textSize="14sp"
+                android:layout_alignTop="@id/drone_manufactor"
+                android:layout_toRightOf="@+id/imageView7" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/drone_rating"
+            android:textColor="#e43b89dd"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:layout_alignTop="@+id/drone_name"
+            android:layout_alignRight="@+id/linearLayout3"
+            android:layout_alignEnd="@+id/linearLayout3" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout"
+            android:layout_toRightOf="@+id/drone_image"
+            android:layout_marginBottom="16dp"
+            android:id="@+id/linearLayout3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/drone_use2"
+                android:textSize="14sp"
+                android:textColor="#80474747" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_below="@id/drrr"
+        android:layout_centerHorizontal="true"
+        android:background="#eaeaea"></RelativeLayout>
+
+</RelativeLayout>

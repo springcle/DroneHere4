@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Drone Here</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="edit_text_hint1"><font size="12">제목을 입력해 주세요 (9자 제한)</font></string>
+    <string name="edit_text_hint2"><font size="12">날짜를 선택해 주세요.</font></string>
+    <string name="edit_text_hint3"><font size="12">장소를 입력해 주세요 (25자 제한)</font></string>
+    <string name="edit_text_hint4"><font size="12">내용을 입력해 주세요</font></string>
+
+    <string name="edit_text_hint"><font size="12">내용을 입력해 주세요 (47자 제한)</font></string>
+
+
+    <string name="edit_text_email"><font size="13">이메일</font></string>
+    <string name="edit_text_pass1"><font size="13">비밀번호</font></string>
+    <string name="edit_text_pass2"><font size="13">비밀번호 확인</font></string>
+
+    <string name="edit_text_nick"><font size="13">닉네임(2~5자)</font></string>
+
+
+    <string name="edit_text_hint5"><font size="12">내용을 입력해 주세요 (47자 제한)</font></string>
+
+
+    <string name="drone_pick"><font size="14">드론을 검색해 주세요</font></string>
+</resources>

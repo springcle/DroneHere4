@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Gathering.TabGatherWriteGathering">
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:id="@+id/gtTitle"
+        android:background="#1b52ac"
+        android:paddingStart="16dp"
+        android:gravity="center_vertical"
+        android:textSize="16sp"
+        android:textColor="#fcfcfc" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_below="@+id/gtTitle">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="모임을 만들어주세요."
+        android:id="@+id/textView8"
+        android:textSize="14sp"
+        android:textColor="#078e2a"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="제목"
+        android:id="@+id/textView18"
+        android:layout_marginBottom="6dp"
+        android:textSize="14sp"
+        android:textColor="#3b89dd" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:id="@+id/editText111"
+        android:paddingLeft="9dp"
+        android:paddingTop="7dp"
+        android:paddingRight="9dp"
+        android:paddingBottom="7dp"
+        android:maxLength="9"
+        android:background="#fcfcfc"
+        android:singleLine = "true"
+        android:layout_marginBottom="12dp"
+        android:textColor="#078e2a"
+        android:textColorHint="#7f7f7f" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="일시"
+            android:id="@+id/textView26"
+            android:layout_marginBottom="6dp"
+            android:textSize="14sp"
+            android:textColor="#3b89dd" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:id="@+id/editText222"
+            android:paddingLeft="9dp"
+            android:paddingTop="7dp"
+            android:paddingRight="9dp"
+            android:paddingBottom="7dp"
+            android:maxLength="30"
+            android:background="#fcfcfc"
+            android:layout_marginBottom="12dp"
+
+            android:gravity="left"
+            android:textColor="#078e2a"
+            style="?android:attr/borderlessButtonStyle"
+            android:textColorHint="#7f7f7f" />
+
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="장소"
+        android:id="@+id/textView14"
+        android:textSize="14sp"
+        android:maxLength="25"
+        android:textColor="#3b89dd"
+        android:layout_marginBottom="6dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:id="@+id/editText333"
+        android:layout_marginBottom="12dp"
+        android:paddingLeft="9dp"
+        android:paddingTop="7dp"
+        android:paddingRight="9dp"
+        android:paddingBottom="7dp"
+        android:textColor="#078e2a"
+        android:maxLength="25"
+        android:singleLine = "true"
+        android:background="#fcfcfc"
+        android:textColorHint="#7f7f7f" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내용"
+        android:textSize="14sp"
+        android:textColor="#3b89dd"
+        android:layout_marginBottom="6dp"
+        android:id="@+id/textView15" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/editText444"
+        android:layout_marginBottom="12dp"
+        android:paddingLeft="9dp"
+        android:paddingTop="7dp"
+        android:paddingRight="9dp"
+        android:paddingBottom="7dp"
+        android:textColor="#078e2a"
+        android:background="#fcfcfc"
+        android:gravity="top"
+        android:textColorHint="#7f7f7f" />
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="사진을 한 장 이상 추가해 주세요"
+                android:textColor="#3b90dd"
+                android:textSize="14sp"
+                android:id="@+id/textView16" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(최대 5장)"
+                android:textSize="12sp"
+                android:textColor="#7f7f7f"
+                android:id="@+id/textView17"
+                android:layout_below="@+id/textView16"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:layout_width="78dp"
+                android:layout_height="34dp"
+                android:background="@drawable/b_2"
+                android:id="@+id/gtImage_btn"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
+
+
+
+    </RelativeLayout>
+
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/hori"
+            android:layout_marginBottom="22dp"></LinearLayout>
+
+
+    <Button
+        android:layout_width="78dp"
+        android:layout_height="34dp"
+        android:background="@drawable/b_1"
+        android:id="@+id/gt_btn"
+        android:layout_gravity="right" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:id="@+id/gt_item"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <RelativeLayout
+        android:layout_width="42dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cir1"
+        android:layout_marginRight="31dp"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/relativeLayout"
+        android:layout_centerVertical="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="9sp"
+            android:textColor="#fcfcfc"
+            android:id="@+id/gath_gathering_dday"/>
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:textSize="12sp"
+        android:layout_toRightOf="@id/relativeLayout"
+        android:textColor="#3b89dd"
+        android:id="@+id/gath_gathering_title"
+        android:layout_marginTop="18dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:textSize="11sp"
+
+        android:id="@+id/gath_gathering_nick"
+        android:layout_toRightOf="@id/relativeLayout"
+        android:layout_alignParentBottom="true"
+        android:textColor="#cc474747"
+        android:layout_marginBottom="18dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:textSize="11sp"
+        android:id="@+id/gath_gathering_date"
+        android:textColor="#cc474747"
+        android:layout_alignBottom="@+id/relativeLayout"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

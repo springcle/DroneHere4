@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:id="@+id/linearLayout2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/dc1name"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:textSize="10sp"
+            android:textColor="#3b89dd" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/imageView18"
+            android:background="@drawable/line_3"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/dc1name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/dc1star"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/imageView18"
+            android:textSize="10sp"
+            android:textColor="#cc474747" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/dc1content"
+        android:layout_below="@id/linearLayout2"
+        android:layout_alignStart="@+id/linearLayout2"
+        android:textSize="11sp"
+        android:textColor="#bb474747"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="16dp"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/dc1date"
+        android:textSize="10sp"
+        android:textColor="#cc474747"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp" />
+
+</RelativeLayout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".login.LoginEmail"
+    android:background="@drawable/back_02"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/email_edit"
+        android:inputType="textEmailAddress"
+        android:hint="이메일"
+        android:background="@drawable/b_04"
+        android:layout_above="@+id/pass_edit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:textColorHint="#99007ac2"
+        android:textColor="#079b34"
+        android:paddingLeft="16dp"
+        android:textSize="15sp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pass_edit"
+        android:hint="비밀번호"
+        android:background="@drawable/b_04"
+        android:inputType="textPassword"
+        android:layout_above="@+id/loginn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:textColorHint="#99007ac2"
+        android:textColor="#079b34"
+        android:paddingLeft="16dp"
+        android:textSize="15sp" />
+
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="42dp"
+        android:id="@+id/loginn"
+        android:background="@drawable/b_05"
+        android:layout_above="@+id/face_login"
+        android:layout_alignStart="@+id/pass_edit"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:layout_width="120dp"
+        android:layout_height="42dp"
+        android:background="@drawable/b_06"
+        android:id="@+id/face_login"
+        android:layout_alignTop="@+id/button3"
+        android:layout_alignStart="@+id/loginn" />
+
+    <Button
+        android:layout_width="120dp"
+        android:layout_height="42dp"
+        android:background="@drawable/b_07"
+        android:id="@+id/button3"
+        android:layout_marginBottom="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/loginn" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView15"
+        android:background="@drawable/i_04"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView16"
+        android:background="@drawable/i_01"
+        android:layout_marginBottom="32dp"
+        android:layout_above="@+id/email_edit"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
