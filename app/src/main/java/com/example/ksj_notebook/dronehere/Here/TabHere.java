@@ -303,6 +303,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     break;
                 }
             }
+        //
         if(PropertyManager.getInstance().getId() != "") {
             if (z == 0) {
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1));
