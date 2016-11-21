@@ -24,8 +24,6 @@ import android.widget.ImageView;
 
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
-import com.example.ksj_notebook.dronehere.data.DroneResistance;
-import com.example.ksj_notebook.dronehere.data.DroneResistanceResult;
 import com.example.ksj_notebook.dronehere.data.MagneticResult;
 import com.example.ksj_notebook.dronehere.data.WeatherResult;
 import com.example.ksj_notebook.dronehere.login.StartActivity;
@@ -47,11 +45,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.PolyUtil;
+import com.google.maps.android.kml.KmlContainer;
 import com.google.maps.android.kml.KmlLayer;
+import com.google.maps.android.kml.KmlPlacemark;
+import com.google.maps.android.kml.KmlPolygon;
 
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Request;
@@ -82,7 +85,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     String wind;
 
     String mem_id=PropertyManager.getInstance().getId();
-
 
     KmlLayer layer1;
 
@@ -421,10 +423,18 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                sunset = result.getSun().getSunset();
                Log.d("낙낙낙",wind);
                Log.d("낙낙낙",sunrise);
-               Log.d("낙낙낙",sunset);
+               Log.d("낙낙낙", sunset);
                Log.d("낙낙낙",kk+"");
                Log.d("시간",System.currentTimeMillis()/1000+"");
-               /** 비행 가능/불가능 bool 값 설정 **/
+               LatLng latLngTest = new LatLng(location.getLatitude(), location.getLongitude()); // The location to test. You will initialize it with your user's location
+               LatLng latLngTest1 = new LatLng(37.3979826,126.9284821);
+               List<KmlPolygon> polygonsInLayer = getPolygons(layer1.getContainers());
+               boolean liesInside = liesOnPolygon(polygonsInLayer, latLngTest);
+               boolean liesInside1 = liesOnPolygon(polygonsInLayer, latLngTest1);
+               Log.w("확인",liesInside+"");
+               Log.w("확인",liesInside1+"");
+               /** 비행 가능ers.hasCon/불가능 bool 값 설정 **/
+               /** 수정 중
                if(wind!=null&&sunrise!=null&&sunset!=null){
                    NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
                        @Override
@@ -437,6 +447,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                            long l_sunrise = Long.parseLong(sunrise);
                            long l_sunset = Long.parseLong(sunset);
                            long now = System.currentTimeMillis()/1000;
+
                            if (l_sunrise<now && now<l_sunset) bool[1]=1; else bool[1]=0;
                            if (dr_wind < dr_resistance) bool[2]=1; else bool[2]=0;
                            if (kk < 5) bool[3]=1; else bool[3]=0;
@@ -449,7 +460,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                        }
 
                    });
-               }
+               }**/
 
 
 /** 이전 것
@@ -483,6 +494,87 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
 
    }
+    private List<KmlPolygon> getPolygons(Iterable<KmlContainer> containers) {
+        List<KmlPolygon> polygons = new ArrayList<>();
+
+        if (containers == null) {
+            return polygons;
+        }
+
+        for (KmlContainer container : containers) {
+            polygons.addAll(getPolygons(container));
+        }
+
+        return polygons;
+    }
+
+    private List<KmlPolygon> getPolygons(KmlContainer container) {
+        List<KmlPolygon> polygons = new ArrayList<>();
+
+        if (container == null) {
+            return polygons;
+        }
+
+        Iterable<KmlPlacemark> placemarks = container.getPlacemarks();
+        if (placemarks != null) {
+            for (KmlPlacemark placemark : placemarks) {
+                if (placemark.getGeometry() instanceof KmlPolygon) {
+                    polygons.add((KmlPolygon) placemark.getGeometry());
+                }
+            }
+        }
+
+        if (container.hasContainers()) {
+            polygons.addAll(getPolygons(container.getContainers()));
+        }
+
+        return polygons;
+    }
+
+    private boolean liesOnPolygon(List<KmlPolygon> polygons, LatLng test) {
+        boolean lies = false;
+
+        if (polygons == null || test == null) {
+            return lies;
+        }
+
+        for (KmlPolygon polygon : polygons) {
+            if (liesOnPolygon(polygon, test)) {
+                lies = true;
+                break;
+            }
+        }
+
+        return lies;
+    }
+
+    private boolean liesOnPolygon(KmlPolygon polygon, LatLng test) {
+        boolean lies = false;
+
+        if (polygon == null || test == null) {
+            return lies;
+        }
+
+        // Get the outer boundary and check if the test location lies inside
+        ArrayList<LatLng> outerBoundary = polygon.getOuterBoundaryCoordinates();
+        lies = PolyUtil.containsLocation(test, outerBoundary, true);
+
+        if (lies) {
+            // Get the inner boundaries and check if the test location lies inside
+            ArrayList<ArrayList<LatLng>> innerBoundaries = polygon.getInnerBoundaryCoordinates();
+            if (innerBoundaries != null) {
+                for (ArrayList<LatLng> innerBoundary : innerBoundaries) {
+                    // If the test location lies in a hole, the polygon doesn't contain the location
+                    if (PolyUtil.containsLocation(test, innerBoundary, true)) {
+                        lies = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return lies;
+    }
 }
 
 
