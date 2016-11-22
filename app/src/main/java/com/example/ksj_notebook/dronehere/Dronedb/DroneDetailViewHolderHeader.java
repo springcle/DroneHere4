@@ -107,26 +107,36 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
     }
 
     public void setDt(DroneDB db){
-        //if (db.getDr_photo() != null) {
+        if (db.getDr_photoArr().get(0) != null) {
             GlideUrl url = new GlideUrl(db.getDr_photoArr().get(0));
             Glide.with(MyApplication.getContext())
                     .load(url)
                     .into(imageView);
-        //}
-        //GlideUrl url2 = new GlideUrl(db.getDr_photoArr().get(1));
-        Glide.with(MyApplication.getContext())
-                .load(url)
-                .into(imageView2);
-        Glide.with(MyApplication.getContext())
-                .load(url)
-                .into(imageView3);
-        Glide.with(MyApplication.getContext())
-                .load(url)
-                .into(imageView4);
-        Glide.with(MyApplication.getContext())
-                .load(url)
-                .into(imageView5);
-
+        }
+        if (db.getDr_photoArr().get(1) != null) {
+            GlideUrl url2 = new GlideUrl(db.getDr_photoArr().get(1));
+            Glide.with(MyApplication.getContext())
+                    .load(url2)
+                    .into(imageView2);
+        }
+        if (db.getDr_photoArr().get(2) != null) {
+            GlideUrl url3 = new GlideUrl(db.getDr_photoArr().get(2));
+            Glide.with(MyApplication.getContext())
+                    .load(url3)
+                    .into(imageView3);
+        }
+        if (db.getDr_photoArr().get(3) != null) {
+            GlideUrl url4 = new GlideUrl(db.getDr_photoArr().get(3));
+            Glide.with(MyApplication.getContext())
+                    .load(url4)
+                    .into(imageView4);
+        }
+        if (db.getDr_photoArr().get(4) != null) {
+            GlideUrl url5 = new GlideUrl(db.getDr_photoArr().get(4));
+            Glide.with(MyApplication.getContext())
+                    .load(url5)
+                    .into(imageView5);
+        }
         drdb_title.setText(db.getDr_name());
         dt_manu.setText(db.getDr_manufacture());
         dt_price.setText(db.getDr_price());
