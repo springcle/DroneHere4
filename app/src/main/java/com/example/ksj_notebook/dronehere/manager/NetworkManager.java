@@ -654,7 +654,7 @@ public class NetworkManager {
     }
 
     //드론추천(전체, 별점순)
-    private static final String DRONE_RECOMMEDN_RATE = DRONE_HERE + "/dronedb/listall/:1";
+    private static final String DRONE_RECOMMEDN_RATE = DRONE_HERE + "/dronedb/listall/1";
     public Request getDroneRecommend(Object tag, OnResultListener<DroneRecommendResult> listener) {
 
 

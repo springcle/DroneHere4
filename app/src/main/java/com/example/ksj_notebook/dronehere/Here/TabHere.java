@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +23,8 @@ import android.widget.ImageView;
 
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
+import com.example.ksj_notebook.dronehere.data.DroneResistance;
+import com.example.ksj_notebook.dronehere.data.DroneResistanceResult;
 import com.example.ksj_notebook.dronehere.data.MagneticResult;
 import com.example.ksj_notebook.dronehere.data.WeatherResult;
 import com.example.ksj_notebook.dronehere.login.StartActivity;
@@ -84,7 +85,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     String sunset;
     String wind;
 
-    String mem_id=PropertyManager.getInstance().getId();
+    String mem_id;
 
     KmlLayer layer1;
 
@@ -97,6 +98,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mem_id = PropertyManager.getInstance().getId();
         context = getContext();
         mClient = new GoogleApiClient.Builder(context)
                 .addApi(LocationServices.API)
@@ -298,16 +300,16 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         MarkerOptions options = new MarkerOptions();
         options.position(new LatLng(location.getLatitude(), location.getLongitude()));
 
-            int z=1;
+            boolean z = true;
             for (int j = 0; j < 4; j++) {
                 if (bool[j] == 0) {
-                    z=0;
+                    z = false;
                     break;
                 }
             }
         //
         if(PropertyManager.getInstance().getId() != "") {
-            if (z == 0) {
+            if (z == false) {
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1));
                 marker = mMap.addMarker(options);
             } else {
@@ -403,6 +405,11 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     }
 
    public void getData(){
+       //비행가능구역
+       LatLng latLngTest = new LatLng(location.getLatitude(), location.getLongitude());
+       List<KmlPolygon> polygonsInLayer = getPolygons(layer1.getContainers());
+       final boolean liesInside = liesOnPolygon(polygonsInLayer, latLngTest);
+       //자기장
        NetworkManager.getInstance().getMag(MyApplication.getContext(), new NetworkManager.OnResultListener<MagneticResult>() {
            @Override
            public void onSuccess(Request request, MagneticResult result) {
@@ -413,46 +420,16 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
            public void onFail(Request request, IOException exception) {
            }
        });
-
+       //풍속,일출,일몰 값
        NetworkManager.getInstance().getWind(MyApplication.getContext(), "" + location.getLatitude(), "" + location.getLongitude(), new NetworkManager.OnResultListener<WeatherResult>() {
            @Override
            public void onSuccess(Request request, WeatherResult result) {
-               //wind=result.getGweather().getCurrent().get(0).getWind().getSpeed().getValue();
                wind = result.getWind().getSpeed();
                sunrise = result.getSun().getSunrise();
                sunset = result.getSun().getSunset();
-               Log.d("낙낙낙",wind);
-               Log.d("낙낙낙",sunrise);
-               Log.d("낙낙낙", sunset);
-               Log.d("낙낙낙",kk+"");
-               Log.d("시간",System.currentTimeMillis()/1000+"");
 
-               // 위에꺼는 지금 내 위치 위경도 , 밑에는 안양시(지도상에 아무 표시 안된 곳) 테스트
-               LatLng latLngTest = new LatLng(location.getLatitude(), location.getLongitude()); // The location to test. You will initialize it with your user's location
-               LatLng latLngTest1 = new LatLng(37.3979826,126.9284821); // 안양 흰
-               LatLng latLngTest2 = new LatLng(38.2381801,127.4606323); // 빨
-               LatLng latLngTest3 = new LatLng(37.4263431,127.9886627); // 빨
-               LatLng latLngTest4 = new LatLng(37.0595608,128.9561462); // 주
-               LatLng latLngTest5 = new LatLng(36.0934994,127.9412842); // 흰
-               LatLng latLngTest6 = new LatLng(35.4114381,127.4414063); // 흰
-               List<KmlPolygon> polygonsInLayer = getPolygons(layer1.getContainers());
-               boolean liesInside = liesOnPolygon(polygonsInLayer, latLngTest);
-               boolean liesInside1 = liesOnPolygon(polygonsInLayer, latLngTest1);
-               boolean liesInside2 = liesOnPolygon(polygonsInLayer, latLngTest2);
-               boolean liesInside3 = liesOnPolygon(polygonsInLayer, latLngTest3);
-               boolean liesInside4 = liesOnPolygon(polygonsInLayer, latLngTest4);
-               boolean liesInside5 = liesOnPolygon(polygonsInLayer, latLngTest5);
-               boolean liesInside6 = liesOnPolygon(polygonsInLayer, latLngTest6);
-               Log.w("확인",liesInside+"");
-               Log.w("확인",liesInside1+"");
-               Log.w("빨",liesInside2+"");
-               Log.w("빨",liesInside3+"");
-               Log.w("주",liesInside4+"");
-               Log.w("흰",liesInside5+"");
-               Log.w("흰",liesInside6+"");
+               /** 비행 가능/불가능 bool 값 설정 **/
 
-               /** 비행 가능ers.hasCon/불가능 bool 값 설정 **/
-               /** 수정 중
                if(wind!=null&&sunrise!=null&&sunset!=null){
                    NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
                        @Override
@@ -466,10 +443,15 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                            long l_sunset = Long.parseLong(sunset);
                            long now = System.currentTimeMillis()/1000;
 
+                           if (liesInside == false) bool[0]=1; else bool[0]=0;
                            if (l_sunrise<now && now<l_sunset) bool[1]=1; else bool[1]=0;
                            if (dr_wind < dr_resistance) bool[2]=1; else bool[2]=0;
                            if (kk < 5) bool[3]=1; else bool[3]=0;
 
+                           // 비행 가능, 불가능 표시 마커
+                           if(bool!=null){
+                               addMarker(location);
+                           }
                        }
 
                        @Override
@@ -478,30 +460,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                        }
 
                    });
-               }**/
-
-
-/** 이전 것
-               if(wind!=null&&sunrise!=null&&sunset!=null){
-                   Log.w("됨?","?");
-                   NetworkManager.getInstance().getFlight(MyApplication.getContext(),mem_id,"3",wind,""+kk,sunrise,sunset ,new NetworkManager.OnResultListener<DroneFlightResult>() {
-
-                       @Override
-                       public void onSuccess(Request request, DroneFlightResult result) {
-                           bool= result.getResult();
-                           Log.w("되냐","?");
-                           Log.w("확인",bool[0]+"");
-                           Log.w("확인",bool[1]+"");
-                           Log.w("확인",bool[2]+"");
-                           Log.w("확인",bool[3]+"");
-                       }
-                       @Override
-                       public void onFail(Request request, IOException exception) {
-                       }
-                   });
-
                }
- **/
+
            }
 
            @Override
