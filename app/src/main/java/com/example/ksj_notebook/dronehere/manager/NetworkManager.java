@@ -446,9 +446,10 @@ public class NetworkManager {
 //                .build();
         FormBody.Builder builder = new FormBody.Builder()
                 .add("mem_id", mem_id)
-                .add("mem_name",mem_name)
+                .add("mem_name",mem_name);
                 //      .add("dr_delete",dr_delete)
-                .add("dr_select",dr_select);
+                if(dr_select != null) builder.add("dr_select",dr_select); // 지정한 드론이 없으면, 주력드론을 전달할 필요가 없음
+
         for(int i = 0; i<dr_delete.size(); i++){
             builder.add("dr_delete",dr_delete.get(i));
         }

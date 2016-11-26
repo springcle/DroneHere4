@@ -124,8 +124,9 @@ public class Drawer_fix extends AppCompatActivity {
                     for(int i=0;i<dr_delete1.size();i++){
                         dr_delete2.add(member.getMem_drone().get(dr_delete1.get(i)).getDr_name());
                     }
-                    dr_select=member.getMem_drone().get(adap1.mCheckedPostion).getDr_name();
-
+                    if(member.getMem_drone().isEmpty() != true) {
+                        dr_select = member.getMem_drone().get(adap1.mCheckedPostion).getDr_name();
+                    } else dr_select = null;
                     NetworkManager.getInstance().getFix2(MyApplication.getContext(), mem_id,editText2.getText().toString(),dr_delete2,dr_select,new NetworkManager.OnResultListener() {
                     //member.getMem_name()
 

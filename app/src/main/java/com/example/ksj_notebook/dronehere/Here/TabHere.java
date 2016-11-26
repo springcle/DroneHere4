@@ -26,6 +26,7 @@ import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneResistance;
 import com.example.ksj_notebook.dronehere.data.DroneResistanceResult;
 import com.example.ksj_notebook.dronehere.data.MagneticResult;
+import com.example.ksj_notebook.dronehere.data.MemDrone;
 import com.example.ksj_notebook.dronehere.data.WeatherResult;
 import com.example.ksj_notebook.dronehere.login.StartActivity;
 import com.example.ksj_notebook.dronehere.manager.NetworkManager;
@@ -74,7 +75,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     List<Bitmap> bitmaps;
     LatLngBounds bounds;
     Location location;
- //   ToggleButton weightToggle;
+    //   ToggleButton weightToggle;
     Button myLocation;
     Marker marker;
 
@@ -89,7 +90,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     KmlLayer layer1;
 
-    int[] bool={1,1,1,1};
+    int[] bool = {1, 1, 1, 1};
 
     public TabHere() {
         // Required empty public constructor
@@ -120,6 +121,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         super.onStop();
         mClient.disconnect();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -127,7 +129,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         View view = inflater.inflate(R.layout.fragment_tab_here, container, false);
 
         myLocation = (Button) view.findViewById(R.id.myLocation);
-  //      weightToggle = (ToggleButton) view.findViewById(R.id.weightToggle);
+        //      weightToggle = (ToggleButton) view.findViewById(R.id.weightToggle);
 
         this.inflater = inflater;
 
@@ -201,7 +203,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         public void onLocationChanged(Location location) {
 
             //getData();
-            if(bool!=null){
+            if (bool != null) {
                 addMarker(location);
             }
         }
@@ -242,9 +244,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 //        mMap.addCircle(circleOptions);
 
 
-
         try {
-            layer1=new KmlLayer(mMap,R.raw.zz,getContext());
+            layer1 = new KmlLayer(mMap, R.raw.zz, getContext());
 //            layer2=new KmlLayer(mMap,R.raw.zz2,getContext());
             layer1.addLayerToMap();
         } catch (XmlPullParserException e) {
@@ -271,9 +272,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 //                .fillColor(Color.RED));
 
 
-
-
-
 //        bounds = new LatLngBounds(new LatLng(32.35000, 124.100), new LatLng(39.4500, 131.2000));
 //        GroundOverlayOptions overlayOptions2 = new GroundOverlayOptions().
 //                image(BitmapDescriptorFactory.fromResource(R.drawable.m2)).positionFromBounds(bounds);
@@ -294,21 +292,21 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     private void addMarker(Location location) {
 
-        if(marker!=null)marker.remove();
+        if (marker != null) marker.remove();
 
 
         MarkerOptions options = new MarkerOptions();
         options.position(new LatLng(location.getLatitude(), location.getLongitude()));
 
-            boolean z = true;
-            for (int j = 0; j < 4; j++) {
-                if (bool[j] == 0) {
-                    z = false;
-                    break;
-                }
+        boolean z = true;
+        for (int j = 0; j < 4; j++) {
+            if (bool[j] == 0) {
+                z = false;
+                break;
             }
+        }
         //
-        if(PropertyManager.getInstance().getId() != "") {
+        if (PropertyManager.getInstance().getId() != "") {
             if (z == false) {
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1));
                 marker = mMap.addMarker(options);
@@ -316,8 +314,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_pos1_1));
                 marker = mMap.addMarker(options);
             }
-        }
-        else {
+        } else {
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1_unable));
             marker = mMap.addMarker(options);
         }
@@ -328,13 +325,13 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     public boolean onMarkerClick(Marker marker) {
 
 
-        CustomDialog dialog=new CustomDialog(getContext(),bool);
+        CustomDialog dialog = new CustomDialog(getContext(), bool);
         dialog.show();
         return false;
     }
 
 
-    class CustomDialog extends Dialog{
+    class CustomDialog extends Dialog {
 
         ImageView i1;
         ImageView i2;
@@ -350,18 +347,18 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             WindowManager.LayoutParams lpWindow = new WindowManager.LayoutParams();
             lpWindow.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
             lpWindow.dimAmount = 0.8f;
-            lpWindow.gravity= Gravity.CENTER;
-            lpWindow.width=WindowManager.LayoutParams.WRAP_CONTENT;
-            lpWindow.height=WindowManager.LayoutParams.WRAP_CONTENT;
+            lpWindow.gravity = Gravity.CENTER;
+            lpWindow.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lpWindow.height = WindowManager.LayoutParams.WRAP_CONTENT;
             getWindow().setAttributes(lpWindow);
 
             setContentView(R.layout.location_dialog);
 
-            i1=(ImageView)findViewById(R.id.dial_image1);
-            i2=(ImageView)findViewById(R.id.dial_image2);
-            i3=(ImageView)findViewById(R.id.dial_image3);
-            i4=(ImageView)findViewById(R.id.dial_image4);
-            btn=(Button)findViewById(R.id.dial_btn);
+            i1 = (ImageView) findViewById(R.id.dial_image1);
+            i2 = (ImageView) findViewById(R.id.dial_image2);
+            i3 = (ImageView) findViewById(R.id.dial_image3);
+            i4 = (ImageView) findViewById(R.id.dial_image4);
+            btn = (Button) findViewById(R.id.dial_btn);
 
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -372,25 +369,24 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 }
             });
 
-            if(bool[0]==1) i1.setImageResource(R.drawable.i_pos1);
+            if (bool[0] == 1) i1.setImageResource(R.drawable.i_pos1);
             else i1.setImageResource(R.drawable.i_imp1);
-            if(PropertyManager.getInstance().getId() != "") {
+            if (PropertyManager.getInstance().getId() != "") {
+                btn.setEnabled(false);
+                btn.setClickable(false);
                 if (bool[1] == 1) i2.setImageResource(R.drawable.i_pos2);
                 else i2.setImageResource(R.drawable.i_imp2);
                 if (bool[2] == 1) i3.setImageResource(R.drawable.i_pos3);
                 else i3.setImageResource(R.drawable.i_imp3);
                 if (bool[3] == 1) i4.setImageResource(R.drawable.i_pos4);
                 else i4.setImageResource(R.drawable.i_imp4);
-
-                for(int j=0;j<4;j++){
-                    if(bool[j]==0){
+                for (int j = 0; j < 4; j++) {
+                    if (bool[j] == 0) {
                         btn.setBackgroundResource(R.drawable.b_imp2);
                         return;
-                    }
-                    btn.setBackgroundResource(R.drawable.b_pos2);
+                    } else btn.setBackgroundResource(R.drawable.b_pos2);
                 }
-            }
-            else {
+            } else {
                 i2.setImageResource(R.drawable.i_imp2_unable);
                 i3.setImageResource(R.drawable.i_imp3_unable);
                 i4.setImageResource(R.drawable.i_imp4_unable);
@@ -398,80 +394,89 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             }
         }
 
-        public CustomDialog(Context context,int[] bool) {
+        public CustomDialog(Context context, int[] bool) {
             super(context, android.R.style.Theme_Translucent_NoTitleBar);
-            this.bool=bool;
+            this.bool = bool;
         }
     }
 
-   public void getData(){
-       //비행가능구역
-       LatLng latLngTest = new LatLng(location.getLatitude(), location.getLongitude());
-       List<KmlPolygon> polygonsInLayer = getPolygons(layer1.getContainers());
-       final boolean liesInside = liesOnPolygon(polygonsInLayer, latLngTest);
-       //자기장
-       NetworkManager.getInstance().getMag(MyApplication.getContext(), new NetworkManager.OnResultListener<MagneticResult>() {
-           @Override
-           public void onSuccess(Request request, MagneticResult result) {
-               kk = result.getKindex().getCurrentK();
-           }
+    public void getData() {
+        //비행가능구역
+        LatLng latLngTest = new LatLng(location.getLatitude(), location.getLongitude());
+        List<KmlPolygon> polygonsInLayer = getPolygons(layer1.getContainers());
+        final boolean liesInside = liesOnPolygon(polygonsInLayer, latLngTest);
+        //자기장
+        NetworkManager.getInstance().getMag(MyApplication.getContext(), new NetworkManager.OnResultListener<MagneticResult>() {
+            @Override
+            public void onSuccess(Request request, MagneticResult result) {
+                kk = result.getKindex().getCurrentK();
+            }
 
-           @Override
-           public void onFail(Request request, IOException exception) {
-           }
-       });
-       //풍속,일출,일몰 값
-       NetworkManager.getInstance().getWind(MyApplication.getContext(), "" + location.getLatitude(), "" + location.getLongitude(), new NetworkManager.OnResultListener<WeatherResult>() {
-           @Override
-           public void onSuccess(Request request, WeatherResult result) {
-               wind = result.getWind().getSpeed();
-               sunrise = result.getSun().getSunrise();
-               sunset = result.getSun().getSunset();
+            @Override
+            public void onFail(Request request, IOException exception) {
+            }
+        });
+        //풍속,일출,일몰 값
+        NetworkManager.getInstance().getWind(MyApplication.getContext(), "" + location.getLatitude(), "" + location.getLongitude(), new NetworkManager.OnResultListener<WeatherResult>() {
+            @Override
+            public void onSuccess(Request request, WeatherResult result) {
+                wind = result.getWind().getSpeed();
+                sunrise = result.getSun().getSunrise();
+                sunset = result.getSun().getSunset();
 
-               /** 비행 가능/불가능 bool 값 설정 **/
+                /** 비행 가능/불가능 bool 값 설정 **/
 
-               if(wind!=null&&sunrise!=null&&sunset!=null){
-                   NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
-                       @Override
-                       public void onSuccess(Request request, DroneResistanceResult result) {
-                           DroneResistance dr;
-                           dr = result.getResult();
-                           String dr_resistance1 = dr.getDroneResistance().toString();
-                           double dr_resistance = Double.parseDouble(dr_resistance1);
-                           double dr_wind = Double.parseDouble(wind);
-                           long l_sunrise = Long.parseLong(sunrise);
-                           long l_sunset = Long.parseLong(sunset);
-                           long now = System.currentTimeMillis()/1000;
+                if (wind != null && sunrise != null && sunset != null) {
+                    NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
+                        @Override
+                        public void onSuccess(Request request, DroneResistanceResult result) {
+                            List<MemDrone> memDrone;
+                            String dr_resistance1;
+                            DroneResistance dr;
+                            dr = result.getResult();
+                            memDrone = dr.getMemResultDrone();
+                            boolean drname = memDrone.isEmpty();
+                            if (drname == false) {
+                                dr_resistance1 = dr.getDroneResistance().toString();
+                            } else dr_resistance1 = "0";
+                            double dr_resistance = Double.parseDouble(dr_resistance1);
+                            double dr_wind = Double.parseDouble(wind);
+                            long l_sunrise = Long.parseLong(sunrise);
+                            long l_sunset = Long.parseLong(sunset);
+                            long now = System.currentTimeMillis() / 1000;
+                            if (liesInside == false) bool[0] = 1;
+                            else bool[0] = 0;
+                            if (l_sunrise < now && now < l_sunset) bool[1] = 1;
+                            else bool[1] = 0;
+                            if (dr_wind < dr_resistance) bool[2] = 1;
+                            else bool[2] = 0;
+                            if (kk < 5) bool[3] = 1;
+                            else bool[3] = 0;
 
-                           if (liesInside == false) bool[0]=1; else bool[0]=0;
-                           if (l_sunrise<now && now<l_sunset) bool[1]=1; else bool[1]=0;
-                           if (dr_wind < dr_resistance) bool[2]=1; else bool[2]=0;
-                           if (kk < 5) bool[3]=1; else bool[3]=0;
+                            // 비행 가능, 불가능 표시 마커
+                            if (bool != null) {
+                                addMarker(location);
+                            }
+                        }
 
-                           // 비행 가능, 불가능 표시 마커
-                           if(bool!=null){
-                               addMarker(location);
-                           }
-                       }
+                        @Override
+                        public void onFail(Request request, IOException exception) {
 
-                       @Override
-                       public void onFail(Request request, IOException exception) {
+                        }
 
-                       }
+                    });
+                }
 
-                   });
-               }
+            }
 
-           }
-
-           @Override
-           public void onFail(Request request, IOException exception) {
-           }
-       });
+            @Override
+            public void onFail(Request request, IOException exception) {
+            }
+        });
 
 
+    }
 
-   }
     private List<KmlPolygon> getPolygons(Iterable<KmlContainer> containers) {
         List<KmlPolygon> polygons = new ArrayList<>();
 

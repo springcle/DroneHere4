@@ -16,6 +16,8 @@ import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneDB;
 
+import java.util.List;
+
 /**
  * Created by ksj_notebook on 2016-05-29.
  */
@@ -108,7 +110,8 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
     }
 
     public void setDt(DroneDB db){
-        int dr_ea = db.getDr_array().length;
+        List<String> dr = db.getDr_photoArr();
+        int dr_ea = dr.size();
         Log.w("사진갯수",dr_ea+"");
         if (dr_ea == 1){
             Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(0))).into(imageView);
