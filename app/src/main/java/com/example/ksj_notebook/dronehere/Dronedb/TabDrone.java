@@ -12,10 +12,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.ksj_notebook.dronehere.MyApplication;
@@ -34,6 +37,7 @@ import okhttp3.Request;
 public class TabDrone extends Fragment {
 
     RecyclerView recyclerView;
+    Spinner spinner;
     TabDroneAdapter db2;
     EditText editText;
     Button button;
@@ -51,19 +55,22 @@ public class TabDrone extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db2=new TabDroneAdapter();
-    }
 
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_db, container, false);
-
+        spinner = (Spinner)view.findViewById(R.id.spinner);
         recyclerView=(RecyclerView)view.findViewById(R.id.ryview);
         editText=(EditText)view.findViewById(R.id.drone_search);
         button=(Button)view.findViewById(R.id.drone_search_btn);
         gone_text=(TextView)view.findViewById(R.id.gone_text);
         //logo=(ImageView)view.findViewById(R.id.imageView6);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.sort, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         recyclerView.setAdapter(db2);
         layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -121,6 +128,7 @@ public class TabDrone extends Fragment {
            }
        });
 
+
         return view;
     }
 
@@ -132,17 +140,72 @@ public class TabDrone extends Fragment {
         gone_text.setVisibility(View.VISIBLE);
         layoutManager.setStackFromEnd(false);
         recyclerView.setLayoutManager(layoutManager);
-        //NetworkManager.getInstance().getDbRecommend(MyApplication.getContext(), new NetworkManager.OnResultListener<DroneRecommendResult>() {
-        NetworkManager.getInstance().getDroneRecommend(MyApplication.getContext(), new NetworkManager.OnResultListener<DroneRecommendResult>() {
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onSuccess(Request request, DroneRecommendResult result) {
-                db2.setDb2(result.getResult());
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        NetworkManager.getInstance().getDroneRecommendName(MyApplication.getContext(), new NetworkManager.OnResultListener<DroneRecommendResult>() {
+                            @Override
+                            public void onSuccess(Request request, DroneRecommendResult result) {
+                                db2.setDb2(result.getResult());
+                            }
+
+                            @Override
+                            public void onFail(Request request, IOException exception) {
+
+                            }
+                        });
+                        break;
+                    case 1:
+                        NetworkManager.getInstance().getDroneRecommendRate(MyApplication.getContext(), new NetworkManager.OnResultListener<DroneRecommendResult>() {
+                            @Override
+                            public void onSuccess(Request request, DroneRecommendResult result) {
+                                db2.setDb2(result.getResult());
+                            }
+
+                            @Override
+                            public void onFail(Request request, IOException exception) {
+
+                            }
+                        });
+                        break;
+                    case 2:
+                        NetworkManager.getInstance().getDroneRecommendBrand(MyApplication.getContext(), new NetworkManager.OnResultListener<DroneRecommendResult>() {
+                            @Override
+                            public void onSuccess(Request request, DroneRecommendResult result) {
+                                db2.setDb2(result.getResult());
+                            }
+
+                            @Override
+                            public void onFail(Request request, IOException exception) {
+
+                            }
+                        });
+                        break;
+                    case 3:
+                        NetworkManager.getInstance().getDroneRecommendUsage(MyApplication.getContext(), new NetworkManager.OnResultListener<DroneRecommendResult>() {
+                            @Override
+                            public void onSuccess(Request request, DroneRecommendResult result) {
+                                db2.setDb2(result.getResult());
+                            }
+
+                            @Override
+                            public void onFail(Request request, IOException exception) {
+
+                            }
+                        });
+                        break;
+                }
             }
 
             @Override
-            public void onFail(Request request, IOException exception) {
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+
+
     }
 }

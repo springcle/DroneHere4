@@ -24,4 +24,11 @@
 
 
     <string name="drone_pick"><font size="14">드론을 검색해 주세요</font></string>
+    <string name="sort1">분류</string>
+    <string-array name="sort">
+        <item>이름</item>
+        <item>별점</item>
+        <item>제조사</item>
+        <item>용도</item>
+    </string-array>
 </resources>

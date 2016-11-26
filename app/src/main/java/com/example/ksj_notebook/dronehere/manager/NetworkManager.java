@@ -656,10 +656,98 @@ public class NetworkManager {
 
     //드론추천(전체, 별점순)
     private static final String DRONE_RECOMMEDN_RATE = DRONE_HERE + "/dronedb/listall/1";
-    public Request getDroneRecommend(Object tag, OnResultListener<DroneRecommendResult> listener) {
-
-
+    public Request getDroneRecommendRate(Object tag, OnResultListener<DroneRecommendResult> listener) {
         String url = String.format(DRONE_RECOMMEDN_RATE);
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+        final NetworkResult<DroneRecommendResult> result = new NetworkResult<>();
+        result.request = request;
+        result.listener = listener;
+        mClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                result.excpetion = e;
+                mHandler.sendMessage(mHandler.obtainMessage(MESSAGE_FAIL, result));
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    DroneRecommendResult data = gson.fromJson(response.body().charStream(), DroneRecommendResult.class);
+                    result.result = data;
+                    mHandler.sendMessage(mHandler.obtainMessage(MESSAGE_SUCCESS, result));
+                } else {
+                    throw new IOException(response.message());
+                }
+            }
+        });
+        return request;
+    }
+    //드론추천(전체, 이름순)
+    private static final String DRONE_RECOMMEDN_NAME = DRONE_HERE + "/dronedb/listall/2";
+    public Request getDroneRecommendName(Object tag, OnResultListener<DroneRecommendResult> listener) {
+        String url = String.format(DRONE_RECOMMEDN_NAME);
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+        final NetworkResult<DroneRecommendResult> result = new NetworkResult<>();
+        result.request = request;
+        result.listener = listener;
+        mClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                result.excpetion = e;
+                mHandler.sendMessage(mHandler.obtainMessage(MESSAGE_FAIL, result));
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    DroneRecommendResult data = gson.fromJson(response.body().charStream(), DroneRecommendResult.class);
+                    result.result = data;
+                    mHandler.sendMessage(mHandler.obtainMessage(MESSAGE_SUCCESS, result));
+                } else {
+                    throw new IOException(response.message());
+                }
+            }
+        });
+        return request;
+    }
+    //드론추천(전체, 제조사 순)
+    private static final String DRONE_RECOMMEDN_BRAND = DRONE_HERE + "/dronedb/listall/3";
+    public Request getDroneRecommendBrand(Object tag, OnResultListener<DroneRecommendResult> listener) {
+        String url = String.format(DRONE_RECOMMEDN_BRAND);
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+        final NetworkResult<DroneRecommendResult> result = new NetworkResult<>();
+        result.request = request;
+        result.listener = listener;
+        mClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                result.excpetion = e;
+                mHandler.sendMessage(mHandler.obtainMessage(MESSAGE_FAIL, result));
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    DroneRecommendResult data = gson.fromJson(response.body().charStream(), DroneRecommendResult.class);
+                    result.result = data;
+                    mHandler.sendMessage(mHandler.obtainMessage(MESSAGE_SUCCESS, result));
+                } else {
+                    throw new IOException(response.message());
+                }
+            }
+        });
+        return request;
+    }
+    //드론추천(전체, 용도 순)
+    private static final String DRONE_RECOMMEDN_USAGE = DRONE_HERE + "/dronedb/listall/4";
+    public Request getDroneRecommendUsage(Object tag, OnResultListener<DroneRecommendResult> listener) {
+        String url = String.format(DRONE_RECOMMEDN_USAGE);
         Request request = new Request.Builder()
                 .url(url)
                 .get()

@@ -76,6 +76,17 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/relativeLayout5" />
 
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:layout_alignParentTop="true"
+            android:prompt="@string/sort1"
+            android:layout_above="@+id/ryview"
+            android:layout_toRightOf="@+id/gone_text"
+            android:layout_toEndOf="@+id/gone_text"
+            android:layout_marginLeft="100dp" />
+
         <!--
         <ImageView
             android:layout_width="220dp"

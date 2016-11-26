@@ -108,7 +108,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 .build();
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -192,7 +191,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         location = LocationServices.FusedLocationApi.getLastLocation(mClient);
         displayMessage(location);
         LocationRequest request = new LocationRequest();
-        request.setInterval(3000); //원래 4000이었음
+        request.setInterval(5000); //원래 4000이었음
         request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         LocationServices.FusedLocationApi.requestLocationUpdates(mClient, request, mListener);
         getData();
@@ -402,78 +401,93 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     public void getData() {
         //비행가능구역
-        LatLng latLngTest = new LatLng(location.getLatitude(), location.getLongitude());
-        List<KmlPolygon> polygonsInLayer = getPolygons(layer1.getContainers());
-        final boolean liesInside = liesOnPolygon(polygonsInLayer, latLngTest);
-        //자기장
-        NetworkManager.getInstance().getMag(MyApplication.getContext(), new NetworkManager.OnResultListener<MagneticResult>() {
-            @Override
-            public void onSuccess(Request request, MagneticResult result) {
-                kk = result.getKindex().getCurrentK();
-            }
-
-            @Override
-            public void onFail(Request request, IOException exception) {
-            }
-        });
-        //풍속,일출,일몰 값
-        NetworkManager.getInstance().getWind(MyApplication.getContext(), "" + location.getLatitude(), "" + location.getLongitude(), new NetworkManager.OnResultListener<WeatherResult>() {
-            @Override
-            public void onSuccess(Request request, WeatherResult result) {
-                wind = result.getWind().getSpeed();
-                sunrise = result.getSun().getSunrise();
-                sunset = result.getSun().getSunset();
-
-                /** 비행 가능/불가능 bool 값 설정 **/
-
-                if (wind != null && sunrise != null && sunset != null) {
-                    NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
-                        @Override
-                        public void onSuccess(Request request, DroneResistanceResult result) {
-                            List<MemDrone> memDrone;
-                            String dr_resistance1;
-                            DroneResistance dr;
-                            dr = result.getResult();
-                            memDrone = dr.getMemResultDrone();
-                            boolean drname = memDrone.isEmpty();
-                            if (drname == false) {
-                                dr_resistance1 = dr.getDroneResistance().toString();
-                            } else dr_resistance1 = "0";
-                            double dr_resistance = Double.parseDouble(dr_resistance1);
-                            double dr_wind = Double.parseDouble(wind);
-                            long l_sunrise = Long.parseLong(sunrise);
-                            long l_sunset = Long.parseLong(sunset);
-                            long now = System.currentTimeMillis() / 1000;
-                            if (liesInside == false) bool[0] = 1;
-                            else bool[0] = 0;
-                            if (l_sunrise < now && now < l_sunset) bool[1] = 1;
-                            else bool[1] = 0;
-                            if (dr_wind < dr_resistance) bool[2] = 1;
-                            else bool[2] = 0;
-                            if (kk < 5) bool[3] = 1;
-                            else bool[3] = 0;
-
-                            // 비행 가능, 불가능 표시 마커
-                            if (bool != null) {
-                                addMarker(location);
-                            }
-                        }
-
-                        @Override
-                        public void onFail(Request request, IOException exception) {
-
-                        }
-
-                    });
+        if (PropertyManager.getInstance().getId() != "") {
+            LatLng latLngTest = new LatLng(location.getLatitude(), location.getLongitude());
+            List<KmlPolygon> polygonsInLayer = getPolygons(layer1.getContainers());
+            final boolean liesInside = liesOnPolygon(polygonsInLayer, latLngTest);
+            //자기장
+            NetworkManager.getInstance().getMag(MyApplication.getContext(), new NetworkManager.OnResultListener<MagneticResult>() {
+                @Override
+                public void onSuccess(Request request, MagneticResult result) {
+                    kk = result.getKindex().getCurrentK();
                 }
 
-            }
+                @Override
+                public void onFail(Request request, IOException exception) {
+                }
+            });
+            //풍속,일출,일몰 값
+            NetworkManager.getInstance().getWind(MyApplication.getContext(), "" + location.getLatitude(), "" + location.getLongitude(), new NetworkManager.OnResultListener<WeatherResult>() {
+                @Override
+                public void onSuccess(Request request, WeatherResult result) {
+                    wind = result.getWind().getSpeed();
+                    sunrise = result.getSun().getSunrise();
+                    sunset = result.getSun().getSunset();
 
-            @Override
-            public void onFail(Request request, IOException exception) {
-            }
-        });
+                    /** 비행 가능/불가능 bool 값 설정 **/
 
+                    if (wind != null && sunrise != null && sunset != null) {
+                        NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
+                            @Override
+                            public void onSuccess(Request request, DroneResistanceResult result) {
+                                List<MemDrone> memDrone;
+                                String dr_resistance1;
+                                DroneResistance dr;
+                                dr = result.getResult();
+                                memDrone = dr.getMemResultDrone();
+                                boolean drname = memDrone.isEmpty();
+                                if (drname == false) {
+                                    dr_resistance1 = dr.getDroneResistance().toString();
+                                } else dr_resistance1 = "0";
+                                double dr_resistance = Double.parseDouble(dr_resistance1);
+                                double dr_wind = Double.parseDouble(wind);
+                                long l_sunrise = Long.parseLong(sunrise);
+                                long l_sunset = Long.parseLong(sunset);
+                                long now = System.currentTimeMillis() / 1000;
+                                if (liesInside == false) bool[0] = 1;
+                                else bool[0] = 0;
+                                if (l_sunrise < now && now < l_sunset) bool[1] = 1;
+                                else bool[1] = 0;
+                                if (dr_wind < dr_resistance) bool[2] = 1;
+                                else bool[2] = 0;
+                                if (kk < 5) bool[3] = 1;
+                                else bool[3] = 0;
+
+                                // 비행 가능, 불가능 표시 마커
+                                if (bool != null) {
+                                    addMarker(location);
+                                }
+                            }
+
+                            @Override
+                            public void onFail(Request request, IOException exception) {
+
+                            }
+
+                        });
+                    }
+
+                }
+
+                @Override
+                public void onFail(Request request, IOException exception) {
+                }
+            });
+        } else {
+            //비회원 이라도, 비행가능/불가능 구역은 알려줌.
+            LatLng latLngTest = new LatLng(location.getLatitude(), location.getLongitude());
+            List<KmlPolygon> polygonsInLayer = getPolygons(layer1.getContainers());
+            final boolean liesInside = liesOnPolygon(polygonsInLayer, latLngTest);
+            if(liesInside == true){
+                bool[0]=1;
+            } else if(liesInside == false){
+                bool[0]=0;
+            }
+            for(int i=1; i<4; i++){
+                bool[i]=0;
+            }
+            addMarker(location);
+        }
 
     }
 

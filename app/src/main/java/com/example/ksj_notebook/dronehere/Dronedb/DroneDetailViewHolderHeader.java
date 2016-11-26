@@ -114,25 +114,69 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
         int dr_ea = dr.size();
         Log.w("사진갯수",dr_ea+"");
         if (dr_ea == 1){
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(0))).into(imageView);
+            if(db.getDr_photoArr().get(0) !=""){
+            GlideUrl url1 = new GlideUrl((db.getDr_photoArr().get(0)));
+            Glide.with(MyApplication.getContext()).load(url1).into(imageView);
+            }
         } else if(dr_ea == 2){
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(0))).into(imageView);
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(1))).into(imageView2);
+            if(db.getDr_photoArr().get(0) !=""){
+                GlideUrl url1 = new GlideUrl((db.getDr_photoArr().get(0)));
+                Glide.with(MyApplication.getContext()).load(url1).into(imageView);
+            }
+            if(db.getDr_photoArr().get(1) !=""){
+                GlideUrl url2 = new GlideUrl((db.getDr_photoArr().get(1)));
+                Glide.with(MyApplication.getContext()).load(url2).into(imageView2);
+            }
         } else if(dr_ea == 3){
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(0))).into(imageView);
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(1))).into(imageView2);
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(2))).into(imageView3);
+            if(db.getDr_photoArr().get(0) !=""){
+                GlideUrl url1 = new GlideUrl((db.getDr_photoArr().get(0)));
+                Glide.with(MyApplication.getContext()).load(url1).into(imageView);
+            }
+            if(db.getDr_photoArr().get(1) !=""){
+                GlideUrl url2 = new GlideUrl((db.getDr_photoArr().get(1)));
+                Glide.with(MyApplication.getContext()).load(url2).into(imageView2);
+            }
+            if(db.getDr_photoArr().get(2) !=""){
+                GlideUrl url3 = new GlideUrl((db.getDr_photoArr().get(2)));
+                Glide.with(MyApplication.getContext()).load(url3).into(imageView3);
+            }
         } else if(dr_ea == 4){
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(0))).into(imageView);
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(1))).into(imageView2);
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(2))).into(imageView3);
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(3))).into(imageView4);
+            if(db.getDr_photoArr().get(0) !=""){
+                GlideUrl url1 = new GlideUrl((db.getDr_photoArr().get(0)));
+                Glide.with(MyApplication.getContext()).load(url1).into(imageView);
+            }
+            if(db.getDr_photoArr().get(1) !=""){
+                GlideUrl url2 = new GlideUrl((db.getDr_photoArr().get(1)));
+                Glide.with(MyApplication.getContext()).load(url2).into(imageView2);
+            }
+            if(db.getDr_photoArr().get(2) !=""){
+                GlideUrl url3 = new GlideUrl((db.getDr_photoArr().get(2)));
+                Glide.with(MyApplication.getContext()).load(url3).into(imageView3);
+            }
+            if(db.getDr_photoArr().get(3) !=""){
+                GlideUrl url4 = new GlideUrl((db.getDr_photoArr().get(3)));
+                Glide.with(MyApplication.getContext()).load(url4).into(imageView4);
+            }
         } else if(dr_ea == 5){
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(0))).into(imageView);
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(1))).into(imageView2);
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(2))).into(imageView3);
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(3))).into(imageView4);
-            Glide.with(MyApplication.getContext()).load(new GlideUrl(db.getDr_photoArr().get(4))).into(imageView5);
+            if(db.getDr_photoArr().get(0) !=""){
+                GlideUrl url1 = new GlideUrl((db.getDr_photoArr().get(0)));
+                Glide.with(MyApplication.getContext()).load(url1).into(imageView);
+            }
+            if(db.getDr_photoArr().get(1) !=""){
+                GlideUrl url2 = new GlideUrl((db.getDr_photoArr().get(1)));
+                Glide.with(MyApplication.getContext()).load(url2).into(imageView2);
+            }
+            if(db.getDr_photoArr().get(2) !=""){
+                GlideUrl url3 = new GlideUrl((db.getDr_photoArr().get(2)));
+                Glide.with(MyApplication.getContext()).load(url3).into(imageView3);
+            }
+            if(db.getDr_photoArr().get(3) !=""){
+                GlideUrl url4 = new GlideUrl((db.getDr_photoArr().get(3)));
+                Glide.with(MyApplication.getContext()).load(url4).into(imageView4);
+            }if(db.getDr_photoArr().get(4) !=""){
+                GlideUrl url5 = new GlideUrl((db.getDr_photoArr().get(4)));
+                Glide.with(MyApplication.getContext()).load(url5).into(imageView5);
+            }
         }
 
         drdb_title.setText(db.getDr_name());
