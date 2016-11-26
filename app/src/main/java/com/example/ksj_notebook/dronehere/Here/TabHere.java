@@ -91,7 +91,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     KmlLayer layer1;
 
     int[] bool = {1, 1, 1, 1};
-
+    boolean drone_exist;
     public TabHere() {
         // Required empty public constructor
     }
@@ -305,7 +305,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             }
         }
         //
-        if (PropertyManager.getInstance().getId() != "") {
+        if (PropertyManager.getInstance().getId() != "" && drone_exist == true) {
             if (z == false) {
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1));
                 marker = mMap.addMarker(options);
@@ -313,7 +313,12 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_pos1_1));
                 marker = mMap.addMarker(options);
             }
-        } else {
+        } else if(PropertyManager.getInstance().getId() != "" && drone_exist == false) {
+                options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_not_drone));
+                marker = mMap.addMarker(options);
+        }
+        else {
+            drone_exist = true;
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1_unable));
             marker = mMap.addMarker(options);
         }
@@ -323,10 +328,12 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     @Override
     public boolean onMarkerClick(Marker marker) {
 
+        if(drone_exist == true) {
+            CustomDialog dialog = new CustomDialog(getContext(), bool);
+            dialog.show();
+        }
+            return false;
 
-        CustomDialog dialog = new CustomDialog(getContext(), bool);
-        dialog.show();
-        return false;
     }
 
 
@@ -435,28 +442,36 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                                 DroneResistance dr;
                                 dr = result.getResult();
                                 memDrone = dr.getMemResultDrone();
-                                boolean drname = memDrone.isEmpty();
+                                boolean drname = memDrone.isEmpty(); //멤드론 없으면 true, 있으면 false
                                 if (drname == false) {
+                                    drone_exist = true;
                                     dr_resistance1 = dr.getDroneResistance().toString();
-                                } else dr_resistance1 = "0";
-                                double dr_resistance = Double.parseDouble(dr_resistance1);
-                                double dr_wind = Double.parseDouble(wind);
-                                long l_sunrise = Long.parseLong(sunrise);
-                                long l_sunset = Long.parseLong(sunset);
-                                long now = System.currentTimeMillis() / 1000;
-                                if (liesInside == false) bool[0] = 1;
-                                else bool[0] = 0;
-                                if (l_sunrise < now && now < l_sunset) bool[1] = 1;
-                                else bool[1] = 0;
-                                if (dr_wind < dr_resistance) bool[2] = 1;
-                                else bool[2] = 0;
-                                if (kk < 5) bool[3] = 1;
-                                else bool[3] = 0;
+                                    double dr_resistance = Double.parseDouble(dr_resistance1);
+                                    double dr_wind = Double.parseDouble(wind);
+                                    long l_sunrise = Long.parseLong(sunrise);
+                                    long l_sunset = Long.parseLong(sunset);
+                                    long now = System.currentTimeMillis() / 1000;
+                                    if (liesInside == false) bool[0] = 1;
+                                    else bool[0] = 0;
+                                    if (l_sunrise < now && now < l_sunset) bool[1] = 1;
+                                    else bool[1] = 0;
+                                    if (dr_wind < dr_resistance) bool[2] = 1;
+                                    else bool[2] = 0;
+                                    if (kk < 5) bool[3] = 1;
+                                    else bool[3] = 0;
 
-                                // 비행 가능, 불가능 표시 마커
-                                if (bool != null) {
+                                    // 비행 가능, 불가능 표시 마커
+                                    if (bool != null) {
+                                        addMarker(location);
+                                    }
+                                } else {
+                                    for(int i=0; i<bool.length; i++){
+                                        bool[i] =0;
+                                    }
+                                    drone_exist = false;
                                     addMarker(location);
                                 }
+
                             }
 
                             @Override

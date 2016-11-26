@@ -114,7 +114,7 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
         int dr_ea = dr.size();
         Log.w("사진갯수",dr_ea+"");
         if (dr_ea == 1){
-            if(db.getDr_photoArr().get(0) !=""){
+            if(db.getDr_photoArr().get(0) !=""){ //서버에서 ""로 이미지 url 저장해둔것에 대한 예외처리
             GlideUrl url1 = new GlideUrl((db.getDr_photoArr().get(0)));
             Glide.with(MyApplication.getContext()).load(url1).into(imageView);
             }

@@ -1,5 +1,6 @@
 package com.example.ksj_notebook.dronehere.login;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,6 +31,7 @@ import okhttp3.Request;
 
 public class StartActivity extends AppCompatActivity {
 
+    private BackPressCloseHandler backPressCloseHandler;
     String em;
     String pw = "none";
     Button emailbtn;
@@ -47,7 +49,7 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-
+        backPressCloseHandler = new BackPressCloseHandler(this);
         /**  네이버 로그인 모듈 **/
         mOAuthLoginModule = OAuthLogin.getInstance();
         mOAuthLoginModule.init(
@@ -93,20 +95,41 @@ public class StartActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        if (mOnKeyBackPressedListener != null) {
-            mOnKeyBackPressedListener.onBack();
-        } else {
-            super.onBackPressed();
+        backPressCloseHandler.onBackPressed();
+    }
+    public class BackPressCloseHandler {
+
+        private long backKeyPressedTime = 0;
+        private Toast toast;
+
+        private Activity activity;
+
+        public BackPressCloseHandler(Activity context) {
+            this.activity = context;
+        }
+
+        public void onBackPressed() {
+            if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+                backKeyPressedTime = System.currentTimeMillis();
+                showGuide();
+                return;
+            }
+            if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+                SystemExit();
+            }
+        }
+        public void SystemExit() {
+            activity.moveTaskToBack(true);
+            activity.finish();
+            toast.cancel();
+            android.os.Process.killProcess(android.os.Process.myPid() );
+            System.exit(0);
+        }
+        public void showGuide() {
+            toast = Toast.makeText(activity, "한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
-    public interface onKeyBackPressedListener {
-        public void onBack();
-    }
-    private onKeyBackPressedListener mOnKeyBackPressedListener;
-
-    public void setOnKeyBackPressedListener(onKeyBackPressedListener listener) {
-        mOnKeyBackPressedListener = listener;
-    } // In MyActivity
     /**
      * OAuthLoginHandler를 startOAuthLoginActivity() 메서드 호출 시 파라미터로 전달하거나 OAuthLoginButton
      객체에 등록하면 인증이 종료되는 것을 확인할 수 있습니다.

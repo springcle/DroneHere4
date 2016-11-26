@@ -115,7 +115,6 @@ public class TabDrone extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
