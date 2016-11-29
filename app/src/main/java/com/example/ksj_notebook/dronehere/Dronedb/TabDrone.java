@@ -150,10 +150,8 @@ public class TabDrone extends Fragment {
                             public void onSuccess(Request request, DroneRecommendResult result) {
                                 db2.setDb2(result.getResult());
                             }
-
                             @Override
                             public void onFail(Request request, IOException exception) {
-
                             }
                         });
                         break;
@@ -163,10 +161,8 @@ public class TabDrone extends Fragment {
                             public void onSuccess(Request request, DroneRecommendResult result) {
                                 db2.setDb2(result.getResult());
                             }
-
                             @Override
                             public void onFail(Request request, IOException exception) {
-
                             }
                         });
                         break;

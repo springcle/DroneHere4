@@ -9,8 +9,9 @@ public class Dc1d {
     String loca_id;
     String loca_name;
     Date re_regdate;
+    double re_rate;
     String re_content;
-    int re_rate;
+
     String gathe_id;
     String gathe_name;
     String dr_id;
@@ -57,11 +58,11 @@ public class Dc1d {
         this.re_content = re_content;
     }
 
-    public int getRe_rate() {
+    public double getRe_rate() {
         return re_rate;
     }
 
-    public void setRe_rate(int re_rate) {
+    public void setRe_rate(Double re_rate) {
         this.re_rate = re_rate;
     }
 

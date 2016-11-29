@@ -10,9 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.ksj_notebook.dronehere.Drawercontent.Dc1;
-import com.example.ksj_notebook.dronehere.Drawercontent.Dc2;
-import com.example.ksj_notebook.dronehere.Drawercontent.Dc3;
 import com.example.ksj_notebook.dronehere.Drawercontent.Dc4;
 import com.example.ksj_notebook.dronehere.Drawercontent.Dc5;
 import com.example.ksj_notebook.dronehere.Drawercontent.Dc6;
@@ -119,43 +116,43 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case TYPE_FOOTER :
                 ((DrawerViewHolderFooter)holder).setFooter();
 
-                if(PropertyManager.getInstance().getId() == "") {
+                //if(PropertyManager.getInstance().getId() == "") {
                     ((DrawerViewHolderFooter) holder).btn1.setTextColor(Color.GRAY);
                     ((DrawerViewHolderFooter) holder).btn2.setTextColor(Color.GRAY);
                     ((DrawerViewHolderFooter) holder).btn3.setTextColor(Color.GRAY);
-                }
+                //}
                 ((DrawerViewHolderFooter) holder).btn1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(PropertyManager.getInstance().getId() == "")
-                            Toast.makeText(context, "로그인 후 사용가능합니다.", Toast.LENGTH_SHORT).show();
-                        else {
-                            Intent intent = new Intent(context, Dc1.class);
-                            context.startActivity(intent);
-                        }
+                        //if(PropertyManager.getInstance().getId() == "")
+                            Toast.makeText(context, "비활성화 중입니다.", Toast.LENGTH_SHORT).show();
+                        //else {
+                        //    Intent intent = new Intent(context, Dc1.class);
+                        //    context.startActivity(intent);
+                        //}
                     }
                 });
 
                 ((DrawerViewHolderFooter) holder).btn2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(PropertyManager.getInstance().getId() == "")
-                            Toast.makeText(context, "로그인 후 사용가능합니다.", Toast.LENGTH_SHORT).show();
-                        else {
-                            Intent intent = new Intent(context, Dc2.class);
-                            context.startActivity(intent);
-                        }
+                        //if(PropertyManager.getInstance().getId() == "")
+                            Toast.makeText(context, "비활성화 중입니다.", Toast.LENGTH_SHORT).show();
+                        //else {
+                        //    Intent intent = new Intent(context, Dc2.class);
+                        //    context.startActivity(intent);
+                        //}
                     }
                 });
                 ((DrawerViewHolderFooter) holder).btn3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(PropertyManager.getInstance().getId() == "")
-                            Toast.makeText(context, "로그인 후 사용가능합니다.", Toast.LENGTH_SHORT).show();
-                        else {
-                            Intent intent = new Intent(context, Dc3.class);
-                            context.startActivity(intent);
-                        }
+                       //if(PropertyManager.getInstance().getId() == "")
+                            Toast.makeText(context, "비활성화 중입니다.", Toast.LENGTH_SHORT).show();
+                        //else {
+                        //    Intent intent = new Intent(context, Dc3.class);
+                        //    context.startActivity(intent);
+                        //}
                     }
                 });
                 ((DrawerViewHolderFooter)holder).btn4.setOnClickListener(new View.OnClickListener() {

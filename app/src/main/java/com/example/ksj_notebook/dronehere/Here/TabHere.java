@@ -313,12 +313,12 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_pos1_1));
                 marker = mMap.addMarker(options);
             }
-        } else if(PropertyManager.getInstance().getId() != "" && drone_exist == false) {
+        } else if(PropertyManager.getInstance().getId() != "" && drone_exist == false) { // drone_exist : false면 터치시 커 스텀 다이얼로그 비활성화
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_not_drone));
                 marker = mMap.addMarker(options);
         }
         else {
-            drone_exist = true;
+            drone_exist = true; // 드론 유/무 확인 후 창 비활성화 용도 인데, 비회원 일때도 커스텀다이얼로그를 활성화 시킨 후 로그인 시켜야하므로 true값을 넣어줌
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1_unable));
             marker = mMap.addMarker(options);
         }
@@ -328,12 +328,11 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-        if(drone_exist == true) {
+        if(drone_exist == true) { // 드론있으면 다이얼로그 띄워주기, 비회원일때도 띄워줘야함
             CustomDialog dialog = new CustomDialog(getContext(), bool);
             dialog.show();
         }
             return false;
-
     }
 
 
@@ -393,6 +392,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     } else btn.setBackgroundResource(R.drawable.b_pos2);
                 }
             } else {
+                i1.setImageResource(R.drawable.i_imp1_not_user);
                 i2.setImageResource(R.drawable.i_imp2_unable);
                 i3.setImageResource(R.drawable.i_imp3_unable);
                 i4.setImageResource(R.drawable.i_imp4_unable);
@@ -489,17 +489,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 }
             });
         } else {
-            //비회원 이라도, 비행가능/불가능 구역은 알려줌.
-            LatLng latLngTest = new LatLng(location.getLatitude(), location.getLongitude());
-            List<KmlPolygon> polygonsInLayer = getPolygons(layer1.getContainers());
-            final boolean liesInside = liesOnPolygon(polygonsInLayer, latLngTest);
-            if(liesInside == true){
-                bool[0]=1;
-            } else if(liesInside == false){
+            for(int i=0; i<4; i++){
                 bool[0]=0;
-            }
-            for(int i=1; i<4; i++){
-                bool[i]=0;
             }
             addMarker(location);
         }
