@@ -40,7 +40,6 @@ public class Dc1 extends AppCompatActivity {
                 @Override
                 public void onSuccess(Request request, Dc1Result result) {
                     adp.setdc11(result.getResult());
-
                 }
 
                 @Override

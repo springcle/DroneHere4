@@ -17,14 +17,13 @@ public class Dc1Result {
     public void setMessage(String message) {
         this.message = message;
     }
+        public List<Dc1d> getResult() {
+            return result;
+        }
 
-    public List<Dc1d> getResult() {
-        return result;
-    }
-
-    public void setResult(List<Dc1d> result) {
-        this.result = result;
-    }
+        public void setResult(List<Dc1d> result) {
+            this.result = result;
+        }
 
     public int getSuccess() {
         return success;

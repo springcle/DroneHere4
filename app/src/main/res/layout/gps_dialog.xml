@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="220dp"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="지역정보를 받아오기 위해 \n GPS기능을 활성화 시킨 후 실행바랍니다"
+        android:textSize="20dp"
+        android:id="@+id/textView39"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.11"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="종 료"
+        android:id="@+id/gps_cancle_btn"
+        android:layout_weight="0.11"
+        android:layout_below="@+id/textView39"
+        android:layout_alignRight="@+id/textView39"
+        android:layout_alignEnd="@+id/textView39"
+        android:layout_marginRight="80dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="확 인"
+        android:id="@+id/gps_ok_btn"
+        android:layout_weight="0.11"
+        android:layout_gravity="right"
+        android:layout_below="@+id/textView39"
+        android:layout_toLeftOf="@+id/gps_cancle_btn"
+        android:layout_toStartOf="@+id/gps_cancle_btn"
+        android:layout_marginRight="10dp" />
+
+</RelativeLayout>

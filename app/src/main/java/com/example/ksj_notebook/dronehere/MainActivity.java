@@ -1,13 +1,18 @@
 package com.example.ksj_notebook.dronehere;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.test.mock.MockPackageManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -24,6 +29,7 @@ import com.example.ksj_notebook.dronehere.News.TabNews;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CODE_PERMISSION = 2;
     private BackPressCloseHandler backPressCloseHandler;
     FragmentTabHost tabHost;
     NavigationView navigationView;
@@ -45,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        gps_check();
         backPressCloseHandler = new BackPressCloseHandler(this);
         frameLayout=findViewById(android.R.id.tabcontent);
 
@@ -136,4 +142,44 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void gps_check(){
+        try {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    != MockPackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_PERMISSION);
+
+                // If any permission above not allowed by user, this condition will execute every time, else your else part will work
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    // 권한 확인
+    public boolean checkLocationPermission()
+    {
+        String permission = "android.permission.ACCESS_FINE_LOCATION";
+        int res = this.checkCallingOrSelfPermission(permission);
+        return (res == PackageManager.PERMISSION_GRANTED);
+    }
+    // 권한 확인
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.e("Req Code", "" + requestCode);
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            if (grantResults.length == 1 &&
+                    grantResults[0] == MockPackageManager.PERMISSION_GRANTED ) {
+                // Success Stuff here
+
+                //SharedPreferences.Editor editor = settings.edit();
+                //editor.putBoolean("gps_permission",true);
+                //editor.apply();
+            }
+            else{
+                // Failure Stuff
+            }
+        }
+    }
 }

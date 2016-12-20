@@ -8,7 +8,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -21,6 +25,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.ksj_notebook.dronehere.MainActivity;
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneResistance;
@@ -68,6 +73,7 @@ import okhttp3.Request;
 public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback
         , GoogleMap.OnCameraChangeListener, GoogleMap.OnMarkerClickListener {
 
+    LocationManager locationManager;
     GoogleApiClient mClient;
     GoogleMap mMap;
     Context context;
@@ -78,7 +84,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     //   ToggleButton weightToggle;
     Button myLocation;
     Marker marker;
-
+    Handler mHandler = new Handler(Looper.getMainLooper());
     LayoutInflater inflater;
 
     int kk;
@@ -111,8 +117,12 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     @Override
     public void onStart() {
         super.onStart();
-        mClient.connect();
-
+        locationManager = (LocationManager)getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            gps_check();
+        }else {
+            mClient.connect();
+        }
     }
 
     @Override
@@ -200,10 +210,13 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     LocationListener mListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-
-            //getData();
-            if (bool != null) {
-                addMarker(location);
+            locationManager = (LocationManager)getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
+            if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                gps_check();
+            } else {
+                if (bool != null) {
+                    addMarker(location);
+                }
             }
         }
     };
@@ -577,6 +590,51 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         }
 
         return lies;
+    }
+    private void gps_enable_check() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                } else{
+                    gps_enable_check();
+                }
+            }
+        }, 1000);
+    }
+    public void gps_check(){
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.gps_dialog);
+            Button btn1 = (Button) dialog.findViewById(R.id.gps_ok_btn);
+            Button btn2 = (Button) dialog.findViewById(R.id.gps_cancle_btn);
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override  // 예 버튼
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                    startActivity(intent);
+                    gps_enable_check();
+                }
+            });
+            btn2.setOnClickListener(new View.OnClickListener() {
+                @Override  // 아니오버튼
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    System.exit(0);
+                }
+            });
+            WindowManager.LayoutParams wm = dialog.getWindow().getAttributes();
+            wm.width = 1450;
+            wm.height = 1000;
+            dialog.getWindow().setAttributes(wm);
+            //Dialog의 바깥쪽을 터치했을 때 Dialog를 없앨지 설정
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+            //GPS 설정화면으로 이동
     }
 }
 
