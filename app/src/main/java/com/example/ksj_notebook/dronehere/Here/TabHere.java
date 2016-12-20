@@ -98,6 +98,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     int[] bool = {1, 1, 1, 1};
     boolean drone_exist;
+
     public TabHere() {
         // Required empty public constructor
     }
@@ -117,10 +118,10 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     @Override
     public void onStart() {
         super.onStart();
-        locationManager = (LocationManager)getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
-        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        locationManager = (LocationManager) getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             gps_check();
-        }else {
+        } else {
             mClient.connect();
         }
     }
@@ -198,20 +199,22 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        location = LocationServices.FusedLocationApi.getLastLocation(mClient);
-        displayMessage(location);
+        locationManager = (LocationManager) getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            gps_check();
+        }
         LocationRequest request = new LocationRequest();
-        request.setInterval(5000); //원래 4000이었음
+        request.setInterval(4000);
         request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         LocationServices.FusedLocationApi.requestLocationUpdates(mClient, request, mListener);
-        getData();
+        delay_getData();
     }
 
     LocationListener mListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            locationManager = (LocationManager)getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
-            if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            locationManager = (LocationManager) getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 gps_check();
             } else {
                 if (bool != null) {
@@ -326,11 +329,10 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_pos1_1));
                 marker = mMap.addMarker(options);
             }
-        } else if(PropertyManager.getInstance().getId() != "" && drone_exist == false) { // drone_exist : false면 터치시 커 스텀 다이얼로그 비활성화
-                options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_not_drone));
-                marker = mMap.addMarker(options);
-        }
-        else {
+        } else if (PropertyManager.getInstance().getId() != "" && drone_exist == false) { // drone_exist : false면 터치시 커 스텀 다이얼로그 비활성화
+            options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_not_drone));
+            marker = mMap.addMarker(options);
+        } else {
             drone_exist = true; // 드론 유/무 확인 후 창 비활성화 용도 인데, 비회원 일때도 커스텀다이얼로그를 활성화 시킨 후 로그인 시켜야하므로 true값을 넣어줌
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1_unable));
             marker = mMap.addMarker(options);
@@ -341,11 +343,11 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-        if(drone_exist == true) { // 드론있으면 다이얼로그 띄워주기, 비회원일때도 띄워줘야함
+        if (drone_exist == true) { // 드론있으면 다이얼로그 띄워주기, 비회원일때도 띄워줘야함
             CustomDialog dialog = new CustomDialog(getContext(), bool);
             dialog.show();
         }
-            return false;
+        return false;
     }
 
 
@@ -478,23 +480,19 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                                         addMarker(location);
                                     }
                                 } else {
-                                    for(int i=0; i<bool.length; i++){
-                                        bool[i] =0;
+                                    for (int i = 0; i < bool.length; i++) {
+                                        bool[i] = 0;
                                     }
                                     drone_exist = false;
                                     addMarker(location);
                                 }
-
                             }
 
                             @Override
                             public void onFail(Request request, IOException exception) {
-
                             }
-
                         });
                     }
-
                 }
 
                 @Override
@@ -502,8 +500,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 }
             });
         } else {
-            for(int i=0; i<4; i++){
-                bool[0]=0;
+            for (int i = 0; i < 4; i++) {
+                bool[0] = 0;
             }
             addMarker(location);
         }
@@ -591,17 +589,40 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
         return lies;
     }
+
     private void gps_enable_check() {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     getActivity().finish();
-                } else{
+                } else {
                     gps_enable_check();
                 }
+            }
+        }, 1000);
+    }
+
+    private void delay_getData() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // 권한 체크 부분
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                location = LocationServices.FusedLocationApi.getLastLocation(mClient);
+                displayMessage(location);
+                getData();
             }
         }, 1000);
     }
