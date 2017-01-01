@@ -277,7 +277,7 @@ public class NetworkManager {
         });
         return request;
     }
-    //드론찾아봣느데없음
+    //드론 검색 후 없으면
     private static final String DRONE_JOIN4 = DRONE_HERE + "/signup/search/insert";
     public Request getJoin4(Object tag, String mem_pw,String mem_name,String mem_email,String dr_name,String Number, OnResultListener listener) {
 

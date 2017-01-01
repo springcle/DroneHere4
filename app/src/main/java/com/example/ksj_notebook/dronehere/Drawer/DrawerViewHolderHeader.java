@@ -19,6 +19,7 @@ public class DrawerViewHolderHeader extends RecyclerView.ViewHolder {
 
     TextView drawer_nick;
     Button drawer_fix;
+    //Button drawer_dr_plus;
     Button drawer_logout;
     ImageView drawer_image;
 
@@ -28,20 +29,13 @@ public class DrawerViewHolderHeader extends RecyclerView.ViewHolder {
         drawer_fix=(Button) itemView.findViewById(R.id.drawer_fix);
         drawer_logout=(Button)itemView.findViewById(R.id.drawer_logout);
         drawer_image=(ImageView)itemView.findViewById(R.id.drawer_image);
-
-
+        //drawer_dr_plus=(Button) itemView.findViewById(R.id.drawer_dr_plus);
     }
-
-
-
     public void setNick(Member member){
         drawer_nick.setText(member.getMem_name());
-
             GlideUrl url = new GlideUrl(member.getDr_photo());
             Glide.with(MyApplication.getContext())
                     .load(url)
                     .into(drawer_image);
-
-
     }
 }

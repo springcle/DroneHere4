@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.ksj_notebook.dronehere.Drawercontent.Dc4;
@@ -15,29 +16,41 @@ import com.example.ksj_notebook.dronehere.Drawercontent.Dc5;
 import com.example.ksj_notebook.dronehere.Drawercontent.Dc6;
 import com.example.ksj_notebook.dronehere.Drawercontent.Dc8;
 import com.example.ksj_notebook.dronehere.Drawercontent.Dc9;
+import com.example.ksj_notebook.dronehere.MainActivity;
+import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneDB;
 import com.example.ksj_notebook.dronehere.data.Member;
+import com.example.ksj_notebook.dronehere.manager.NetworkManager;
 import com.example.ksj_notebook.dronehere.manager.PropertyManager;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Request;
 
 /**
  * Created by ksj_notebook on 2016-06-03.
  */
 public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public interface onLogoutClickListener{
-        public void onLogoutClicked();
-    }
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_DRONE = 1;
+    private static final int TYPE_FOOTER=2;
 
     onLogoutClickListener mListener;
-    public void setOnLogoutClickListener(onLogoutClickListener listener){
-        mListener = listener;
-    }
     Member mem;
     List<DroneDB> drlist;
     Context context;
+    private String mem_id = PropertyManager.getInstance().getId();
+
+    public interface onLogoutClickListener{
+        public void onLogoutClicked();
+    }
+    public void setOnLogoutClickListener(onLogoutClickListener listener){
+        mListener = listener;
+    }
 
     public void setMem(Member mem, Context context){
         this.mem=mem;
@@ -45,10 +58,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         drlist=mem.getMem_drone();
         notifyDataSetChanged();
     }
-    private static final int TYPE_HEADER = 0;
-    private static final int TYPE_DRONE = 1;
-    private static final int TYPE_FOOTER=2;
-
 
     @Override
     public int getItemViewType(int position) {
@@ -90,7 +99,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     ((DrawerViewHolderHeader)holder).drawer_logout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(mListener != null){
+                            if (mListener != null) {
                                 mListener.onLogoutClicked();
                             }
                         }
@@ -102,6 +111,15 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             context.startActivity(intent);
                         }
                     });
+                    /*
+                    ((DrawerViewHolderHeader)holder).drawer_dr_plus.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            CustomDialog7 dialog=new CustomDialog7(MainActivity.getContext());
+                            dialog.show();
+                        }
+                    });
+                    */
                 }
                 else { // 비회원 일 경우(회원정보 수정, 로그아웃 기능 안보이게)
                     ((DrawerViewHolderHeader) holder).drawer_logout.setVisibility(View.INVISIBLE);
@@ -112,6 +130,26 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
             case  TYPE_DRONE:
                 ((DrawerViewHolderDrone) holder).setDrone(drlist.get(position-1));
+                if(position != 1 && mem.getMem_drone().size() > 1) {
+                    ((DrawerViewHolderDrone) holder).drawer_drname.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                                String dr_name = ((Button) v).getText().toString();
+                                List<String> dr_delete = new ArrayList<>();
+                                NetworkManager.getInstance().getFix2(MyApplication.getContext(), mem_id, mem.getMem_name(), dr_delete, dr_name, new NetworkManager.OnResultListener() {
+                                    @Override
+                                    public void onSuccess(Request request, Object result) {
+                                        Intent intent = new Intent(context, MainActivity.class);
+                                        context.startActivity(intent);
+                                    }
+
+                                    @Override
+                                    public void onFail(Request request, IOException exception) {
+                                    }
+                                });
+                        }
+                    });
+                }
                 break;
             case TYPE_FOOTER :
                 ((DrawerViewHolderFooter)holder).setFooter();
@@ -211,4 +249,108 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if(mem==null) return 0;
         return mem.getMem_drone().size()+2;
     }
+    /*
+    class CustomDialog7 extends Dialog {
+
+        EditText editText;
+        RecyclerView recy;
+        Button nonono;
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            WindowManager.LayoutParams lpWindow = new WindowManager.LayoutParams();
+            lpWindow.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+            lpWindow.dimAmount = 0.8f;
+            lpWindow.gravity= Gravity.CENTER;
+            lpWindow.width=WindowManager.LayoutParams.MATCH_PARENT;
+            lpWindow.height=WindowManager.LayoutParams.MATCH_PARENT;
+            getWindow().setAttributes(lpWindow);
+
+            setContentView(R.layout.dronepick_dialog);
+
+            final DronePickDialogAdapter adap=new DronePickDialogAdapter();
+
+            editText=(EditText)findViewById(R.id.droneseaa);
+            recy=(RecyclerView)findViewById(R.id.drpick_recy);
+            nonono=(Button)findViewById(R.id.nonono);
+            nonono.setVisibility(View.GONE);
+
+            recy.setAdapter(adap);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            recy.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            recy.setLayoutManager(layoutManager);
+
+            adap.setOnItemClickListener(new DronePickDialogAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClicked(DbSearchViewHolder holder, View view, DroneDB s, int position) {
+                    for(int i=0;i<mem.getMem_drone().size();i++){
+                        if(mem.getMem_drone().get(i).getDr_name().equals(s.getDr_name())){
+                            Toast.makeText(MyApplication.getContext(), "이미 등록된 드론입니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    NetworkManager.getInstance().getDadd(MyApplication.getContext(),mem_id,s.get_id() ,new NetworkManager.OnResultListener<DroneSearchResult>() {
+                        @Override
+                        public void onSuccess(Request request, DroneSearchResult result) {
+                            NetworkManager.getInstance().getFix(MyApplication.getContext(), mem_id,new NetworkManager.OnResultListener<MemberResult>() {
+                                @Override
+                                public void onSuccess(Request request, MemberResult result) {
+                                    Intent intent = new Intent(MainActivity.getContext(), MainActivity.class);
+                                    MainActivity.getContext().startActivity(intent);
+                                    dismiss();
+                                }
+                                @Override
+                                public void onFail(Request request, IOException exception) {
+                                }
+                            });
+                        }
+                        @Override
+                        public void onFail(Request request, IOException exception) {
+                        }
+                    });
+                }
+            });
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String get=""+editText.getText();
+                    if(get.equals("")){
+                        adap.setDb3(new ArrayList<DroneDB>());
+                    }else{
+                        NetworkManager.getInstance().getDroneSearch(MyApplication.getContext(),get ,new NetworkManager.OnResultListener<DroneSearchResult>() {
+
+                            @Override
+                            public void onSuccess(Request request, DroneSearchResult result) {
+                                adap.setDb3(result.getResult());
+                            }
+
+                            @Override
+                            public void onFail(Request request, IOException exception) {
+
+                            }
+
+                        });
+                    }
+                }
+            });
+
+        }
+
+        public CustomDialog7(Context context) {
+            super(context, android.R.style.Theme_Translucent_NoTitleBar);
+        }
+    }
+    */
 }

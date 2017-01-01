@@ -2,8 +2,8 @@ package com.example.ksj_notebook.dronehere.Drawer;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneDB;
@@ -13,13 +13,13 @@ import com.example.ksj_notebook.dronehere.data.DroneDB;
  */
 public class DrawerViewHolderDrone extends RecyclerView.ViewHolder {
 
-    TextView drawer_drname;
+    Button drawer_drname;
     ImageView drawer_drcheck;
 
     public DrawerViewHolderDrone(View itemView) {
         super(itemView);
 
-        drawer_drname=(TextView)itemView.findViewById(R.id.drawer_drname);
+        drawer_drname=(Button)itemView.findViewById(R.id.drawer_drname);
         drawer_drcheck=(ImageView) itemView.findViewById(R.id.drawer_drcheck);
 
     }

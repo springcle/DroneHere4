@@ -2,10 +2,10 @@ package com.example.ksj_notebook.dronehere;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
@@ -32,15 +32,17 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_PERMISSION = 2;
     private BackPressCloseHandler backPressCloseHandler;
     FragmentTabHost tabHost;
-    NavigationView navigationView;
     DrawerLayout drawer;
     View frameLayout;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
-
+    private static Context context;
     TextView main_title;
-
     Button toolbar_btn;
+
+    public static Context getContext() {
+        return context;
+    }
 
     @Override
     public void onBackPressed() {
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
         setContentView(R.layout.activity_main);
         gps_check();
         backPressCloseHandler = new BackPressCloseHandler(this);
@@ -72,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         ImageView tab4 = new ImageView(this);
         tab4.setImageResource(R.drawable.tab4selector);
 
-
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(tab1), TabHere.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(tab2), TabGather.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(tab3), TabNews.class, null);
@@ -90,12 +92,9 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(Gravity.LEFT);
             }
         });
-
-
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-
                 if(tabId.equals("tab1")){
                     main_title.setText("드론 Here");
                 }else if(tabId.equals("tab2")){

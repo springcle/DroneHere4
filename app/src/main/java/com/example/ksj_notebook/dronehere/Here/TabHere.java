@@ -24,8 +24,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.example.ksj_notebook.dronehere.MainActivity;
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneResistance;
@@ -91,6 +91,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     String sunrise;
     String sunset;
     String wind;
+    Double dr_resistance;
 
     String mem_id;
 
@@ -217,7 +218,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 gps_check();
             } else {
-                if (bool != null) {
+                if (bool != null && location != null) {
                     addMarker(location);
                 }
             }
@@ -309,7 +310,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
         if (marker != null) marker.remove();
 
-
         MarkerOptions options = new MarkerOptions();
         options.position(new LatLng(location.getLatitude(), location.getLongitude()));
 
@@ -320,7 +320,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 break;
             }
         }
-        //
         if (PropertyManager.getInstance().getId() != "" && drone_exist == true) {
             if (z == false) {
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1));
@@ -342,7 +341,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-
         if (drone_exist == true) { // 드론있으면 다이얼로그 띄워주기, 비회원일때도 띄워줘야함
             CustomDialog dialog = new CustomDialog(getContext(), bool);
             dialog.show();
@@ -350,16 +348,11 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         return false;
     }
 
-
     class CustomDialog extends Dialog {
-
-        ImageView i1;
-        ImageView i2;
-        ImageView i3;
-        ImageView i4;
+        ImageView i1,i2,i3,i4;
         int[] bool;
         Button btn;
-
+        TextView t1,t2,t3,t4;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -378,6 +371,10 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             i2 = (ImageView) findViewById(R.id.dial_image2);
             i3 = (ImageView) findViewById(R.id.dial_image3);
             i4 = (ImageView) findViewById(R.id.dial_image4);
+            t1 = (TextView)findViewById(R.id.text_area);
+            t2 = (TextView)findViewById(R.id.text_time);
+            t3 = (TextView)findViewById(R.id.text_wind);
+            t4 = (TextView)findViewById(R.id.text_magnetic);
             btn = (Button) findViewById(R.id.dial_btn);
 
             btn.setOnClickListener(new View.OnClickListener() {
@@ -392,6 +389,12 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             if (bool[0] == 1) i1.setImageResource(R.drawable.i_pos1);
             else i1.setImageResource(R.drawable.i_imp1);
             if (PropertyManager.getInstance().getId() != "") {
+                t1.setText("공역표시");
+                t2.setText(sunrise + " ~\n" + sunset);
+                if(wind != null && dr_resistance != null) {
+                    t3.setText("현재풍속 : " + wind + " \n제한 : " + dr_resistance);
+                }
+                t4.setText("현재 자기장 : " + kk + " \n자기장 제한 : 5미만");
                 btn.setEnabled(false);
                 btn.setClickable(false);
                 if (bool[1] == 1) i2.setImageResource(R.drawable.i_pos2);
@@ -423,6 +426,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     public void getData() {
         //비행가능구역
+        if(location == null){
+            delay_getData();
+        }
         if (PropertyManager.getInstance().getId() != "") {
             LatLng latLngTest = new LatLng(location.getLatitude(), location.getLongitude());
             List<KmlPolygon> polygonsInLayer = getPolygons(layer1.getContainers());
@@ -461,7 +467,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                                 if (drname == false) {
                                     drone_exist = true;
                                     dr_resistance1 = dr.getDroneResistance().toString();
-                                    double dr_resistance = Double.parseDouble(dr_resistance1);
+                                    dr_resistance = Double.parseDouble(dr_resistance1);
                                     double dr_wind = Double.parseDouble(wind);
                                     long l_sunrise = Long.parseLong(sunrise);
                                     long l_sunset = Long.parseLong(sunset);
@@ -589,22 +595,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
         return lies;
     }
-
-    private void gps_enable_check() {
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
-                } else {
-                    gps_enable_check();
-                }
-            }
-        }, 1000);
-    }
-
     private void delay_getData() {
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -624,7 +614,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 displayMessage(location);
                 getData();
             }
-        }, 1000);
+        }, 900);
     }
     public void gps_check(){
             final Dialog dialog = new Dialog(getActivity());
@@ -638,7 +628,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
                     startActivity(intent);
-                    gps_enable_check();
                 }
             });
             btn2.setOnClickListener(new View.OnClickListener() {

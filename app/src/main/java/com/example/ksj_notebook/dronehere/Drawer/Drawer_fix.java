@@ -53,7 +53,7 @@ public class Drawer_fix extends AppCompatActivity {
     RecyclerView re;
     Drawer_fix_adapter adap1;
 
-    String mem_id=PropertyManager.getInstance().getId();
+    private String mem_id = PropertyManager.getInstance().getId();
 
 
     @Override
@@ -126,7 +126,9 @@ public class Drawer_fix extends AppCompatActivity {
                     }
                     if(member.getMem_drone().isEmpty() != true) {
                         dr_select = member.getMem_drone().get(adap1.mCheckedPostion).getDr_name();
-                    } else dr_select = null;
+                    } else {
+                        dr_select = null;
+                    }
                     NetworkManager.getInstance().getFix2(MyApplication.getContext(), mem_id,editText2.getText().toString(),dr_delete2,dr_select,new NetworkManager.OnResultListener() {
                     //member.getMem_name()
 
@@ -187,25 +189,18 @@ public class Drawer_fix extends AppCompatActivity {
             adap.setOnItemClickListener(new DronePickDialogAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClicked(DbSearchViewHolder holder, View view, DroneDB s, int position) {
-
-
-
                     for(int i=0;i<member.getMem_drone().size();i++){
-                        if(member.getMem_drone().get(i).get_id()==s.get_id()){
+                        if(member.getMem_drone().get(i).getDr_name().equals(s.getDr_name())){
                             Toast.makeText(MyApplication.getContext(), "이미 등록된 드론입니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
-
                     NetworkManager.getInstance().getDadd(MyApplication.getContext(),mem_id,s.get_id() ,new NetworkManager.OnResultListener<DroneSearchResult>() {
                         @Override
                         public void onSuccess(Request request, DroneSearchResult result) {
-
-
                             NetworkManager.getInstance().getFix(MyApplication.getContext(), mem_id,new NetworkManager.OnResultListener<MemberResult>() {
                                 @Override
                                 public void onSuccess(Request request, MemberResult result) {
-
                                     member=result.getResult();
                                     adap1.setMem(member,getApplicationContext());
                                     dismiss();
@@ -216,16 +211,13 @@ public class Drawer_fix extends AppCompatActivity {
                             });
 
                         }
-
                         @Override
                         public void onFail(Request request, IOException exception) {
-
                         }
 
                     });
                 }
             });
-
             editText.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {

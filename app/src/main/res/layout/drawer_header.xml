@@ -43,6 +43,16 @@
             android:layout_above="@+id/drawer_nick"
             android:layout_alignParentEnd="true"
             android:background="#00000000" />
+<!--
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="드론 추가"
+            android:id="@+id/drawer_dr_plus"
+            android:layout_alignTop="@+id/drawer_fix"
+            android:layout_centerHorizontal="true"
+            android:background="#00000000"/>
+            -->
     </RelativeLayout>
 
 </LinearLayout>

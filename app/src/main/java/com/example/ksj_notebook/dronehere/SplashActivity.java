@@ -41,20 +41,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }, 2000);
     }
-    private void gps_enable_check() {
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else{
-                    gps_enable_check();
-                }
-            }
-        }, 1000);
-    }
+
     // GPS on/off 확인
     public void gps_check(){
         locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
@@ -70,7 +57,6 @@ public class SplashActivity extends AppCompatActivity {
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
                     startActivity(intent);
-                    gps_enable_check();
                 }
             });
             btn2.setOnClickListener(new View.OnClickListener() {
