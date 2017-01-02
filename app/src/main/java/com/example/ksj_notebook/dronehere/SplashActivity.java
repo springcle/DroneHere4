@@ -1,7 +1,8 @@
 package com.example.ksj_notebook.dronehere;
 
 import android.Manifest;
-import android.app.Dialog;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
@@ -13,9 +14,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.test.mock.MockPackageManager;
 import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Toast;
 
 public class SplashActivity extends AppCompatActivity {
@@ -46,32 +44,27 @@ public class SplashActivity extends AppCompatActivity {
     public void gps_check(){
         locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
         if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            final Dialog dialog = new Dialog(this);
-            dialog.setContentView(R.layout.gps_dialog);
-            Button btn1 = (Button) dialog.findViewById(R.id.gps_ok_btn);
-            Button btn2 = (Button) dialog.findViewById(R.id.gps_cancle_btn);
-            btn1.setOnClickListener(new View.OnClickListener() {
-                @Override  // 예 버튼
-                public void onClick(View v) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(SplashActivity.this);
+            dialog.setTitle("GPS Check");
+            dialog.setMessage("지역정보를 받아오기 위해 위치기능을 활성화 시킨 후 실행바랍니다.");
+            dialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
                     startActivity(intent);
+                    finish();
                 }
             });
-            btn2.setOnClickListener(new View.OnClickListener() {
-                @Override  // 아니오버튼
-                public void onClick(View v) {
+            dialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
+                    finish();
                     System.exit(0);
                 }
             });
-            WindowManager.LayoutParams wm = dialog.getWindow().getAttributes();
-            wm.width = 1450;
-            wm.height = 1000;
-            dialog.getWindow().setAttributes(wm);
-            //Dialog의 바깥쪽을 터치했을 때 Dialog를 없앨지 설정
-            dialog.setCanceledOnTouchOutside(false);
             dialog.show();
             //GPS 설정화면으로 이동
         } else {
