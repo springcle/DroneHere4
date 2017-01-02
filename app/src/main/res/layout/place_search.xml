@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="top|center">
+    <AutoCompleteTextView
+        android:layout_width="252dp"
+        android:layout_height="35dp"
+        android:id="@+id/place_text"
+        android:background="#70848484"
+        android:hint="장소를 입력하세요."
+        android:textColorHint="@color/rell"
+        android:layout_marginTop="65dp"
+        android:textSize="18dp"
+        android:textColor="@color/rell"
+        android:paddingLeft="10dp" />
+</LinearLayout>
