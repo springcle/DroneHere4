@@ -30,6 +30,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
@@ -105,7 +106,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     KmlLayer layer1;
 
-    int[] bool = {1, 1, 1, 1};
+    int[] bool = {0, 0, 0, 0};
     boolean drone_exist;
 
     public TabHere() {
@@ -281,8 +282,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 gps_check();
             } else {
-                if (bool != null && location != null) {
-                    addMarker(location);
+                if (location != null) {
+                    //add_marker(location);
+                    getData();
                 }
             }
         }
@@ -368,8 +370,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 //            mMap.addGroundOverlay(overlayOptions1);
     }
 
-
-    private void addMarker(Location location) {
+    private void add_marker(Location location) {
 
         if (marker != null) marker.remove();
 
@@ -400,7 +401,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             marker = mMap.addMarker(options);
         }
     }
-
 
     @Override
     public boolean onMarkerClick(Marker marker) {
@@ -505,6 +505,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
                     @Override
                     public void onFail(Request request, IOException exception) {
+                        Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.",Toast.LENGTH_SHORT).show();
                     }
                 });
                 //풍속,일출,일몰 값
@@ -545,20 +546,23 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                                         else bool[3] = 0;
 
                                         // 비행 가능, 불가능 표시 마커
-                                        if (bool != null) {
-                                            addMarker(location);
+                                        if (bool != null && location != null) {
+                                            add_marker(location);
                                         }
-                                    } else {
+                                    } else if(drname == true){
                                         for (int i = 0; i < bool.length; i++) {
                                             bool[i] = 0;
                                         }
                                         drone_exist = false;
-                                        addMarker(location);
+                                        if(location != null) {
+                                            add_marker(location);
+                                        }
                                     }
                                 }
 
                                 @Override
                                 public void onFail(Request request, IOException exception) {
+                                    Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.",Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -566,13 +570,17 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
                     @Override
                     public void onFail(Request request, IOException exception) {
+                        Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.",Toast.LENGTH_SHORT).show();
                     }
                 });
-            } else {
+            } else { // 비회원 일때
+                drone_exist = false;
                 for (int i = 0; i < 4; i++) {
                     bool[0] = 0;
                 }
-                addMarker(location);
+                if(location != null) {
+                    add_marker(location);
+                }
             }
 
         }
@@ -678,7 +686,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 displayMessage(location);
                 getData();
             }
-        }, 900);
+        }, 800);
     }
     /*
     private void gps_enable_check(){
