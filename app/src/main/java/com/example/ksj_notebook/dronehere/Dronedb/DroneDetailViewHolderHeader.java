@@ -1,8 +1,8 @@
 package com.example.ksj_notebook.dronehere.Dronedb;
 
 import android.graphics.drawable.ClipDrawable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,20 +10,24 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.GlideUrl;
-import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneDB;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by ksj_notebook on 2016-05-29.
  */
 public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
 
-    ImageView imageView, imageView2, imageView3, imageView4, imageView5;
+    /*ImageView imageView, imageView2, imageView3, imageView4, imageView5;*/
+
+    ViewPager mViewPager;
+    DetailPagerAdapter detailPagerAdapter;
+
+    ArrayList<DroneDetail> imageList = new ArrayList<>();
+
+
     TextView dt_manu;
     TextView dt_price;
     TextView dt_use;
@@ -52,52 +56,60 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
     ClipDrawable drawable3;
     ClipDrawable drawable4;
 
-    int cnt=0;
+    int cnt = 0;
 
 
     public DroneDetailViewHolderHeader(View itemView) {
         super(itemView);
 
-        drdb_title=(TextView)itemView.findViewById(R.id.drdb_title);
-        imageView=(ImageView)itemView.findViewById(R.id.detail_imageView);
+
+
+
+
+
+        drdb_title = (TextView) itemView.findViewById(R.id.drdb_title);
+       /* imageView=(ImageView)itemView.findViewById(R.id.detail_imageView);
         imageView2=(ImageView)itemView.findViewById(R.id.detail_imageView2);
         imageView3=(ImageView)itemView.findViewById(R.id.detail_imageView3);
         imageView4=(ImageView)itemView.findViewById(R.id.detail_imageView4);
         imageView5=(ImageView)itemView.findViewById(R.id.detail_imageView5);
-        dt_manu=(TextView)itemView.findViewById(R.id.dt_manu);
-        dt_price=(TextView)itemView.findViewById(R.id.dt_price);
-        dt_use=(TextView)itemView.findViewById(R.id.dt_use);
-        dt_rate=(TextView)itemView.findViewById(R.id.dt_rate);
-        dt_ratingbar=(RatingBar)itemView.findViewById(R.id.dt_ratingbar);
+*/
+       // viewpagerimg = (ImageView) itemView.findViewById(R.id.detail_viewpager_item_img); //뷰페이저용
 
-        progressBar=(ImageView)itemView.findViewById(R.id.progressBar11);
-        progressBar2=(ImageView)itemView.findViewById(R.id.progressBar22);
-        progressBar3=(ImageView)itemView.findViewById(R.id.progressBar33);
-        progressBar4=(ImageView)itemView.findViewById(R.id.progressBar44);
+        dt_manu = (TextView) itemView.findViewById(R.id.dt_manu);
+        dt_price = (TextView) itemView.findViewById(R.id.dt_price);
+        dt_use = (TextView) itemView.findViewById(R.id.dt_use);
+        dt_rate = (TextView) itemView.findViewById(R.id.dt_rate);
+        dt_ratingbar = (RatingBar) itemView.findViewById(R.id.dt_ratingbar);
 
-        dt_flight=(TextView)itemView.findViewById(R.id.dt_flight);
-        dt_range=(TextView)itemView.findViewById(R.id.dt_range);
-        dt_pic=(TextView)itemView.findViewById(R.id.dt_pic);
-        dt_pk=(TextView)itemView.findViewById(R.id.dt_pk);
+        progressBar = (ImageView) itemView.findViewById(R.id.progressBar11);
+        progressBar2 = (ImageView) itemView.findViewById(R.id.progressBar22);
+        progressBar3 = (ImageView) itemView.findViewById(R.id.progressBar33);
+        progressBar4 = (ImageView) itemView.findViewById(R.id.progressBar44);
 
-        imbtn=(Button)itemView.findViewById(R.id.imbtn);
-        spec=(TextView)itemView.findViewById(R.id.spec);
-        viss=(LinearLayout)itemView.findViewById(R.id.viss);
+        dt_flight = (TextView) itemView.findViewById(R.id.dt_flight);
+        dt_range = (TextView) itemView.findViewById(R.id.dt_range);
+        dt_pic = (TextView) itemView.findViewById(R.id.dt_pic);
+        dt_pk = (TextView) itemView.findViewById(R.id.dt_pk);
 
-         drawable1= (ClipDrawable)progressBar.getDrawable();
-         drawable2= (ClipDrawable)progressBar2.getDrawable();
-         drawable3= (ClipDrawable)progressBar3.getDrawable();
-         drawable4= (ClipDrawable)progressBar4.getDrawable();
+        imbtn = (Button) itemView.findViewById(R.id.imbtn);
+        spec = (TextView) itemView.findViewById(R.id.spec);
+        viss = (LinearLayout) itemView.findViewById(R.id.viss);
+
+        drawable1 = (ClipDrawable) progressBar.getDrawable();
+        drawable2 = (ClipDrawable) progressBar2.getDrawable();
+        drawable3 = (ClipDrawable) progressBar3.getDrawable();
+        drawable4 = (ClipDrawable) progressBar4.getDrawable();
 
 
         imbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cnt%2==0){
+                if (cnt % 2 == 0) {
                     viss.setVisibility(View.VISIBLE);
                     imbtn.setBackgroundResource(R.drawable.box_2);
                     imbtn.setText("상세 스펙 접기");
-                }else{
+                } else {
                     viss.setVisibility(View.GONE);
                     imbtn.setBackgroundResource(R.drawable.box_1);
                     imbtn.setText("상세 스펙 더보기");
@@ -109,7 +121,9 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
 
     }
 
+
     public void setDt(DroneDB db){
+        /*
         List<String> dr = db.getDr_photoArr();
         int dr_ea = dr.size();
         Log.w("사진갯수",dr_ea+"");
@@ -178,6 +192,19 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
                 Glide.with(MyApplication.getContext()).load(url5).into(imageView5);
             }
         }
+*/
+
+
+
+        mViewPager = (ViewPager) itemView.findViewById(R.id.detail_imageView);
+        /*mViewPager.addOnPageChangeListener(this);*/
+
+        detailPagerAdapter = new DetailPagerAdapter(imageList);
+        mViewPager.setAdapter(detailPagerAdapter);
+
+
+
+
 
         drdb_title.setText(db.getDr_name());
         dt_manu.setText(db.getDr_manufacture());
@@ -186,11 +213,11 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
         dt_rate.setText(""+db.getDr_rate());
         dt_ratingbar.setRating((float)db.getDr_rate());
 
-        drawable1.setLevel(db.getDr_array()[0]*2000);
+       /* drawable1.setLevel(db.getDr_array()[0]*2000);
         drawable2.setLevel(db.getDr_array()[1]*2000);
         drawable3.setLevel(db.getDr_array()[2]*2000);
         drawable4.setLevel(db.getDr_array()[3]*2000);
-
+*/
 
         String zz;
         if (db.getDr_pk()>100){
@@ -205,5 +232,9 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
         dt_pk.setText(""+db.getDr_pk()+zz);
         spec.setText(""+db.getDr_spec());
 
+
     }
+
+
+
 }

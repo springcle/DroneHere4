@@ -1,18 +1,23 @@
 package com.example.ksj_notebook.dronehere.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by ksj_notebook on 2016-05-18.
  */
 public class DroneDB {
-    int[] dr_array;
+    /*int[] dr_array;*/
+
+
+
+/*    public ArrayList<String> dr_image = new ArrayList<>(); */
     String _id;
     String dr_name;
     String dr_use;
     String dr_manufacture;
-    List<String> dr_photoArr;
-    String dr_photo;
+    ArrayList<String> dr_photoArr = new ArrayList<>();
+    String dr_photo; // 드론백과의 리스트에서 드론 아이템의 이미지 부분.
     double dr_rate;
     String dr_price;
     String dr_source;
@@ -35,6 +40,14 @@ public class DroneDB {
     List<Review> dr_review;
 
 
+
+/*    public ArrayList<String> getDr_image() {
+        return dr_image;
+    }
+
+    public void setDr_image(ArrayList<String> dr_image) {
+        this.dr_image = dr_image;
+    }*/
     public double getDr_flighttime() {
         return dr_flighttime;
     }
@@ -74,14 +87,14 @@ public class DroneDB {
     public void setDr_mail(double dr_mail) {
         this.dr_mail = dr_mail;
     }
-
+/*
     public int[] getDr_array() {
         return dr_array;
     }
 
     public void setDr_array(int[] dr_array) {
         this.dr_array = dr_array;
-    }
+    }*/
 
     public String get_id() {
         return _id;
@@ -123,11 +136,11 @@ public class DroneDB {
         this.dr_photo = dr_photo;
     }
 
-    public List<String> getDr_photoArr() {
+    public ArrayList<String> getDr_photoArr() {
         return dr_photoArr;
     }
 
-    public void setDr_photoArr(List<String> dr_photoArr) {
+    public void setDr_photoArr(ArrayList<String> dr_photoArr) {
         this.dr_photoArr = dr_photoArr;
     }
 
