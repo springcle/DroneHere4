@@ -1,6 +1,7 @@
 package com.example.ksj_notebook.dronehere.Dronedb;
 
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,27 +20,32 @@ import static com.example.ksj_notebook.dronehere.MyApplication.getContext;
 
 public class DetailPagerAdapter  extends PagerAdapter{
 
-   private ArrayList<DroneDetail> pagerimageList = new ArrayList<>();
 
-
-    public DetailPagerAdapter(ArrayList<DroneDetail> pagerimageList) {
-        this.pagerimageList = pagerimageList;
-    }
+    private ArrayList<String> ImageList = DroneDetail.getImageList();
 
 
     /* 페이저 어댑터에서    onBindView 역할 + */
     @Override
     public Object instantiateItem(ViewGroup container, int position) { // onBindView
+
+
+      /*  setImageList(db.getImageList());*/
+
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dbdetail_viewpager_item, container, false);
         ImageView itemImg = (ImageView) view.findViewById(R.id.detail_viewpager_item_img);
 
         Glide.with(getContext())
-                .load(pagerimageList.get(position).imageList.get(position))
+                .load(ImageList.get(position))
                 .centerCrop()
-                .thumbnail(0.1f)
+              /*   .thumbnail(0.1f)*/
                 .into(itemImg);
         container.addView(view);
+
+     //   Log.e("DetailPagerAdapter","이미지 리소스 위치 가져오는가?"+ImageList.get(position));
+
+
         return view;
+
     }
 
     @Override
@@ -49,17 +55,15 @@ public class DetailPagerAdapter  extends PagerAdapter{
 
     @Override
     public int getCount() {
-        return pagerimageList.size();
+        //Log.d("DetailPagerAdapter","이미지 리스트 갯수: "+ImageList.size());
+        return ImageList.size();
+
     }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
     }
-
-
-
-
 
 
 }

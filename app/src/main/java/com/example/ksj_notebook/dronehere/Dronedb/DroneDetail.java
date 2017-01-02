@@ -32,7 +32,7 @@ public class DroneDetail extends AppCompatActivity implements ViewPager.OnPageCh
     DroneDB db;
     TextView dbtitle;
 
-    public ArrayList<String> imageList;
+    public static ArrayList<String> imageList = new ArrayList<>();
 
 
 
@@ -132,7 +132,7 @@ public class DroneDetail extends AppCompatActivity implements ViewPager.OnPageCh
         this.imageList = imageList;
     }
 
-    public ArrayList<String> getImageList() {
+    public static ArrayList<String> getImageList() {
         return imageList;
     }
 }

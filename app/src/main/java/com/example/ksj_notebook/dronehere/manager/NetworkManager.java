@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.data.AddGatheringResult;
@@ -815,6 +816,7 @@ public class NetworkManager {
     public Request getDroneDetail(Object tag,String _id,OnResultListener<DroneDetailResult> listener) {
 
         String url = String.format(DRONE_DETAIL,_id);
+        Log.e("NetworkManager","드론상세 url 파악용"+url);
         Request request = new Request.Builder()
                 .url(url)
                 .get()

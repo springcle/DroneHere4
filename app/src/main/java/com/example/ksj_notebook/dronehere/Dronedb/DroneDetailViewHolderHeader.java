@@ -25,7 +25,6 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
     ViewPager mViewPager;
     DetailPagerAdapter detailPagerAdapter;
 
-    ArrayList<DroneDetail> imageList = new ArrayList<>();
 
 
     TextView dt_manu;
@@ -199,7 +198,7 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
         mViewPager = (ViewPager) itemView.findViewById(R.id.detail_imageView);
         /*mViewPager.addOnPageChangeListener(this);*/
 
-        detailPagerAdapter = new DetailPagerAdapter(imageList);
+        detailPagerAdapter = new DetailPagerAdapter();
         mViewPager.setAdapter(detailPagerAdapter);
 
 
