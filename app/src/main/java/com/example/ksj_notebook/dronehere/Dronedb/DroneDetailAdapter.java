@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.AddReviewResult;
 import com.example.ksj_notebook.dronehere.data.DroneDB;
@@ -18,15 +17,23 @@ import java.util.List;
 
 import okhttp3.Request;
 
+import static com.example.ksj_notebook.dronehere.MyApplication.getContext;
+
 /**
  * Created by ksj_notebook on 2016-05-29.
  */
+
+
+
+
 public class DroneDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     DroneDB db;
     List<Review> item2;
     int cnt;
 
+
+  //  ViewPager mViewPager;
 
     public void setDb(DroneDB db){
         this.db=db;
@@ -84,7 +91,7 @@ public class DroneDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
                     @Override
                     public void onClick(View v) {
 
-                        NetworkManager.getInstance().getDbAdd1(MyApplication.getContext(),""+db.get_id(),cnt ,new NetworkManager.OnResultListener<AddReviewResult>() {
+                        NetworkManager.getInstance().getDbAdd1(getContext(),""+db.get_id(),cnt ,new NetworkManager.OnResultListener<AddReviewResult>() {
 
                             @Override
                             public void onSuccess(Request request, AddReviewResult result) {
@@ -114,4 +121,11 @@ public class DroneDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
         if(db==null)return 0;
         return 2+db.getDr_review().size();
     }
+
+
+
+
+
+
+
 }
