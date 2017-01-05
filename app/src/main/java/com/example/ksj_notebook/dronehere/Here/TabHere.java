@@ -160,7 +160,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             mapFragment = SupportMapFragment.newInstance();
             getChildFragmentManager().beginTransaction().replace(R.id.map_container1, mapFragment, "map").commit();
             mapFragment.getMapAsync(this);
-
         }
 
 //        weightToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -194,7 +193,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             @Override
             public void onClick(View v) {
                 if (location != null) {
-                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12f);
+                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 11f);
                     //37.47547965,126.95924163
                     if (mMap != null) {
                         mMap.moveCamera(update);
@@ -292,7 +291,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     private void displayMessage(Location location) {
         if (location != null) {
-            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12f);
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 11f);
             if (mMap != null) {
                 mMap.moveCamera(update);
             }
@@ -315,6 +314,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setOnMarkerClickListener(this);
         mMap.setOnCameraChangeListener(this);
+        final LatLng seoul = new LatLng(37.5616637,126.978816);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(seoul, 10f));
 
 
 //        CircleOptions circleOptions = new CircleOptions()
