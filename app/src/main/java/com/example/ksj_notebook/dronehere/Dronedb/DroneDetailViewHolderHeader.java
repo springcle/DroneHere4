@@ -212,11 +212,10 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
         dt_rate.setText(""+db.getDr_rate());
         dt_ratingbar.setRating((float)db.getDr_rate());
 
-       /* drawable1.setLevel(db.getDr_array()[0]*2000);
+        drawable1.setLevel(db.getDr_array()[0]*2000);
         drawable2.setLevel(db.getDr_array()[1]*2000);
         drawable3.setLevel(db.getDr_array()[2]*2000);
         drawable4.setLevel(db.getDr_array()[3]*2000);
-*/
 
         String zz;
         if (db.getDr_pk()>100){
