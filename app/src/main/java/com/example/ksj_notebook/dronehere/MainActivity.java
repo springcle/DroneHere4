@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
         context = this;
         setContentView(R.layout.activity_main);
         gps_check();
