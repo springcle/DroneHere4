@@ -3,7 +3,9 @@ package com.example.ksj_notebook.dronehere;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -26,6 +28,7 @@ import com.example.ksj_notebook.dronehere.Dronedb.TabDrone;
 import com.example.ksj_notebook.dronehere.Gathering.TabGather;
 import com.example.ksj_notebook.dronehere.Here.TabHere;
 import com.example.ksj_notebook.dronehere.News.TabNews;
+import com.example.ksj_notebook.dronehere.manager.AppNetwork;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        AppNetwork receiver = new AppNetwork(this);
+        registerReceiver(receiver, filter);
+
         context = this;
         setContentView(R.layout.activity_main);
         gps_check();
