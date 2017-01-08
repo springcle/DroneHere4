@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         AppNetwork receiver = new AppNetwork(this);
         registerReceiver(receiver, filter);
-
         context = this;
         setContentView(R.layout.activity_main);
         gps_check();

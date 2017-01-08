@@ -312,29 +312,24 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.setOnMarkerClickListener(this);
-        mMap.setOnCameraChangeListener(this);
-        final LatLng seoul = new LatLng(37.5616637,126.978816);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(seoul, 10f));
-
-
-//        CircleOptions circleOptions = new CircleOptions()
-//                .center(new LatLng(35.4751, 129.1954))
-//                .radius(14000)
-//                .fillColor(R.color.drgreen)
-//                .strokeColor(R.color.drgreen);
-//        mMap.addCircle(circleOptions);
-
-
         try {
             layer1 = new KmlLayer(mMap, R.raw.zz, getContext());
-//            layer2=new KmlLayer(mMap,R.raw.zz2,getContext());
             layer1.addLayerToMap();
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        mMap.setOnMarkerClickListener(this);
+        mMap.setOnCameraChangeListener(this);
+        final LatLng korea = new LatLng(36.641111, 127.853366);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(korea, 7.1f));
+//        CircleOptions circleOptions = new CircleOptions()
+//                .center(new LatLng(35.4751, 129.1954))
+//                .radius(14000)
+//                .fillColor(R.color.drgreen)
+//                .strokeColor(R.color.drgreen);
+//        mMap.addCircle(circleOptions);
 
         // layer = new KmlLayer(getMap(), R.raw.kmlFile, getApplicationContext());
 //
@@ -416,7 +411,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         ImageView i1,i2,i3,i4;
         int[] bool;
         Button btn;
-        TextView t1,t2,t3,t4;
+        //TextView t1,t2,t3,t4;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -435,32 +430,51 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             i2 = (ImageView) findViewById(R.id.dial_image2);
             i3 = (ImageView) findViewById(R.id.dial_image3);
             i4 = (ImageView) findViewById(R.id.dial_image4);
+            /*
             t1 = (TextView)findViewById(R.id.text_area);
             t2 = (TextView)findViewById(R.id.text_time);
             t3 = (TextView)findViewById(R.id.text_wind);
             t4 = (TextView)findViewById(R.id.text_magnetic);
+            */
             btn = (Button) findViewById(R.id.dial_btn);
 
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getActivity().getApplicationContext(), StartActivity.class));
-                    CustomDialog.super.dismiss();
-                    getActivity().finish();
+                    if (PropertyManager.getInstance().getId() == "") {
+                        startActivity(new Intent(getActivity().getApplicationContext(), StartActivity.class));
+                        getActivity().finish();
+                    }
+                    dismiss();
                 }
             });
 
             if (bool[0] == 1) i1.setImageResource(R.drawable.i_pos1);
             else i1.setImageResource(R.drawable.i_imp1);
+
             if (PropertyManager.getInstance().getId() != "") {
-               /* t1.setText("공역표시");
-                t2.setText(sunrise + " ~\n" + sunset);
+                /*
+                t1.setText("공역표시");
+                if(sunrise != null && sunset != null) {
+                    long l_sunrise = Long.parseLong(sunrise);
+                    long l_sunset = Long.parseLong(sunset);
+                    Log.w("일출", sunrise + 1000);
+                    Log.w("일몰" ,sunset+1000);
+                    Log.w("현재" ,System.currentTimeMillis()+"");
+                    TimeConverter sunrise_converter = new TimeConverter(sunrise+"1000");
+                    TimeConverter sunset_converter = new TimeConverter(sunset+"1000");
+                    SimpleDateFormat dayTime = new SimpleDateFormat("hh:mm");
+                    String str1 = dayTime.format(new Date(l_sunrise*1000));
+                    String str2 = dayTime.format(new Date(l_sunset*1000));
+                    t2.setText("오전"+str1 +" ~\n"+"오후" + str2);
+                }
                 if(wind != null && dr_resistance != null) {
                     t3.setText("현재풍속 : " + wind + " \n주력드론 : " + dr_resistance);
                 }
-                t4.setText("현재 자기장 : " + kk + " \n자기장 제한 : 5미만");*/
-                btn.setEnabled(false);
-                btn.setClickable(false);
+                t4.setText("현재 자기장 : " + kk + " \n자기장 제한 : 5미만");
+                btn.setEnabled(true);
+                btn.setClickable(true);
+                */
                 if (bool[1] == 1) i2.setImageResource(R.drawable.i_pos2);
                 else i2.setImageResource(R.drawable.i_imp2);
                 if (bool[2] == 1) i3.setImageResource(R.drawable.i_pos3);
