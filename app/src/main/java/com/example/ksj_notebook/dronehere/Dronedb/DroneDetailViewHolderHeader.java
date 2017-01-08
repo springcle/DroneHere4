@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneDB;
 
-import java.util.ArrayList;
-
 /**
  * Created by ksj_notebook on 2016-05-29.
  */
