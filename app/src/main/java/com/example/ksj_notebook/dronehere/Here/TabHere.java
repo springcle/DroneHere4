@@ -445,7 +445,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(getActivity().getApplicationContext(), StartActivity.class));
-                    dismiss();
+                    CustomDialog.super.dismiss();
                     getActivity().finish();
                 }
             });
@@ -453,12 +453,12 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             if (bool[0] == 1) i1.setImageResource(R.drawable.i_pos1);
             else i1.setImageResource(R.drawable.i_imp1);
             if (PropertyManager.getInstance().getId() != "") {
-                t1.setText("공역표시");
+               /* t1.setText("공역표시");
                 t2.setText(sunrise + " ~\n" + sunset);
                 if(wind != null && dr_resistance != null) {
                     t3.setText("현재풍속 : " + wind + " \n주력드론 : " + dr_resistance);
                 }
-                t4.setText("현재 자기장 : " + kk + " \n자기장 제한 : 5미만");
+                t4.setText("현재 자기장 : " + kk + " \n자기장 제한 : 5미만");*/
                 btn.setEnabled(false);
                 btn.setClickable(false);
                 if (bool[1] == 1) i2.setImageResource(R.drawable.i_pos2);

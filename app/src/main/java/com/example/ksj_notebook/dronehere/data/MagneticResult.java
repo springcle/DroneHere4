@@ -1,9 +1,12 @@
 package com.example.ksj_notebook.dronehere.data;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by ksj_notebook on 2016-05-31.
  */
 public class MagneticResult {
+    @SerializedName("kindex")
     Magnetic kindex;
 
     public Magnetic getKindex() {
