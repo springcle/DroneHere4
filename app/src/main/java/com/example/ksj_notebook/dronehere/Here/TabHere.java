@@ -150,7 +150,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         View view = inflater.inflate(R.layout.fragment_tab_here, container, false);
 
         myLocation = (Button) view.findViewById(R.id.myLocation);
-        search_place = (Button) view.findViewById(R.id.search_btn);
+     /* TODO 검색 부분 주석 1
+      search_place = (Button) view.findViewById(R.id.search_btn);*/
+        
         //      weightToggle = (ToggleButton) view.findViewById(R.id.weightToggle);
 
         this.inflater = inflater;
@@ -188,9 +190,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 //            }
 //        });
 
-/*
 
-        TODO 검색 부분 주석 1
 
         myLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,7 +204,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 }
             }
         });
+/*
 
+        TODO 검색 부분 주석 2
         search_place.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,7 +218,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     }
 
 /*
-  TODO 검색 부분 주석 2
+  TODO 검색 부분 주석 3
 
     class PlaceDialog extends Dialog {
 
