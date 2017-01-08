@@ -21,6 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ import com.example.ksj_notebook.dronehere.data.DroneResistance;
 import com.example.ksj_notebook.dronehere.data.DroneResistanceResult;
 import com.example.ksj_notebook.dronehere.data.MagneticResult;
 import com.example.ksj_notebook.dronehere.data.MemDrone;
+import com.example.ksj_notebook.dronehere.data.TimeConverter;
 import com.example.ksj_notebook.dronehere.data.WeatherResult;
 import com.example.ksj_notebook.dronehere.login.StartActivity;
 import com.example.ksj_notebook.dronehere.manager.NetworkManager;
@@ -69,7 +71,9 @@ import com.google.maps.android.kml.KmlPolygon;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.Request;
@@ -97,6 +101,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     LayoutInflater inflater;
 
     int kk;
+    boolean first_init = true;
     String sunrise;
     String sunset;
     String wind;
@@ -125,6 +130,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 .addOnConnectionFailedListener(this)
                 .addConnectionCallbacks(this)
                 .build();
+
     }
 
     @Override
@@ -142,6 +148,13 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     public void onStop() {
         super.onStop();
         mClient.disconnect();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.exit(0);
+        //layer1.removeLayerFromMap();
     }
 
     @Override
@@ -193,7 +206,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             @Override
             public void onClick(View v) {
                 if (location != null) {
-                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 11f);
+                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 11.3f);
                     //37.47547965,126.95924163
                     if (mMap != null) {
                         mMap.moveCamera(update);
@@ -271,7 +284,10 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         request.setInterval(4000);
         request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         LocationServices.FusedLocationApi.requestLocationUpdates(mClient, request, mListener);
-        delay_getData();
+        if(first_init == true) {
+            delay_getData();
+            first_init = false;
+        }
     }
 
     LocationListener mListener = new LocationListener() {
@@ -312,10 +328,21 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        if(layer1 == null) {
+            try {
+                layer1 = new KmlLayer(mMap, R.raw.zz, getContext());
+//            layer2=new KmlLayer(mMap,R.raw.zz2,getContext());
+                layer1.addLayerToMap();
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         mMap.setOnMarkerClickListener(this);
         mMap.setOnCameraChangeListener(this);
-        final LatLng seoul = new LatLng(37.5616637,126.978816);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(seoul, 10f));
+        final LatLng korea = new LatLng(36.641111, 127.853366);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(korea, 7.1f));
 
 
 //        CircleOptions circleOptions = new CircleOptions()
@@ -326,15 +353,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 //        mMap.addCircle(circleOptions);
 
 
-        try {
-            layer1 = new KmlLayer(mMap, R.raw.zz, getContext());
-//            layer2=new KmlLayer(mMap,R.raw.zz2,getContext());
-            layer1.addLayerToMap();
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         // layer = new KmlLayer(getMap(), R.raw.kmlFile, getApplicationContext());
 //
@@ -454,7 +473,20 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             else i1.setImageResource(R.drawable.i_imp1);
             if (PropertyManager.getInstance().getId() != "") {
                 t1.setText("공역표시");
-                t2.setText(sunrise + " ~\n" + sunset);
+                if(sunrise != null && sunset != null) {
+                    long l_sunrise = Long.parseLong(sunrise);
+                    long l_sunset = Long.parseLong(sunset);
+                    Log.w("일출" ,sunrise+1000);
+                    Log.w("일몰" ,sunset+1000);
+                    Log.w("현재" ,System.currentTimeMillis()+"");
+                    TimeConverter sunrise_converter = new TimeConverter(sunrise+"1000");
+                    TimeConverter sunset_converter = new TimeConverter(sunset+"1000");
+                    SimpleDateFormat dayTime = new SimpleDateFormat("hh:mm");
+                    String str1 = dayTime.format(new Date(l_sunrise*1000));
+                    String str2 = dayTime.format(new Date(l_sunset*1000));
+                    //t2.setText("일출 : "+sunrise_converter.toString()+ "~\n"+"일몰 : " +sunset_converter.toString());
+                    t2.setText("오전"+str1 +" ~\n"+"오후" + str2);
+                }
                 if(wind != null && dr_resistance != null) {
                     t3.setText("현재풍속 : " + wind + " \n주력드론 : " + dr_resistance);
                 }
@@ -497,6 +529,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 LatLng latLngTest = new LatLng(location.getLatitude(), location.getLongitude());
                 List<KmlPolygon> polygonsInLayer = getPolygons(layer1.getContainers());
                 final boolean liesInside = liesOnPolygon(polygonsInLayer, latLngTest);
+                if (liesInside == false) bool[0] = 1;
+                else bool[0] = 0;
                 //자기장
                 NetworkManager.getInstance().getMag(MyApplication.getContext(), new NetworkManager.OnResultListener<MagneticResult>() {
                     @Override
@@ -537,8 +571,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                                         long l_sunrise = Long.parseLong(sunrise);
                                         long l_sunset = Long.parseLong(sunset);
                                         long now = System.currentTimeMillis() / 1000;
-                                        if (liesInside == false) bool[0] = 1;
-                                        else bool[0] = 0;
+
                                         if (l_sunrise < now && now < l_sunset) bool[1] = 1;
                                         else bool[1] = 0;
                                         if (dr_wind < dr_resistance) bool[2] = 1;
