@@ -7,7 +7,7 @@ import java.util.List;
  * Created by ksj_notebook on 2016-05-18.
  */
 public class DroneDB {
-    /*int[] dr_array;*/
+    int[] dr_array;
 
 
 
@@ -87,14 +87,14 @@ public class DroneDB {
     public void setDr_mail(double dr_mail) {
         this.dr_mail = dr_mail;
     }
-/*
+
     public int[] getDr_array() {
         return dr_array;
     }
 
     public void setDr_array(int[] dr_array) {
         this.dr_array = dr_array;
-    }*/
+    }
 
     public String get_id() {
         return _id;

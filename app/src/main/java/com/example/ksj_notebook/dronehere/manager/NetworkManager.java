@@ -816,7 +816,7 @@ public class NetworkManager {
     public Request getDroneDetail(Object tag,String _id,OnResultListener<DroneDetailResult> listener) {
 
         String url = String.format(DRONE_DETAIL,_id);
-        Log.e("NetworkManager","드론상세 url 파악용"+url);
+
         Request request = new Request.Builder()
                 .url(url)
                 .get()
