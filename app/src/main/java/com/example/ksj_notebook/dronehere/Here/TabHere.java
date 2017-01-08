@@ -188,6 +188,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 //            }
 //        });
 
+/*
+
+        TODO 검색 부분 주석 1
 
         myLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,9 +211,12 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 PlaceDialog dialog = new PlaceDialog(context);
                 dialog.show();
             }
-        });
+        });*/
         return view;
     }
+
+/*
+  TODO 검색 부분 주석 2
 
     class PlaceDialog extends Dialog {
 
@@ -256,6 +262,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             super(context, android.R.style.Theme_Translucent_NoTitleBar);
         }
     }
+*/
 
 
     @Override
