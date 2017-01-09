@@ -27,7 +27,7 @@
         android:layout_marginTop="16dp"
         android:layout_gravity="start|top"
         android:id="@+id/myLocation"
-        android:background="@drawable/i_loc3"/>
+        android:background="@drawable/my_location_btn"/>
 
 
 </FrameLayout>
