@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -26,10 +25,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ksj_notebook.dronehere.MyApplication;
@@ -44,10 +43,14 @@ import com.example.ksj_notebook.dronehere.manager.NetworkManager;
 import com.example.ksj_notebook.dronehere.manager.PropertyManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -102,12 +105,15 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     String wind;
     Double dr_resistance;
 
+    private boolean liesInside = false;
+
     String mem_id;
 
     KmlLayer layer1;
 
     int[] bool = {0, 0, 0, 0};
     boolean drone_exist;
+    PlaceAutocompleteAdapter placeAutocompleteAdapter;
 
     public TabHere() {
         // Required empty public constructor
@@ -150,8 +156,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         View view = inflater.inflate(R.layout.fragment_tab_here, container, false);
 
         myLocation = (Button) view.findViewById(R.id.myLocation);
-     /* TODO 검색 부분 주석 1
-      search_place = (Button) view.findViewById(R.id.search_btn);*/
+        search_place = (Button) view.findViewById(R.id.search_btn);
         
         //      weightToggle = (ToggleButton) view.findViewById(R.id.weightToggle);
 
@@ -190,8 +195,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 //            }
 //        });
 
-
-
         myLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,28 +207,21 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 }
             }
         });
-/*
-
-        TODO 검색 부분 주석 2
         search_place.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PlaceDialog dialog = new PlaceDialog(context);
                 dialog.show();
             }
-        });*/
+        });
         return view;
     }
-
-/*
-  TODO 검색 부분 주석 3
 
     class PlaceDialog extends Dialog {
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
             WindowManager.LayoutParams lpWindow = new WindowManager.LayoutParams();
             lpWindow.gravity = Gravity.TOP;
             lpWindow.width = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -235,14 +231,15 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
             setContentView(R.layout.place_search);
             place_text = (AutoCompleteTextView) findViewById(R.id.place_text);
-
+            place_text.setOnItemClickListener(mAutocompleteClickListener);
             LatLngBounds latLngBounds = mMap.getProjection().getVisibleRegion().latLngBounds;
             AutocompleteFilter filter = new AutocompleteFilter.Builder()
                     .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
                     .build();
 
-            final PlaceAutocompleteAdapter adap = new PlaceAutocompleteAdapter(context, mClient, latLngBounds, null);
-            place_text.setAdapter(adap);
+            placeAutocompleteAdapter = new PlaceAutocompleteAdapter(context, mClient, latLngBounds, null);
+            place_text.setAdapter(placeAutocompleteAdapter);
+            placeAutocompleteAdapter.setGoogleApiClient(mClient);
 
             place_text.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -264,11 +261,11 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             super(context, android.R.style.Theme_Translucent_NoTitleBar);
         }
     }
-*/
 
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -281,6 +278,14 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         LocationServices.FusedLocationApi.requestLocationUpdates(mClient, request, mListener);
         delay_getData();
+    }
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        placeAutocompleteAdapter.setGoogleApiClient(null);
     }
 
     LocationListener mListener = new LocationListener() {
@@ -307,15 +312,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         }
     }
 
-    @Override
-    public void onConnectionSuspended(int i) {
 
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -457,7 +454,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     dismiss();
                 }
             });
-
             if (bool[0] == 1) i1.setImageResource(R.drawable.i_pos1);
             else i1.setImageResource(R.drawable.i_imp1);
 
@@ -513,100 +509,11 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     public void getData() {
         //비행가능구역
-        if (location == null) {
+        if (location == null) { // location 못 받아 왔을 경우 null 일 경우 딜레이 후 재실행
             delay_getData();
         } else {
-            if (PropertyManager.getInstance().getId() != "") {
-                LatLng latLngTest = new LatLng(location.getLatitude(), location.getLongitude());
-                List<KmlPolygon> polygonsInLayer = getPolygons(layer1.getContainers());
-                final boolean liesInside = liesOnPolygon(polygonsInLayer, latLngTest);
-                //자기장
-                NetworkManager.getInstance().getMag(MyApplication.getContext(), new NetworkManager.OnResultListener<MagneticResult>() {
-                    @Override
-                    public void onSuccess(Request request, MagneticResult result) {
-                        kk = result.getKindex().getCurrentK();
-                    }
-
-                    @Override
-                    public void onFail(Request request, IOException exception) {
-                        Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.",Toast.LENGTH_SHORT).show();
-                    }
-                });
-                //풍속,일출,일몰 값
-                NetworkManager.getInstance().getWind(MyApplication.getContext(), "" + location.getLatitude(), "" + location.getLongitude(), new NetworkManager.OnResultListener<WeatherResult>() {
-                    @Override
-                    public void onSuccess(Request request, WeatherResult result) {
-                        wind = result.getWind().getSpeed();
-                        sunrise = result.getSun().getSunrise();
-                        sunset = result.getSun().getSunset();
-
-                        /** 비행 가능/불가능 bool 값 설정 **/
-
-                        if (wind != null && sunrise != null && sunset != null) {
-                            NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
-                                @Override
-                                public void onSuccess(Request request, DroneResistanceResult result) {
-                                    List<MemDrone> memDrone;
-                                    String dr_resistance1;
-                                    DroneResistance dr;
-                                    dr = result.getResult();
-                                    memDrone = dr.getMemResultDrone();
-                                    boolean drname = memDrone.isEmpty(); //멤드론 없으면 true, 있으면 false
-                                    if (drname == false) {
-                                        drone_exist = true;
-                                        dr_resistance1 = dr.getDroneResistance().toString();
-                                        dr_resistance = Double.parseDouble(dr_resistance1);
-                                        double dr_wind = Double.parseDouble(wind);
-                                        long l_sunrise = Long.parseLong(sunrise);
-                                        long l_sunset = Long.parseLong(sunset);
-                                        long now = System.currentTimeMillis() / 1000;
-                                        if (liesInside == false) bool[0] = 1;
-                                        else bool[0] = 0;
-                                        if (l_sunrise < now && now < l_sunset) bool[1] = 1;
-                                        else bool[1] = 0;
-                                        if (dr_wind < dr_resistance) bool[2] = 1;
-                                        else bool[2] = 0;
-                                        if (kk < 5) bool[3] = 1;
-                                        else bool[3] = 0;
-
-                                        // 비행 가능, 불가능 표시 마커
-                                        if (bool != null && location != null) {
-                                            add_marker(location);
-                                        }
-                                    } else if(drname == true){
-                                        for (int i = 0; i < bool.length; i++) {
-                                            bool[i] = 0;
-                                        }
-                                        drone_exist = false;
-                                        if(location != null) {
-                                            add_marker(location);
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onFail(Request request, IOException exception) {
-                                    Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.",Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onFail(Request request, IOException exception) {
-                        Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.",Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else { // 비회원 일때
-                drone_exist = false;
-                for (int i = 0; i < 4; i++) {
-                    bool[0] = 0;
-                }
-                if(location != null) {
-                    add_marker(location);
-                }
-            }
-
+            // 4대 비행공식 계산
+            fly_enable_check();
         }
     }
 
@@ -616,11 +523,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         if (containers == null) {
             return polygons;
         }
-
         for (KmlContainer container : containers) {
             polygons.addAll(getPolygons(container));
         }
-
         return polygons;
     }
 
@@ -630,7 +535,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         if (container == null) {
             return polygons;
         }
-
         Iterable<KmlPlacemark> placemarks = container.getPlacemarks();
         if (placemarks != null) {
             for (KmlPlacemark placemark : placemarks) {
@@ -639,38 +543,30 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 }
             }
         }
-
         if (container.hasContainers()) {
             polygons.addAll(getPolygons(container.getContainers()));
         }
-
         return polygons;
     }
 
     private boolean liesOnPolygon(List<KmlPolygon> polygons, LatLng test) {
         boolean lies = false;
-
         if (polygons == null || test == null) {
             return lies;
         }
-
         for (KmlPolygon polygon : polygons) {
             if (liesOnPolygon(polygon, test)) {
                 lies = true;
                 break;
             }
         }
-
         return lies;
     }
-
     private boolean liesOnPolygon(KmlPolygon polygon, LatLng test) {
         boolean lies = false;
-
         if (polygon == null || test == null) {
             return lies;
         }
-
         // Get the outer boundary and check if the test location lies inside
         ArrayList<LatLng> outerBoundary = polygon.getOuterBoundaryCoordinates();
         lies = PolyUtil.containsLocation(test, outerBoundary, true);
@@ -688,7 +584,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 }
             }
         }
-
         return lies;
     }
     private void delay_getData() {
@@ -712,7 +607,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             }
         }, 800);
     }
-    /*
+    /* 자동으로 위치기능 활성화 되면 앱 실행 메소드
     private void gps_enable_check(){
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -750,36 +645,157 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 }
             });
             dialog.show();
-        /*
-            dialog.setContentView(R.layout.gps_dialog);
-            Button btn1 = (Button) dialog.findViewById(R.id.gps_ok_btn);
-            Button btn2 = (Button) dialog.findViewById(R.id.gps_cancle_btn);
-            btn1.setOnClickListener(new View.OnClickListener() {
-                @Override  // 예 버튼
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    intent.addCategory(Intent.CATEGORY_DEFAULT);
-                    startActivity(intent);
-                }
-            });
-            btn2.setOnClickListener(new View.OnClickListener() {
-                @Override  // 아니오버튼
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    System.exit(0);
-                }
-            });
-            WindowManager.LayoutParams wm = dialog.getWindow().getAttributes();
-            wm.width = 1450;
-            wm.height = 1000;
-            dialog.getWindow().setAttributes(wm);
-            //Dialog의 바깥쪽을 터치했을 때 Dialog를 없앨지 설정
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.show();
-            //GPS 설정화면으로 이동
-            */
+
     }
+    // 4대 비행공식 계산
+    public void fly_enable_check(){
+        if (PropertyManager.getInstance().getId() != "") {
+            LatLng latLngTest = new LatLng(location.getLatitude(), location.getLongitude());
+            List<KmlPolygon> polygonsInLayer = getPolygons(layer1.getContainers());
+            liesInside = liesOnPolygon(polygonsInLayer, latLngTest);
+            //자기장
+            NetworkManager.getInstance().getMag(MyApplication.getContext(), new NetworkManager.OnResultListener<MagneticResult>() {
+                @Override
+                public void onSuccess(Request request, MagneticResult result) {
+                    kk = result.getKindex().getCurrentK();
+                }
+
+                @Override
+                public void onFail(Request request, IOException exception) {
+                    Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.",Toast.LENGTH_SHORT).show();
+                }
+            });
+            //풍속,일출,일몰 값
+            NetworkManager.getInstance().getWind(MyApplication.getContext(), "" + location.getLatitude(), "" + location.getLongitude(), new NetworkManager.OnResultListener<WeatherResult>() {
+                @Override
+                public void onSuccess(Request request, WeatherResult result) {
+                    wind = result.getWind().getSpeed();
+                    sunrise = result.getSun().getSunrise();
+                    sunset = result.getSun().getSunset();
+
+                    /** 비행 가능/불가능 bool 값 설정 **/
+
+                    if (wind != null && sunrise != null && sunset != null) {
+                        NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
+                            @Override
+                            public void onSuccess(Request request, DroneResistanceResult result) {
+                                List<MemDrone> memDrone;
+                                String dr_resistance1;
+                                DroneResistance dr;
+                                dr = result.getResult();
+                                memDrone = dr.getMemResultDrone();
+                                boolean drname = memDrone.isEmpty(); //멤드론 없으면 true, 있으면 false
+                                if (drname == false) {
+                                    drone_exist = true;
+                                    dr_resistance1 = dr.getDroneResistance().toString();
+                                    dr_resistance = Double.parseDouble(dr_resistance1);
+                                    double dr_wind = Double.parseDouble(wind);
+                                    long l_sunrise = Long.parseLong(sunrise);
+                                    long l_sunset = Long.parseLong(sunset);
+                                    long now = System.currentTimeMillis() / 1000;
+                                    if (liesInside == false) bool[0] = 1;
+                                    else bool[0] = 0;
+                                    if (l_sunrise < now && now < l_sunset) bool[1] = 1;
+                                    else bool[1] = 0;
+                                    if (dr_wind < dr_resistance) bool[2] = 1;
+                                    else bool[2] = 0;
+                                    if (kk < 5) bool[3] = 1;
+                                    else bool[3] = 0;
+
+                                    // 비행 가능, 불가능 표시 마커
+                                    if (bool != null && location != null) {
+                                        add_marker(location);
+                                    }
+                                } else if(drname == true){
+                                    for (int i = 0; i < bool.length; i++) {
+                                        bool[i] = 0;
+                                    }
+                                    drone_exist = false;
+                                    if(location != null) {
+                                        add_marker(location);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFail(Request request, IOException exception) {
+                                Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onFail(Request request, IOException exception) {
+                    Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.",Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else { // 비회원 일때
+            drone_exist = false;
+            for (int i = 0; i < 4; i++) {
+                bool[0] = 0;
+            }
+            if(location != null) {
+                add_marker(location);
+            }
+        }
+    }
+    private AdapterView.OnItemClickListener mAutocompleteClickListener
+            = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            //final PlaceAutocompleteAdapter.PlaceAutocomplete item = (PlaceAutocompleteAdapter.PlaceAutocomplete) placeAutocompleteAdapter.getItem(position);
+            ArrayList<PlaceAutocompleteAdapter.PlaceAutocomplete> itemlist = placeAutocompleteAdapter.getResultList();
+            //final String placeId = String.valueOf(item.placeId);
+            PlaceAutocompleteAdapter.PlaceAutocomplete item1 = itemlist.get(position);
+            final String placeId = String.valueOf(item1.placeId);
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                    .getPlaceById(mClient, placeId);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+        }
+    };
+
+    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
+            = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+                        places.getStatus().toString();
+                return;
+            }
+            // Selecting the first object buffer.
+            final Place place = places.get(0);
+            LatLng place_location;
+            place_location = place.getLatLng();
+            if (location != null) {
+                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(place_location, 11f);
+                if (mMap != null) {
+                    mMap.moveCamera(update);
+                }
+            }
+            CharSequence attributions = places.getAttributions();
+        }
+/*
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
+                @Override
+                public void onReceiveResult(PlaceBuffer result) throws RemoteException {
+                    if (!result.getStatus().isSuccess()) {
+                        result.getStatus().toString();
+                        return;
+                    }
+                    // Selecting the first object buffer.
+                    final Place place = result.get(0);
+                    LatLng place_location;
+                    place_location = place.getLatLng();
+                    if (location != null) {
+                        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(place_location, 11f);
+                        if (mMap != null) {
+                            mMap.moveCamera(update);
+                        }
+                    }
+                    CharSequence attributions = result.getAttributions();
+                }*/
+            };
 }
 
 

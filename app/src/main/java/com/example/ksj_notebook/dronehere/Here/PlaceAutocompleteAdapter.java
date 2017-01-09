@@ -29,6 +29,7 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -42,7 +43,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class PlaceAutocompleteAdapter
         extends ArrayAdapter<AutocompletePrediction> implements Filterable {
-
+    ArrayList resultList;
     private static final String TAG = "PlaceAutocompleteAdapter";
     private static final CharacterStyle STYLE_BOLD = new StyleSpan(Typeface.BOLD);
     /**
@@ -78,6 +79,13 @@ public class PlaceAutocompleteAdapter
         mPlaceFilter = filter;
     }
 
+    public void setGoogleApiClient(GoogleApiClient googleApiClient) {
+        if (googleApiClient == null || !googleApiClient.isConnected()) {
+            mGoogleApiClient = null;
+        } else {
+            mGoogleApiClient = googleApiClient;
+        }
+    }
     /**
      * Sets the bounds for all subsequent queries.
      */
@@ -145,13 +153,11 @@ public class PlaceAutocompleteAdapter
                 } else {
                     results.count = 0;
                 }
-
                 return results;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-
                 if (results != null && results.count > 0) {
                     // The API returned at least one result, update the data.
                     mResultList = (ArrayList<AutocompletePrediction>) results.values;
@@ -205,7 +211,6 @@ public class PlaceAutocompleteAdapter
             // for a result from the API.
             AutocompletePredictionBuffer autocompletePredictions = results
                     .await(60, TimeUnit.SECONDS);
-
             // Confirm that the query completed successfully, otherwise return null
             final Status status = autocompletePredictions.getStatus();
             if (!status.isSuccess()) {
@@ -218,13 +223,28 @@ public class PlaceAutocompleteAdapter
 
             Log.i(TAG, "Query completed. Received " + autocompletePredictions.getCount()
                     + " predictions.");
-
+            Iterator<AutocompletePrediction> iterator = autocompletePredictions.iterator();
+            resultList = new ArrayList<>(autocompletePredictions.getCount());
+            while (iterator.hasNext()) {
+                AutocompletePrediction prediction = iterator.next();
+                resultList.add(new PlaceAutocomplete(prediction.getPlaceId()));
+            }
+            // Buffer release
+            //autocompletePredictions.release();
+            //return resultList;
             // Freeze the results immutable representation that can be stored safely.
             return DataBufferUtils.freezeAndClose(autocompletePredictions);
         }
         Log.e(TAG, "Google API client is not connected for autocomplete query.");
         return null;
     }
-
-
+    class PlaceAutocomplete {
+        public CharSequence placeId;
+        PlaceAutocomplete(CharSequence placeId) {
+            this.placeId = placeId;
+        }
+    }
+    public ArrayList<PlaceAutocomplete> getResultList() {
+        return resultList;
+    }
 }

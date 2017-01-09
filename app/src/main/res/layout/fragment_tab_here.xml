@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-      <!-- TODO 검색 부분 수정 4
             <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -18,7 +17,7 @@
             android:layout_marginTop="13dp"
             android:id="@+id/search_btn"
             android:background="@drawable/i_sear"
-            android:layout_gravity="right|top" />-->
+            android:layout_gravity="right|top" />
     </FrameLayout>
 
     <Button
