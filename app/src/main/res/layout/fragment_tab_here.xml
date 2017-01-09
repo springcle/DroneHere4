@@ -4,20 +4,21 @@
     android:layout_height="match_parent"
     tools:context=".Here.TabHere">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <FrameLayout
         android:id="@+id/map_container1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
+      <!-- TODO 검색 부분 수정 4
+            <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="13dp"
             android:layout_marginTop="13dp"
             android:id="@+id/search_btn"
             android:background="@drawable/i_sear"
-            android:layout_gravity="right|top" />
+            android:layout_gravity="right|top" />-->
     </FrameLayout>
 
     <Button
