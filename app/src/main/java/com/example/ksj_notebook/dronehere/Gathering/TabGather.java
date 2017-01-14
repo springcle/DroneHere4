@@ -15,6 +15,8 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -94,6 +96,7 @@ public class TabGather extends Fragment implements
     CustomDialog2 dialog;
 
     Marker marker2;
+    Handler mHandler = new Handler(Looper.getMainLooper());
 
     public TabGather() {
         // Required empty public constructor
@@ -219,11 +222,37 @@ public class TabGather extends Fragment implements
         request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         LocationServices.FusedLocationApi.requestLocationUpdates(mClient, request, mListener);
 
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // 권한 체크 부분
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                location = LocationServices.FusedLocationApi.getLastLocation(mClient);
+                displayMessage(location);
+
+            }
+        }, 800);
+
+
         MarkerOptions options = new MarkerOptions();
         options.position(new LatLng(location.getLatitude(), location.getLongitude()));
         options.icon(BitmapDescriptorFactory.fromResource(R.drawable.i_loc1));
         mMap.addMarker(options);
     }
+
+
+
+
 
     LocationListener mListener = new LocationListener() {
         @Override

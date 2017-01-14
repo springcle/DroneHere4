@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ksj_notebook.dronehere.LogWrapper;
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneResistance;
@@ -81,6 +82,7 @@ import okhttp3.Request;
 public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback
         , GoogleMap.OnCameraChangeListener, GoogleMap.OnMarkerClickListener {
 
+    private static final String TAG = "TabHere";
     LocationManager locationManager;
     GoogleApiClient mClient;
     GoogleMap mMap;
@@ -125,6 +127,10 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 .addOnConnectionFailedListener(this)
                 .addConnectionCallbacks(this)
                 .build();
+
+
+        LogWrapper.d(TAG, "debug log");
+        LogWrapper.e(TAG, "error log");
     }
 
     @Override

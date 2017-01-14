@@ -32,6 +32,8 @@ import com.example.ksj_notebook.dronehere.manager.AppNetwork;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+
     private static final int REQUEST_CODE_PERMISSION = 2;
     private BackPressCloseHandler backPressCloseHandler;
     FragmentTabHost tabHost;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private static Context context;
     TextView main_title;
     Button toolbar_btn;
+
 
     public static Context getContext() {
         return context;
@@ -55,12 +58,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
+
+
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         AppNetwork receiver = new AppNetwork(this);
         registerReceiver(receiver, filter);
         context = this;
         setContentView(R.layout.activity_main);
         gps_check();
+        storage_check(); // 로그 파일 저장용 읽고 쓰기 권한 획득.
         backPressCloseHandler = new BackPressCloseHandler(this);
         frameLayout=findViewById(android.R.id.tabcontent);
 
@@ -112,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        LogWrapper.d(TAG, "debug log");
+        LogWrapper.e(TAG, "error log");
    }
     public class BackPressCloseHandler {
 
@@ -161,6 +171,23 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    public void storage_check(){
+        try {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != MockPackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != MockPackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION);
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     // 권한 확인
     public boolean checkLocationPermission()
     {
