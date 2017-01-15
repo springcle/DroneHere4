@@ -2,15 +2,16 @@
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:rowCount="5"
-    android:columnCount="2"
+    android:rowCount="8"
+    android:columnCount="4"
+    android:layout_marginTop="15dp"
     android:id="@+id/dial">
 
     <ImageView
         android:layout_width="120dp"
         android:layout_height="128dp"
         android:id="@+id/dial_image1"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginRight="10dp"
         android:layout_row="0"
         android:layout_column="0" />
@@ -19,7 +20,7 @@
         android:layout_width="120dp"
         android:layout_height="128dp"
         android:id="@+id/dial_image2"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="20dp"
         android:layout_row="0"
         android:layout_column="1" />
 
@@ -27,7 +28,7 @@
         android:layout_width="120dp"
         android:layout_height="128dp"
         android:id="@+id/dial_image3"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginRight="10dp"
         android:layout_row="2"
         android:layout_column="0" />
@@ -36,7 +37,7 @@
         android:layout_width="120dp"
         android:layout_height="128dp"
         android:id="@+id/dial_image4"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="15dp"
         android:layout_row="2"
         android:layout_column="1" />
 
@@ -45,7 +46,19 @@
         android:layout_height="52dp"
         android:id="@+id/dial_btn"
         android:layout_columnSpan="2"
-        android:layout_row="4"
+        android:layout_row="5"
         android:layout_column="0"
         android:onClick="onClick"/>
+
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:text="관할 기관 정보"
+        android:textSize="12dp"
+        android:id="@+id/contact_info_btn"
+        android:layout_row="7"
+        android:layout_column="0"
+        android:layout_gravity="left|right"
+        android:layout_columnSpan="2"/>
+
 </GridLayout>

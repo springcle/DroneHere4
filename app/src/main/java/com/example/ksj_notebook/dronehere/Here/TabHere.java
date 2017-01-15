@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -110,7 +111,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     String sunset, sunset_click;
     String wind, wind_click;
     Double dr_resistance;
-
+    PlaceDialog placedialog;
     // [0]: 금지구역
     // [1]: 제한구역
     // [2]: 관제권
@@ -228,8 +229,25 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         search_place.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PlaceDialog dialog = new PlaceDialog(context);
-                dialog.show();
+                if(PropertyManager.getInstance().getId() == "") {
+                    Toast.makeText(getContext(), "회원가입 시 사용가능합니다", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(drone_exist == false){
+                    Toast.makeText(getContext(), "드론 선택 후 사용가능합니다", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(placedialog == null) {
+                    placedialog = new PlaceDialog(context);
+                    placedialog.show();
+                    placedialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            placedialog.dismiss();
+                            placedialog = null;
+                        }
+                    });
+                }
             }
         });
         return view;
@@ -254,7 +272,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             AutocompleteFilter filter = new AutocompleteFilter.Builder()
                     .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
                     .build();
-
             placeAutocompleteAdapter = new PlaceAutocompleteAdapter(context, mClient, latLngBounds, null);
             place_text.setAdapter(placeAutocompleteAdapter);
             placeAutocompleteAdapter.setGoogleApiClient(mClient);
@@ -361,10 +378,10 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     return;
                 fly_enable_check(latLng);
                 delay_marker_display(latLng);
-                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 11f);
+                /*CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 11f);
                 if (mMap != null) {
                     mMap.moveCamera(update);
-                }
+                }*/
             }
         });
 
@@ -461,6 +478,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         ImageView i1,i2,i3,i4;
         int[] bool;
         Button btn;
+        Button contact_btn;
         //TextView t1,t2,t3,t4;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -487,6 +505,11 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             t4 = (TextView)findViewById(R.id.text_magnetic);
             */
             btn = (Button) findViewById(R.id.dial_btn);
+            contact_btn = (Button) findViewById(R.id.contact_info_btn);
+            if(PropertyManager.getInstance().getId() == "") {
+                contact_btn.setEnabled(false);
+                contact_btn.setVisibility(View.GONE);
+            }
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -495,6 +518,13 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                         getActivity().finish();
                     }
                     dismiss();
+                }
+            });
+            contact_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.onestop.go.kr"));
+                    startActivity(intent);
                 }
             });
             if (bool[0] == 1) i1.setImageResource(R.drawable.i_pos1);
@@ -718,7 +748,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     else if (liesInside[3] == true) clickMarker_option.title("비행위험구역");
                     else clickMarker_option.title("일반공역");
 
-                    clickMarker_option.snippet("풍속 : " + wind_click);
+                    clickMarker_option.snippet("풍속 : " + wind_click + "m/s");
                     clickMarker = mMap.addMarker(clickMarker_option);
                     clickMarker.showInfoWindow();
                     mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -891,11 +921,19 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 return;
             }
             // Selecting the first object buffer.
+            if (drone_exist == false) {
+                Toast.makeText(getContext(), "드론을 선택해주세요",Toast.LENGTH_SHORT).show();
+                return;
+            }
             final Place place = places.get(0);
             LatLng place_location;
             place_location = place.getLatLng();
+            fly_enable_check(place_location);
+            delay_marker_display(place_location);
+            placedialog.dismiss();
+            placedialog = null;
             if (location != null) {
-                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(place_location, 11f);
+                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(place_location, 13f);
                 if (mMap != null) {
                     mMap.moveCamera(update);
                 }
