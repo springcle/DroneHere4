@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.data.AddGatheringResult;
@@ -27,6 +26,7 @@ import com.example.ksj_notebook.dronehere.data.MemberResult;
 import com.example.ksj_notebook.dronehere.data.NewsResult;
 import com.example.ksj_notebook.dronehere.data.WeatherResult;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.File;
 import java.io.IOException;
@@ -1131,7 +1131,7 @@ public class NetworkManager {
                 .add("loca_id",loca_id)
                 .add("mem_id", mem_id)
                 .add("re_rate", String.valueOf(re_rate))
-                .add("re_content",re_content)
+                .add("re_content", re_content)
                 .build();
 
         String url = String.format(DRONE_LocaReview_Write);
@@ -1170,7 +1170,7 @@ public class NetworkManager {
                 .add("dr_id",dr_id)
                 .add("mem_id",mem_id)
                 .add("re_rate", String.valueOf(re_rate))
-                .add("re_content",re_content)
+                .add("re_content", re_content)
                 .build();
 
         String url = String.format(DRONE_DB_RV_WRITE);
@@ -1259,12 +1259,17 @@ public class NetworkManager {
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    MagneticResult data = gson.fromJson(response.body().charStream(), MagneticResult.class);
-                    result.result = data;
-                    mHandler.sendMessage(mHandler.obtainMessage(MESSAGE_SUCCESS, result));
-                } else {
-                    throw new IOException(response.message());
+                try {
+                    if (response.isSuccessful()) {
+                        MagneticResult data = gson.fromJson(response.body().charStream(), MagneticResult.class);
+                        result.result = data;
+                        mHandler.sendMessage(mHandler.obtainMessage(MESSAGE_SUCCESS, result));
+                    } else {
+                        throw new IOException(response.message());
+                    }
+                } catch(JsonSyntaxException e){
+                    e.getMessage();
+                    return;
                 }
             }
         });
