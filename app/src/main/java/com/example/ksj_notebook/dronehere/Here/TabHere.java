@@ -11,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -104,6 +104,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     LayoutInflater inflater;
     Marker clickMarker = null;
     MarkerOptions clickMarker_option;
+    InputMethodManager inputMethodManager;
 
     boolean getData_success = false;
     int magnetic;
@@ -116,7 +117,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     // [1]: 제한구역
     // [2]: 관제권
     // [3]: 위험구역
-    private boolean liesInside[] = new boolean[4];
+    private boolean liesInside[][] = new boolean[2][4];
 
     String mem_id;
 
@@ -152,8 +153,11 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     @Override
     public void onStart() {
         super.onStart();
-        for(int i = 0; i<4; i++){
-            liesInside[i] = false;
+        inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        for(int i = 0; i<2; i++){
+            for(int j =0; j<4; j++){
+                liesInside[i][j] = false;
+            }
         }
         locationManager = (LocationManager) getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -259,6 +263,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
                 @Override
                 public void afterTextChanged(Editable s) {
+
                 }
             });
 
@@ -375,15 +380,15 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             return;
         }
         // 4대 비행가능 요소 중 1개의 불가능 요소만 있어도, 비행불가능
-        boolean z = true;
+        boolean fly = true;
         for (int j = 0; j < 4; j++) {
             if (bool[j] == 0 || bool1[j] == 0 ) {
-                z = false;
+                fly = false;
                 break;
             }
         }
         if (PropertyManager.getInstance().getId() != "" && drone_exist == true) {
-            if (z == false) {
+            if (fly == false) {
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1));
             } else {
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_pos1_1));
@@ -419,7 +424,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         ImageView i1,i2,i3,i4;
         int[] bool;
         Button btn;
-        Button contact_btn;
+        Button exit_btn;
+        //Button contact_btn;
         //TextView t1,t2,t3,t4;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -446,11 +452,13 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             t4 = (TextView)findViewById(R.id.text_magnetic);
             */
             btn = (Button) findViewById(R.id.dial_btn);
+            exit_btn = (Button) findViewById(R.id.exit_btn);
+            /*
             contact_btn = (Button) findViewById(R.id.contact_info_btn);
             if(PropertyManager.getInstance().getId() == "") {
                 contact_btn.setEnabled(false);
                 contact_btn.setVisibility(View.GONE);
-            }
+            }*/
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -461,11 +469,18 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     dismiss();
                 }
             });
+            /*
             contact_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.onestop.go.kr"));
                     startActivity(intent);
+                }
+            });*/
+            exit_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
                 }
             });
             if (bool[0] == 1) i1.setImageResource(R.drawable.i_pos1);
@@ -519,6 +534,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             this.bool = bool;
         }
     }
+
 
     /** 현재 내위치의 비행 가능/불가능을 계산 **/
     public void getData() {
@@ -639,6 +655,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         },1000);
     }*/
     public void gps_check(){
+            AlertDialog mDialog;
             AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
             dialog.setTitle("GPS Check");
             dialog.setMessage("지역정보를 받아오기위해 위치기능을 활성화 시킨 후 실행바랍니다.");
@@ -660,7 +677,10 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     System.exit(0);
                 }
             });
-            dialog.show();
+            mDialog = dialog.create();
+            mDialog.setCancelable(false);
+            mDialog.setCanceledOnTouchOutside(false);
+            mDialog.show();
     }
 
     private void delay_marker_display(final LatLng latLng) {
@@ -684,10 +704,10 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     }
                     clickMarker_option = new MarkerOptions();
                     clickMarker_option.position(latLng);
-                    if (liesInside[0] == true) clickMarker_option.title("비행금지구역");
-                    else if (liesInside[1] == true) clickMarker_option.title("비행제한구역");
-                    else if (liesInside[2] == true) clickMarker_option.title("관제권");
-                    else if (liesInside[3] == true) clickMarker_option.title("비행위험구역");
+                    if (liesInside[1][0] == true) clickMarker_option.title("비행금지구역");
+                    else if (liesInside[1][1] == true) clickMarker_option.title("비행제한구역");
+                    else if (liesInside[1][2] == true) clickMarker_option.title("관제권");
+                    else if (liesInside[1][3] == true) clickMarker_option.title("비행위험구역");
                     else clickMarker_option.title("일반공역");
 
                     clickMarker_option.snippet("풍속 : " + wind_click + "m/s");
@@ -703,6 +723,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                             }
                         }
                     });
+                    getData_success = false;
                 } else delay_marker_display(latLng);
             }
         }, 800);
@@ -723,13 +744,13 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             // [2]: 관제권
             // [3]: 위험구역
             List<KmlPolygon> polygonsInLayer0 = getPolygons(prohibit_layer.getContainers());
-            liesInside[0] = liesOnPolygon(polygonsInLayer0, latlng);
+            liesInside[0][0] = liesOnPolygon(polygonsInLayer0, latlng);
             List<KmlPolygon> polygonsInLayer1 = getPolygons(restrict_layer.getContainers());
-            liesInside[1] = liesOnPolygon(polygonsInLayer1, latlng);
+            liesInside[0][1] = liesOnPolygon(polygonsInLayer1, latlng);
             List<KmlPolygon> polygonsInLayer2 = getPolygons(airControlZone_layer.getContainers());
-            liesInside[2] = liesOnPolygon(polygonsInLayer2, latlng);
+            liesInside[0][2] = liesOnPolygon(polygonsInLayer2, latlng);
             List<KmlPolygon> polygonsInLayer3 = getPolygons(danger_layer.getContainers());
-            liesInside[3] = liesOnPolygon(polygonsInLayer3, latlng);
+            liesInside[0][3] = liesOnPolygon(polygonsInLayer3, latlng);
 
             /** 자기장 **/
             NetworkManager.getInstance().getMag(MyApplication.getContext(), new NetworkManager.OnResultListener<MagneticResult>() {
@@ -774,7 +795,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                                     l_sunrise = Long.parseLong(sunrise);
                                     l_sunset = Long.parseLong(sunset);
 
-                                    if(liesInside[0] == false && liesInside[1] == false && liesInside[2] == false && liesInside[3] == false)
+                                    if(liesInside[0][0] == false && liesInside[0][1] == false && liesInside[0][2] == false)
                                         bool[0] = 1;
                                     else bool[0] = 0;
 
@@ -803,7 +824,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                                         add_marker(location);
                                     }
                                 }
-                                getData_success = true;
 
                             }
                             @Override
@@ -841,13 +861,13 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             // [2]: 관제권
             // [3]: 위험구역
             List<KmlPolygon> polygonsInLayer0 = getPolygons(prohibit_layer.getContainers());
-            liesInside[0] = liesOnPolygon(polygonsInLayer0, latlng);
+            liesInside[1][0] = liesOnPolygon(polygonsInLayer0, latlng);
             List<KmlPolygon> polygonsInLayer1 = getPolygons(restrict_layer.getContainers());
-            liesInside[1] = liesOnPolygon(polygonsInLayer1, latlng);
+            liesInside[1][1] = liesOnPolygon(polygonsInLayer1, latlng);
             List<KmlPolygon> polygonsInLayer2 = getPolygons(airControlZone_layer.getContainers());
-            liesInside[2] = liesOnPolygon(polygonsInLayer2, latlng);
+            liesInside[1][2] = liesOnPolygon(polygonsInLayer2, latlng);
             List<KmlPolygon> polygonsInLayer3 = getPolygons(danger_layer.getContainers());
-            liesInside[3] = liesOnPolygon(polygonsInLayer3, latlng);
+            liesInside[1][3] = liesOnPolygon(polygonsInLayer3, latlng);
 
             /** 자기장 **/
             NetworkManager.getInstance().getMag(MyApplication.getContext(), new NetworkManager.OnResultListener<MagneticResult>() {
@@ -891,7 +911,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                                     l_sunrise = Long.parseLong(sunrise_click);
                                     l_sunset = Long.parseLong(sunset_click);
 
-                                    if(liesInside[0] == false && liesInside[1] == false && liesInside[2] == false && liesInside[3] == false)
+                                    if(liesInside[1][0] == false && liesInside[1][1] == false && liesInside[1][2] == false)
                                         bool1[0] = 1;
                                     else bool1[0] = 0;
 

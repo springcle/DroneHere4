@@ -251,7 +251,6 @@ public class Drawer_fix extends AppCompatActivity {
                     }
                 }
             });
-
         }
 
         public CustomDialog7(Context context) {
