@@ -101,6 +101,8 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".Drawercontent.Dc9"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".Drawer.Drawer_etc"
+            android:theme="@style/AppTheme"></activity>
         <receiver android:name = ".manager.AppNetwork">
             <intent-filter>
                 <action android:name="android.net.conn.BACKGROUND_DATA_SETTING_CHANGED"/>

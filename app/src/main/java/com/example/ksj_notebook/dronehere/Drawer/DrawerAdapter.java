@@ -3,7 +3,6 @@ package com.example.ksj_notebook.dronehere.Drawer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.ksj_notebook.dronehere.Drawercontent.Dc4;
-import com.example.ksj_notebook.dronehere.Drawercontent.Dc5;
-import com.example.ksj_notebook.dronehere.Drawercontent.Dc6;
-import com.example.ksj_notebook.dronehere.Drawercontent.Dc8;
-import com.example.ksj_notebook.dronehere.Drawercontent.Dc9;
 import com.example.ksj_notebook.dronehere.MainActivity;
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
@@ -193,6 +187,20 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         //}
                     }
                 });
+                ((DrawerViewHolderFooter) holder).etc_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //기타 설정
+                        Intent intent = new Intent(context,Drawer_etc.class);
+                        context.startActivity(intent);
+                        //if(PropertyManager.getInstance().getId() == "")
+                        //else {
+                        //    Intent intent = new Intent(context, Dc3.class);
+                        //    context.startActivity(intent);
+                        //}
+                    }
+                });
+                /*
                 ((DrawerViewHolderFooter)holder).btn4.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -239,6 +247,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         context.startActivity(intent);
                     }
                 });
+                */
                 break;
         }
     }

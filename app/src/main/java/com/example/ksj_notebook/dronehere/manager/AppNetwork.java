@@ -6,12 +6,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.example.ksj_notebook.dronehere.MainActivity;
 
@@ -44,10 +41,10 @@ public class AppNetwork extends BroadcastReceiver {
                     }
                     // wifi, 3g 둘 다 없을 경우
                     else{
+                        AlertDialog mDialog;
                         AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.getContext());
                         dialog.setTitle("Network Check");
                         dialog.setMessage("네트워크 실행 확인 후 재시도");
-                        dialog.setCancelable(false);
                         dialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -63,7 +60,10 @@ public class AppNetwork extends BroadcastReceiver {
                                 System.exit(0);
                             }
                         });
-                        dialog.show();
+                        mDialog = dialog.create();
+                        mDialog.setCancelable(false);
+                        mDialog.setCanceledOnTouchOutside(false);
+                        mDialog.show();
                     }
                 }
             } catch (Exception e) {
