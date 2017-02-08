@@ -82,9 +82,7 @@ public class TabGather extends Fragment implements
     GoogleMap mMap;
     Map<Marker, POI> poiResolver = new HashMap<>();
     Context context;
-
     Locatio locatio;
-
     SlidingUpPanelLayout sliding;
 
     TabGatherAdapter adapter;

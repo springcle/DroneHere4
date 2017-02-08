@@ -3,15 +3,14 @@ package com.example.ksj_notebook.dronehere.manager;
 import android.app.Activity;
 import android.widget.Toast;
 
-/**
+/****
  * Created by NAKNAK on 2017-02-05.
  */
+//
 public class BackPressCloseHandler {
     private long backKeyPressedTime = 0;
     private Toast toast;
-
     private Activity activity;
-
     public BackPressCloseHandler(Activity context) {
         this.activity = context;
     }
