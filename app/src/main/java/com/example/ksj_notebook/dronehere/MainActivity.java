@@ -30,6 +30,8 @@ import com.example.ksj_notebook.dronehere.manager.NetworkCheckManager;
 
 public class MainActivity extends AppCompatActivity{
 
+    private static final String TAG = "MainActivity";
+
     private static final int REQUEST_CODE_PERMISSION = 2;
     FragmentTabHost tabHost;
     View frameLayout;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity{
     private static Context context;
     TextView main_title;
     Button toolbar_btn;
+
 
     public static Context getContext() {
         return context;
@@ -64,6 +67,8 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
+
+
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         NetworkCheckManager receiver = new NetworkCheckManager(this);
         registerReceiver(receiver, filter);
@@ -119,6 +124,10 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
+
+
+        LogWrapper.d(TAG, "debug log");
+        LogWrapper.e(TAG, "error log");
    }
 
     public void gps_check(){
@@ -135,6 +144,23 @@ public class MainActivity extends AppCompatActivity{
             e.printStackTrace();
         }
     }
+    public void storage_check(){
+        try {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != MockPackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != MockPackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION);
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     // 권한 확인
     public boolean checkLocationPermission()
     {

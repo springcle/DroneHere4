@@ -33,7 +33,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
 import com.example.ksj_notebook.dronehere.MainActivity;
+
+import com.example.ksj_notebook.dronehere.LogWrapper;
+
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneResistance;
@@ -91,7 +95,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     final static int RESULT_OK = -1;
     final static int RESULT_CANCELED = 0;
-    private BackPressCloseHandler backPressCloseHandler;
     LocationManager locationManager;
     GoogleApiClient mClient;
     GoogleMap mMap;
@@ -109,6 +112,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     Marker clickMarker = null;
     MarkerOptions clickMarker_option;
     InputMethodManager inputMethodManager;
+    BackPressCloseHandler backPressCloseHandler;
 
     boolean getData_success = false;
     int magnetic;
@@ -145,7 +149,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        backPressCloseHandler = new BackPressCloseHandler(getActivity());
         mem_id = PropertyManager.getInstance().getId();
         mClient = new GoogleApiClient.Builder(getContext())
                 .addApi(LocationServices.API)
@@ -154,6 +157,10 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 .addOnConnectionFailedListener(this)
                 .addConnectionCallbacks(this)
                 .build();
+
+/*
+        LogWrapper.d(TAG, "debug log");
+        LogWrapper.e(TAG, "error log");*/
     }
 
     @Override
