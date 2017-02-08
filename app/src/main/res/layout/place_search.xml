@@ -11,6 +11,7 @@
         android:hint="장소를 입력하세요."
         android:textColorHint="@color/rell"
         android:layout_marginTop="65dp"
+        android:singleLine="true"
         android:textSize="18dp"
         android:textColor="@color/rell"
         android:paddingLeft="10dp" />

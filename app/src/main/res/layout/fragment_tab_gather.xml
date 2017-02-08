@@ -24,7 +24,7 @@
         android:layout_height="24dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/i_loc3"/>
+        android:background="@drawable/my_location_btn"/>
 </RelativeLayout>
 
 

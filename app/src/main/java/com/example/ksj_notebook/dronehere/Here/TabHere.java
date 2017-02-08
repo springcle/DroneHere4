@@ -2,6 +2,7 @@ package com.example.ksj_notebook.dronehere.Here;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -32,6 +33,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.ksj_notebook.dronehere.MainActivity;
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneResistance;
@@ -41,6 +43,7 @@ import com.example.ksj_notebook.dronehere.data.MemDrone;
 import com.example.ksj_notebook.dronehere.data.WeatherResult;
 import com.example.ksj_notebook.dronehere.dialog.AddDrone;
 import com.example.ksj_notebook.dronehere.login.StartActivity;
+import com.example.ksj_notebook.dronehere.manager.BackPressCloseHandler;
 import com.example.ksj_notebook.dronehere.manager.NetworkManager;
 import com.example.ksj_notebook.dronehere.manager.PropertyManager;
 import com.google.android.gms.common.ConnectionResult;
@@ -84,10 +87,11 @@ import okhttp3.Request;
  * A simple {@link Fragment} subclass.
  */
 public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback
-        , GoogleMap.OnCameraChangeListener, GoogleMap.OnMarkerClickListener {
+        , GoogleMap.OnCameraChangeListener, GoogleMap.OnMarkerClickListener, MainActivity.onKeyBackPressedListener {
 
     final static int RESULT_OK = -1;
     final static int RESULT_CANCELED = 0;
+    private BackPressCloseHandler backPressCloseHandler;
     LocationManager locationManager;
     GoogleApiClient mClient;
     GoogleMap mMap;
@@ -113,6 +117,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     String wind, wind_click;
     Double dr_resistance;
     PlaceDialog placedialog;
+
+    /** lieInside 인덱스 **/
     // [0]: 금지구역
     // [1]: 제한구역
     // [2]: 관제권
@@ -127,8 +133,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     KmlLayer danger_layer;
 
 
-    int[] bool = {0, 0, 0, 0};
-    int[] bool1 = {0,0,0,0};
+    int[] bool = new int[4];
+    int[] bool1 = new int[4];
     boolean drone_exist;
     PlaceAutocompleteAdapter placeAutocompleteAdapter;
 
@@ -139,9 +145,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        backPressCloseHandler = new BackPressCloseHandler(getActivity());
         mem_id = PropertyManager.getInstance().getId();
-        context = getContext();
-        mClient = new GoogleApiClient.Builder(context)
+        mClient = new GoogleApiClient.Builder(getContext())
                 .addApi(LocationServices.API)
                 .addApi(Places.GEO_DATA_API)
                 .addApi(Places.PLACE_DETECTION_API)
@@ -153,13 +159,15 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     @Override
     public void onStart() {
         super.onStart();
+        if(clickMarker != null) clickMarker.remove();
+        context = getContext();
         inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         for(int i = 0; i<2; i++){
             for(int j =0; j<4; j++){
                 liesInside[i][j] = false;
             }
         }
-        locationManager = (LocationManager) getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
+        locationManager = (LocationManager) getActivity().getSystemService(context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             gps_check();
         } else {
@@ -193,7 +201,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             @Override
             public void onClick(View v) {
                 if (location != null) {
-                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 11f);
+                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14f);
                     //37.47547965,126.95924163
                     if (mMap != null) {
                         mMap.moveCamera(update);
@@ -206,16 +214,20 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             @Override
             public void onClick(View v) {
                 if (PropertyManager.getInstance().getId() == "") {
-                    Toast.makeText(getContext(), "회원가입 시 사용가능합니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "회원가입 시 사용가능합니다", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (drone_exist == false) {
-                    Toast.makeText(getContext(), "드론 선택 후 사용가능합니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "드론 선택 후 사용가능합니다", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (placedialog == null) {
                     placedialog = new PlaceDialog(context);
+                    placedialog.setCanceledOnTouchOutside(true);
                     placedialog.show();
+                    place_text.requestFocus();
+                    //InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
                     placedialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialog) {
@@ -228,6 +240,18 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         });
         return view;
     }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((MainActivity) activity).setOnKeyBackPressedListener(this);
+    }
+
+    @Override
+    public void onBack() {
+        backPressCloseHandler.onBackPressed();
+    }
+
+
 
     /** 장소검색 바 **/
     class PlaceDialog extends Dialog {
@@ -238,7 +262,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             lpWindow.gravity = Gravity.TOP;
             lpWindow.width = WindowManager.LayoutParams.WRAP_CONTENT;
             lpWindow.height = WindowManager.LayoutParams.WRAP_CONTENT;
-            lpWindow.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+            //lpWindow.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
             getWindow().setAttributes(lpWindow);
 
             setContentView(R.layout.place_search);
@@ -280,12 +304,12 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        locationManager = (LocationManager) getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
+        locationManager = (LocationManager) getActivity().getSystemService(context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             gps_check();
         }
         LocationRequest request = new LocationRequest();
-        request.setInterval(4000);
+        request.setInterval(8000);
         request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         LocationServices.FusedLocationApi.requestLocationUpdates(mClient, request, mListener);
         delay_getData();
@@ -302,7 +326,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     LocationListener mListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            locationManager = (LocationManager) getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
+            locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 gps_check();
             } else {
@@ -328,13 +352,13 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         try {
-            prohibit_layer = new KmlLayer(mMap, R.raw.prohibit, getContext());
+            prohibit_layer = new KmlLayer(mMap, R.raw.prohibit, context);
             prohibit_layer.addLayerToMap();
-            restrict_layer = new KmlLayer(mMap, R.raw.restrict, getContext());
+            restrict_layer = new KmlLayer(mMap, R.raw.restrict, context);
             restrict_layer.addLayerToMap();
-            airControlZone_layer = new KmlLayer(mMap, R.raw.aircontrolzone, getContext());
+            airControlZone_layer = new KmlLayer(mMap, R.raw.aircontrolzone, context);
             airControlZone_layer.addLayerToMap();
-            danger_layer = new KmlLayer(mMap, R.raw.danger, getContext());
+            danger_layer = new KmlLayer(mMap, R.raw.danger, context);
             danger_layer.addLayerToMap();
         } catch (XmlPullParserException e) {
             e.printStackTrace();
@@ -368,7 +392,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 //            mMap.addGroundOverlay(overlayOptions1);
     }
 
-    private void add_marker(Location location) {
+    private void add_marker(Location location, int[] bool) {
         if (my_marker != null) {
             my_marker.remove();
         }
@@ -381,11 +405,16 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         }
         // 4대 비행가능 요소 중 1개의 불가능 요소만 있어도, 비행불가능
         boolean fly = true;
-        for (int j = 0; j < 4; j++) {
-            if (bool[j] == 0 || bool1[j] == 0 ) {
-                fly = false;
-                break;
+        if(bool != null) {
+            for (int j = 0; j < 4; j++) {
+                if (bool[j] == 0) {
+                    fly = false;
+                    break;
+                }
             }
+        } else {
+            Toast.makeText(context, "데이터 읽어오는데 장애가 발생하였습니다.",Toast.LENGTH_SHORT).show();
+            return;
         }
         if (PropertyManager.getInstance().getId() != "" && drone_exist == true) {
             if (fly == false) {
@@ -404,16 +433,20 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        CustomDialog dialog;
+        CustomDialog dialog1;
+        CustomDialog dialog2;
         if (drone_exist == true && marker.equals(my_marker)) { // 드론있으면 다이얼로그 띄워주기, 비회원일때도 띄워줘야함
-            dialog = new CustomDialog(getContext(), bool);
-            dialog.show();
-        } else if(marker.equals(clickMarker)){
-            dialog = new CustomDialog(getContext(), bool1);
-            dialog.show();
+            dialog1 = new CustomDialog(context, bool);
+            dialog1.setCanceledOnTouchOutside(true);
+            dialog1.show();
+        } else if(drone_exist == true && marker.equals(clickMarker)){
+            dialog2 = new CustomDialog(context, bool1);
+            dialog2.setCanceledOnTouchOutside(true);
+            dialog2.show();
         } else if (PropertyManager.getInstance().getId() != "" && drone_exist == false && marker.equals(my_marker)){
             AddDrone addDrone; // 사용자의 드론이 없을 시 -> 드론추가 커스텀다이얼로그 생성
-            addDrone = new AddDrone(getContext(), getActivity());
+            addDrone = new AddDrone(context, getActivity());
+            addDrone.setCanceledOnTouchOutside(true);
             addDrone.show();
         }
         return false;
@@ -463,7 +496,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 @Override
                 public void onClick(View v) {
                     if (PropertyManager.getInstance().getId() == "") {
-                        startActivity(new Intent(getActivity().getApplicationContext(), StartActivity.class));
+                        startActivity(new Intent(context, StartActivity.class));
                         getActivity().finish();
                     }
                     dismiss();
@@ -623,7 +656,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             @Override
             public void run() {
                 // 권한 체크 부분
-                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
                     // here to request the missing permissions, and then overriding
@@ -674,6 +707,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                     getActivity().finish();
+                    getActivity().moveTaskToBack(true);
+                    getActivity().finish();
+                    android.os.Process.killProcess(android.os.Process.myPid());
                     System.exit(0);
                 }
             });
@@ -688,7 +724,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             @Override
             public void run() {
                 // 권한 체크 부분
-                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
                     // here to request the missing permissions, and then overriding
@@ -718,7 +754,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                         public void onInfoWindowClick(Marker marker) {
                             if (marker.equals(clickMarker)) {
                                 CustomDialog dialog;
-                                dialog = new CustomDialog(getContext(), bool1);
+                                dialog = new CustomDialog(context, bool1);
+                                dialog.setCanceledOnTouchOutside(true);
                                 dialog.show();
                             }
                         }
@@ -809,19 +846,18 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                                     else bool[3] = 0;
 
                                     // 비행 가능, 불가능 표시 마커
-                                    if ((bool != null) || (bool1 != null) && location != null) {
-                                        add_marker(location);
+                                    if ((bool != null) && location != null) {
+                                        add_marker(location, bool);
                                     }
 
                                 } else if(drname == true){
 
                                     for (int i = 0; i < bool.length; i++) {
                                         bool[i] = 0;
-                                        bool1[i] = 0;
                                     }
                                     drone_exist = false;
                                     if(location != null) {
-                                        add_marker(location);
+                                        add_marker(location, bool);
                                     }
                                 }
 
@@ -847,7 +883,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 bool1[i] = 0;
             }
             if(location != null) {
-                add_marker(location);
+                add_marker(location, bool);
             }
         }
 
@@ -926,7 +962,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
                                     // 비행 가능, 불가능 표시 마커
                                     if ((bool != null) || (bool1 != null) && location != null) {
-                                        add_marker(location);
+                                        add_marker(location, bool1);
                                     }
 
                                 } else if(drname == true){
@@ -937,7 +973,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                                     }
                                     drone_exist = false;
                                     if(location != null) {
-                                        add_marker(location);
+                                        add_marker(location, bool1);
                                     }
 
                                 }
@@ -963,7 +999,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 bool1[i] = 0;
             }
             if(location != null) {
-                add_marker(location);
+                add_marker(location, bool1);
             }
         }
     }
@@ -1003,6 +1039,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             delay_marker_display(place_location);
             placedialog.dismiss();
             placedialog = null;
+            //InputMethodManager immhide = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            //immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
             if (location != null) {
                 CameraUpdate update = CameraUpdateFactory.newLatLngZoom(place_location, 13f);
                 if (mMap != null) {
@@ -1011,7 +1049,5 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             }
         }
     };
+
 }
-
-
-

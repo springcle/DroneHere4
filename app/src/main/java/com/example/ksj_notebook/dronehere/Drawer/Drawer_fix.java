@@ -42,7 +42,6 @@ import okhttp3.Request;
 
 public class Drawer_fix extends AppCompatActivity {
 
-
     Member member;
     EditText editText2;
     ImageView im;
@@ -54,7 +53,6 @@ public class Drawer_fix extends AppCompatActivity {
     Drawer_fix_adapter adap1;
 
     private String mem_id = PropertyManager.getInstance().getId();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +111,6 @@ public class Drawer_fix extends AppCompatActivity {
         okokok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(editText2.getText().toString()==""){
                     Toast.makeText(Drawer_fix.this, "닉네임을 입력하세요", Toast.LENGTH_SHORT).show();
                 }else{
@@ -138,20 +135,13 @@ public class Drawer_fix extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
-
                         @Override
                         public void onFail(Request request, IOException exception) {
-
                         }
                     });
-
                 }
-
-
             }
         });
-
-
     }
     class CustomDialog7 extends Dialog {
 

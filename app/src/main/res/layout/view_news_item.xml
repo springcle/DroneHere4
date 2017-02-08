@@ -16,7 +16,7 @@
         android:layout_below="@+id/newslin"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
-        android:textSize="15sp"
+        android:textSize="16dp"
         android:textColor="#80474747"
         android:layout_marginRight="16dp" />
 
@@ -28,7 +28,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="5dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
             android:text="New Text"
             android:id="@+id/newsDate"
             android:layout_gravity="center_vertical"
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:textColor="#e6474747" />
 
         <ImageView
@@ -53,8 +53,7 @@
             android:id="@+id/newsProvider"
             android:layout_alignParentTop="true"
             android:textColor="#e6474747"
-            android:textSize="14sp" />
+            android:textSize="15dp" />
     </LinearLayout>
-
 
 </RelativeLayout>

@@ -3,8 +3,10 @@ package com.example.ksj_notebook.dronehere.Gathering;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,7 +16,9 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -31,12 +35,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+import com.example.ksj_notebook.dronehere.MainActivity;
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.LocaContentResult;
 import com.example.ksj_notebook.dronehere.data.LocaListResult;
 import com.example.ksj_notebook.dronehere.data.Locatio;
 import com.example.ksj_notebook.dronehere.data.POI;
+import com.example.ksj_notebook.dronehere.manager.BackPressCloseHandler;
 import com.example.ksj_notebook.dronehere.manager.NetworkManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -67,9 +73,9 @@ import okhttp3.Request;
  */
 public class TabGather extends Fragment implements
         GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback
-        ,GoogleMap.OnMarkerClickListener { //,MainActivity.onKeyBackPressedListener
-
-    private long backKeyPressedTime = 0;
+        ,GoogleMap.OnMarkerClickListener, MainActivity.onKeyBackPressedListener {
+    LocationManager locationManager;
+    private BackPressCloseHandler backPressCloseHandler;
     GoogleApiClient mClient;
     GoogleMap mMap;
     Map<Marker, POI> poiResolver = new HashMap<>();
@@ -103,6 +109,7 @@ public class TabGather extends Fragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=getContext();
+        backPressCloseHandler = new BackPressCloseHandler(getActivity());
         mClient = new GoogleApiClient.Builder(context)
                 .addApi(LocationServices.API)
 //                .enableAutoManage((FragmentActivity) context, this)
@@ -115,7 +122,12 @@ public class TabGather extends Fragment implements
     @Override
     public void onStart() {
         super.onStart();
-        mClient.connect();
+        locationManager = (LocationManager) getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            gps_check();
+        } else {
+            mClient.connect();
+        }
     }
 
 
@@ -150,22 +162,22 @@ public class TabGather extends Fragment implements
         recyclerView.setLayoutManager(layoutManager);
 
 
-  flo_1.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-          dialog=new CustomDialog2(getContext());
-          dialog.show();
-      }
-  });
+        flo_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog = new CustomDialog2(getContext());
+                dialog.show();
+            }
+        });
 
         adapter.setOnItemClickListener(new TabGatherAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(TabGatherViewHolderGather holder, View view, com.example.ksj_notebook.dronehere.data.Gathering s, int position) {
 
                 Intent intent = new Intent(getActivity(), Gathering.class);
-                intent.putExtra("gt",locatio.getLoca_name());
+                intent.putExtra("gt", locatio.getLoca_name());
                 intent.putExtra("gtid", s.get_id());
-                startActivityForResult(intent,10);
+                startActivityForResult(intent, 10);
             }
 
         });
@@ -174,14 +186,14 @@ public class TabGather extends Fragment implements
             @Override
             public void onClick(View v) {
                 if (location != null) {
-                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12f);
+                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14f);
                     if (mMap != null) {
                         mMap.moveCamera(update);
                     }
                 }
             }
         });
-
+        sliding.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         return view;
     }
 
@@ -278,11 +290,11 @@ public class TabGather extends Fragment implements
             @Override
             public void onSuccess(Request request, LocaListResult result) {
 
-                List<Locatio> localist= result.getResult();
+                List<Locatio> localist = result.getResult();
 
 
-                for(int i=0;i<localist.size();i++) {
-                    POI poi=new POI();
+                for (int i = 0; i < localist.size(); i++) {
+                    POI poi = new POI();
                     poi.setLoca_num(localist.get(i).getLoca_num());
                     poi.setLati(localist.get(i).getLoca_latitude());
                     poi.setLongi(localist.get(i).getLoca_longitude());
@@ -296,11 +308,8 @@ public class TabGather extends Fragment implements
 
             }
         });
-
-
         if(dialog!=null)
-        dialog.dismiss();
-
+            dialog.dismiss();
     }
 
 
@@ -317,7 +326,7 @@ public class TabGather extends Fragment implements
 
                     locatio = result.getResult();
                     adapter.setGather(locatio);
-                    sliding.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                    sliding.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                     sliding.setPanelHeight(convertToPixels(context, 183));
                 }
 
@@ -337,13 +346,14 @@ public class TabGather extends Fragment implements
 
         MarkerOptions options = new MarkerOptions();
         options.position(new LatLng(poi.getLati(), poi.getLongi()));
-        options.icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(R.drawable.i_loc2,""+poi.getList_num())));
+        options.icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(R.drawable.i_loc2, "" + poi.getList_num())));
      //   options.title(""+poi.getList_num());
         Marker marker= mMap.addMarker(options);
 
         poiResolver.put(marker, poi);
 
     }
+
 
 
 
@@ -372,18 +382,17 @@ public class TabGather extends Fragment implements
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        //((MainActivity) activity).setOnKeyBackPressedListener(this);
-    } // in SearchFragment
+        ((MainActivity) activity).setOnKeyBackPressedListener(this);
+    }
 
-/**
     @Override
     public void onBack() {
-/**
-        if (sliding.getPanelState()!= SlidingUpPanelLayout.PanelState.HIDDEN){
+        if (sliding.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN) { //|| sliding.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED
             sliding.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
-        }else{
-            getActivity().finish();
-         **/
+        } else if(sliding.getPanelState() == SlidingUpPanelLayout.PanelState.HIDDEN){
+            backPressCloseHandler.onBackPressed();
+        }
+    }
 /**
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
@@ -435,17 +444,17 @@ public class TabGather extends Fragment implements
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), TabGatherWriteReview.class);
                     intent.putExtra("lc_name", locatio.getLoca_name());
-                    intent.putExtra("lc_id",locatio.get_id());
-                    startActivityForResult(intent,20);
+                    intent.putExtra("lc_id", locatio.get_id());
+                    startActivityForResult(intent, 20);
                 }
             });
             flo_2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent=new Intent(getActivity(),TabGatherWriteGathering.class); //모임쓰기
-                    intent.putExtra("lc_id",locatio.get_id());
-                    intent.putExtra("lc_name",locatio.getLoca_name());
+                    Intent intent = new Intent(getActivity(), TabGatherWriteGathering.class); //모임쓰기
+                    intent.putExtra("lc_id", locatio.get_id());
+                    intent.putExtra("lc_name", locatio.getLoca_name());
                     startActivityForResult(intent, 10);
                 }
             });
@@ -461,9 +470,36 @@ public class TabGather extends Fragment implements
         }
     }
 
-
-
-
-
+    public void gps_check(){
+        AlertDialog mDialog;
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setTitle("GPS Check");
+        dialog.setMessage("지역정보를 받아오기위해 위치기능을 활성화 시킨 후 실행바랍니다.");
+        dialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                intent.addCategory(Intent.CATEGORY_DEFAULT);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+        dialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                getActivity().finish();
+                getActivity().moveTaskToBack(true);
+                getActivity().finish();
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(0);
+            }
+        });
+        mDialog = dialog.create();
+        mDialog.setCancelable(false);
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.show();
+    }
 
 }

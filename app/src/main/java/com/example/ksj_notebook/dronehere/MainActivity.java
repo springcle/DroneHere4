@@ -1,7 +1,6 @@
 package com.example.ksj_notebook.dronehere;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -22,20 +21,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ksj_notebook.dronehere.Dronedb.TabDrone;
 import com.example.ksj_notebook.dronehere.Gathering.TabGather;
 import com.example.ksj_notebook.dronehere.Here.TabHere;
 import com.example.ksj_notebook.dronehere.News.TabNews;
-import com.example.ksj_notebook.dronehere.manager.AppNetwork;
+import com.example.ksj_notebook.dronehere.manager.NetworkCheckManager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private static final int REQUEST_CODE_PERMISSION = 2;
-    private BackPressCloseHandler backPressCloseHandler;
     FragmentTabHost tabHost;
-    DrawerLayout drawer;
     View frameLayout;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
@@ -47,21 +43,33 @@ public class MainActivity extends AppCompatActivity {
         return context;
     }
 
+    public interface onKeyBackPressedListener {
+        public void onBack();
+    }
+    private onKeyBackPressedListener mOnKeyBackPressedListener;
+
+    public void setOnKeyBackPressedListener(onKeyBackPressedListener listener) {
+        mOnKeyBackPressedListener = listener;
+    }
+
     @Override
     public void onBackPressed() {
-        backPressCloseHandler.onBackPressed();
+        if(drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
+        } else if (mOnKeyBackPressedListener != null) {
+            mOnKeyBackPressedListener.onBack();
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        AppNetwork receiver = new AppNetwork(this);
+        NetworkCheckManager receiver = new NetworkCheckManager(this);
         registerReceiver(receiver, filter);
         context = this;
         setContentView(R.layout.activity_main);
         gps_check();
-        backPressCloseHandler = new BackPressCloseHandler(this);
         frameLayout=findViewById(android.R.id.tabcontent);
 
         tabHost = (FragmentTabHost)findViewById(R.id.tabHost);
@@ -85,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(tab2), TabGather.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(tab3), TabNews.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(tab4), TabDrone.class, null);
-
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer_layout);
         toolbar=(Toolbar)findViewById(R.id.main_toolbar);
         main_title=(TextView)findViewById(R.id.main_title);
@@ -113,39 +120,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
    }
-    public class BackPressCloseHandler {
-
-        private long backKeyPressedTime = 0;
-        private Toast toast;
-
-        private Activity activity;
-
-        public BackPressCloseHandler(Activity context) {
-            this.activity = context;
-        }
-
-        public void onBackPressed() {
-            if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
-                backKeyPressedTime = System.currentTimeMillis();
-                showGuide();
-                return;
-            }
-            if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
-                SystemExit();
-            }
-        }
-        public void SystemExit() {
-            activity.moveTaskToBack(true);
-            activity.finish();
-            toast.cancel();
-            android.os.Process.killProcess(android.os.Process.myPid() );
-            System.exit(0);
-        }
-        public void showGuide() {
-            toast = Toast.makeText(activity, "한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
 
     public void gps_check(){
         try {

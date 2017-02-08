@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.ksj_notebook.dronehere.MainActivity;
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneDB;
@@ -34,6 +33,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int TYPE_FOOTER=2;
 
     onLogoutClickListener mListener;
+    onRefreshListener refreshListener;
     Member mem;
     List<DroneDB> drlist;
     Context context;
@@ -42,8 +42,14 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public interface onLogoutClickListener{
         public void onLogoutClicked();
     }
+    public interface onRefreshListener{
+        public void onRefreshed();
+    }
     public void setOnLogoutClickListener(onLogoutClickListener listener){
         mListener = listener;
+    }
+    public void setOnRefreshListener(onRefreshListener listener){
+        refreshListener = listener;
     }
 
     public void setMem(Member mem, Context context){
@@ -133,8 +139,11 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 NetworkManager.getInstance().getFix2(MyApplication.getContext(), mem_id, mem.getMem_name(), dr_delete, dr_name, new NetworkManager.OnResultListener() {
                                     @Override
                                     public void onSuccess(Request request, Object result) {
-                                        Intent intent = new Intent(context, MainActivity.class);
-                                        context.startActivity(intent);
+                                        if (refreshListener != null) {
+                                            refreshListener.onRefreshed();
+                                        }
+                                        //Intent intent = new Intent(context, MainActivity.class);
+                                        //context.startActivity(intent);
                                     }
 
                                     @Override

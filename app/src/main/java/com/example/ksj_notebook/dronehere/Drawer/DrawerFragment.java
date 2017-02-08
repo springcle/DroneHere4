@@ -1,6 +1,7 @@
 package com.example.ksj_notebook.dronehere.Drawer;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,10 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DrawerResult;
+import com.example.ksj_notebook.dronehere.login.StartActivity;
 import com.example.ksj_notebook.dronehere.manager.NetworkManager;
 import com.example.ksj_notebook.dronehere.manager.PropertyManager;
 
@@ -27,6 +30,7 @@ public class DrawerFragment extends Fragment {
 
     DrawerAdapter adapter;
     RecyclerView recyclerView;
+    private String mem_id;
 
     public DrawerFragment() {
         // Required empty public constructor
@@ -36,12 +40,13 @@ public class DrawerFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //adapter=new DrawerAdapter();
-        String mem_id=PropertyManager.getInstance().getId();
-        NetworkManager.getInstance().getDrawer(MyApplication.getContext(),mem_id, new NetworkManager.OnResultListener<DrawerResult>() {
+        mem_id=PropertyManager.getInstance().getId();
+        NetworkManager.getInstance().getDrawer(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DrawerResult>() {
             @Override
             public void onSuccess(Request request, DrawerResult result) {
-                adapter.setMem(result.getResult(),getContext());
+                adapter.setMem(result.getResult(), getContext());
             }
+
             @Override
             public void onFail(Request request, IOException exception) {
             }
@@ -62,13 +67,28 @@ public class DrawerFragment extends Fragment {
             @Override
             public void onLogoutClicked() {
                 PropertyManager.getInstance().setId("");
+                Toast.makeText(MyApplication.getContext(), "비회원으로 로그인 하려면 어플을 종료 후 다시 실행하세요.", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getContext(), StartActivity.class));
                 getActivity().finish();
-                System.exit(0);
-                //Toast.makeText(MyApplication.getContext(), "비회원으로 로그인 하려면 어플을 종료 후 다시 실행하세요.", Toast.LENGTH_LONG).show();
-                //startActivity(new Intent(getContext(), StartActivity.class));
-                //getActivity().finish();
             }
         });
+        adapter.setOnRefreshListener(new DrawerAdapter.onRefreshListener() {
+            @Override
+            public void onRefreshed() {
+                NetworkManager.getInstance().getDrawer(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DrawerResult>() {
+                    @Override
+                    public void onSuccess(Request request, DrawerResult result) {
+                        adapter.setMem(result.getResult(), getContext());
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFail(Request request, IOException exception) {
+                    }
+                });
+            }
+        });
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
