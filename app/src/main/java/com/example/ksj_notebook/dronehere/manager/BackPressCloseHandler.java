@@ -4,9 +4,8 @@ import android.app.Activity;
 import android.widget.Toast;
 
 /****
- * Created by NAKNAK on 2017-02-05.
- */
-//
+ * Created by NAKNAK on 2017-02-05.*/
+////
 public class BackPressCloseHandler {
     private long backKeyPressedTime = 0;
     private Toast toast;
