@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -33,11 +32,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-
 import com.example.ksj_notebook.dronehere.MainActivity;
-
-import com.example.ksj_notebook.dronehere.LogWrapper;
-
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneResistance;
@@ -91,29 +86,38 @@ import okhttp3.Request;
  * A simple {@link Fragment} subclass.
  */
 public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback
-        , GoogleMap.OnCameraChangeListener, GoogleMap.OnMarkerClickListener, MainActivity.onKeyBackPressedListener {
+        , GoogleMap.OnCameraChangeListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener ,MainActivity.onKeyBackPressedListener {
 
     final static int RESULT_OK = -1;
     final static int RESULT_CANCELED = 0;
+
     LocationManager locationManager;
     GoogleApiClient mClient;
     GoogleMap mMap;
     Context context;
-    List<String> imageUrl;
-    List<Bitmap> bitmaps;
-    LatLngBounds bounds;
+    Marker my_marker;
+    Marker clickMarker = null;
+    MarkerOptions clickMarker_option;
     Location location;
+
+    KmlLayer prohibit_layer;
+    KmlLayer restrict_layer;
+    KmlLayer airControlZone_layer;
+    KmlLayer danger_layer;
+
     AutoCompleteTextView place_text;
     Button myLocation;
     Button search_place;
-    Marker my_marker;
+
     Handler mHandler = new Handler(Looper.getMainLooper());
+
     LayoutInflater inflater;
-    Marker clickMarker = null;
-    MarkerOptions clickMarker_option;
+
     InputMethodManager inputMethodManager;
     BackPressCloseHandler backPressCloseHandler;
+    PlaceAutocompleteAdapter placeAutocompleteAdapter;
 
+    int openWeather_count=0; // 오픈웨더 API 호출 횟수 절약용 카운트
     boolean getData_success = false;
     int magnetic;
     String sunrise, sunrise_click;
@@ -131,16 +135,10 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     String mem_id;
 
-    KmlLayer prohibit_layer;
-    KmlLayer restrict_layer;
-    KmlLayer airControlZone_layer;
-    KmlLayer danger_layer;
-
-
     int[] bool = new int[4];
     int[] bool1 = new int[4];
     boolean drone_exist;
-    PlaceAutocompleteAdapter placeAutocompleteAdapter;
+
 
     public TabHere() {
         // Required empty public constructor
@@ -157,10 +155,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 .addOnConnectionFailedListener(this)
                 .addConnectionCallbacks(this)
                 .build();
-
-/*
-        LogWrapper.d(TAG, "debug log");
-        LogWrapper.e(TAG, "error log");*/
     }
 
     @Override
@@ -220,7 +214,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         search_place.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (PropertyManager.getInstance().getId() == "") {
+                if (mem_id == "") {
                     Toast.makeText(context, "회원가입 시 사용가능합니다", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -257,8 +251,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     public void onBack() {
         backPressCloseHandler.onBackPressed();
     }
-
-
 
     /** 장소검색 바 **/
     class PlaceDialog extends Dialog {
@@ -316,7 +308,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             gps_check();
         }
         LocationRequest request = new LocationRequest();
-        request.setInterval(8000);
+        request.setInterval(2000);
         request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         LocationServices.FusedLocationApi.requestLocationUpdates(mClient, request, mListener);
         delay_getData();
@@ -374,12 +366,14 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         }
         mMap.setOnMarkerClickListener(this);
         mMap.setOnCameraChangeListener(this);
+        mMap.setOnInfoWindowClickListener(this);
         final LatLng korea = new LatLng(36.641111, 127.853366);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(korea, 7.1f));
+        /** 맵 롱 클릭 시 이벤트 처리 **/
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                if (PropertyManager.getInstance().getId() == "" || drone_exist == false)
+                if (mem_id == "" || drone_exist == false)
                     return;
                 fly_enable_check_marker(latLng);
                 delay_marker_display(latLng);
@@ -398,7 +392,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 //                    image(BitmapDescriptorFactory.fromResource(R.drawable.m22)).positionFromBounds(bounds);
 //            mMap.addGroundOverlay(overlayOptions1);
     }
-
+    /** 4대 비행가능 공식 계산 후 -> 내 위치 마커에 비행가능 혹은 불가능 표시 **/
     private void add_marker(Location location, int[] bool) {
         if (my_marker != null) {
             my_marker.remove();
@@ -410,7 +404,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             getData();
             return;
         }
-        // 4대 비행가능 요소 중 1개의 불가능 요소만 있어도, 비행불가능
+        // 4대 비행가능 요소 중 1개의 불가능 요소만 있어도, 비행 불가능
         boolean fly = true;
         if(bool != null) {
             for (int j = 0; j < 4; j++) {
@@ -420,38 +414,37 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 }
             }
         } else {
-            Toast.makeText(context, "데이터 읽어오는데 장애가 발생하였습니다.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "데이터 읽어오는데 에러가 발생하였습니다.",Toast.LENGTH_SHORT).show();
             return;
         }
-        if (PropertyManager.getInstance().getId() != "" && drone_exist == true) {
+        if (mem_id != "" && drone_exist == true) {
             if (fly == false) {
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1));
             } else {
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_pos1_1));
             }
-        } else if (PropertyManager.getInstance().getId() != "" && drone_exist == false) { // drone_exist : false면 터치시 커 스텀 다이얼로그 비활성화
+        } else if (mem_id != "" && drone_exist == false) { // drone_exist : false면 터치 시 커스텀 다이얼로그 비활성화
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_not_drone));
         } else {
-            drone_exist = true; // 드론 유/무 확인 후 창 비활성화 용도 인데, 비회원 일때도 커스텀다이얼로그를 활성화 시킨 후 로그인 시켜야하므로 true값을 넣어줌
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1_unable));
         }
         my_marker = mMap.addMarker(options);
     }
-
+    /** 마커 클릭 시 이벤트 처리 **/
     @Override
     public boolean onMarkerClick(Marker marker) {
-        CustomDialog dialog1;
-        CustomDialog dialog2;
-        if (drone_exist == true && marker.equals(my_marker)) { // 드론있으면 다이얼로그 띄워주기, 비회원일때도 띄워줘야함
-            dialog1 = new CustomDialog(context, bool);
-            dialog1.setCanceledOnTouchOutside(true);
-            dialog1.show();
-        } else if(drone_exist == true && marker.equals(clickMarker)){
-            dialog2 = new CustomDialog(context, bool1);
-            dialog2.setCanceledOnTouchOutside(true);
-            dialog2.show();
-        } else if (PropertyManager.getInstance().getId() != "" && drone_exist == false && marker.equals(my_marker)){
-            AddDrone addDrone; // 사용자의 드론이 없을 시 -> 드론추가 커스텀다이얼로그 생성
+        flying_state_Dialog my_marker_dialog;
+        flying_state_Dialog click_marker_dialog;
+        if(drone_exist == true && marker.equals(clickMarker)) { /** 클릭 마커 클릭 시 **/
+            click_marker_dialog = new flying_state_Dialog(context, bool1);
+            click_marker_dialog.setCanceledOnTouchOutside(true);
+            click_marker_dialog.show();
+        } else if(drone_exist == true || mem_id == "" && marker.equals(my_marker)) { /** 내 위치 마커 클릭 시 **/ // 드론있으면 다이얼로그 띄워주기, 비회원일때도 띄워줘야함
+            my_marker_dialog = new flying_state_Dialog(context, bool);
+            my_marker_dialog.setCanceledOnTouchOutside(true);
+            my_marker_dialog.show();
+        } else if(mem_id != "" && drone_exist == false && marker.equals(my_marker)){ /** 유저가 드론이 없는 상태에서 마커 클릭 시 **/
+            AddDrone addDrone; // 사용자의 드론이 없을 시 -> 드론추가 커스텀 다이얼로그 바로 표시
             addDrone = new AddDrone(context, getActivity());
             addDrone.setCanceledOnTouchOutside(true);
             addDrone.show();
@@ -459,8 +452,19 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         return false;
     }
 
+    /** 롱 클릭 마커 정보창 클릭 시**/
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        if (marker.equals(clickMarker)) {
+            flying_state_Dialog dialog;
+            dialog = new flying_state_Dialog(context, bool1);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
+        }
+    }
+
     // 4대 비행가능 요소 가능/불가능 표시
-    class CustomDialog extends Dialog {
+    class flying_state_Dialog extends Dialog {
         ImageView i1,i2,i3,i4;
         int[] bool;
         Button btn;
@@ -502,7 +506,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (PropertyManager.getInstance().getId() == "") {
+                    if (mem_id == "") {
                         startActivity(new Intent(context, StartActivity.class));
                         getActivity().finish();
                     }
@@ -526,7 +530,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             if (bool[0] == 1) i1.setImageResource(R.drawable.i_pos1);
             else i1.setImageResource(R.drawable.i_imp1);
 
-            if (PropertyManager.getInstance().getId() != "") {
+            if (mem_id != "") {
                 /* 4대 비행가능요소를 Detail하게 표시하는 코드
                 t1.setText("공역표시");
                 if(sunrise != null && sunset != null) {
@@ -569,7 +573,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 btn.setBackgroundResource(R.drawable.b_imp2_unable);
             }
         }
-        public CustomDialog(Context context, int[] bool) {
+        public flying_state_Dialog(Context context, int[] bool) {
             super(context, android.R.style.Theme_Translucent_NoTitleBar);
             this.bool = bool;
         }
@@ -745,6 +749,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     if (clickMarker != null) {
                         clickMarker.remove();
                     }
+                    /** 클릭 마커 옵션 **/
                     clickMarker_option = new MarkerOptions();
                     clickMarker_option.position(latLng);
                     if (liesInside[1][0] == true) clickMarker_option.title("비행금지구역");
@@ -752,21 +757,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     else if (liesInside[1][2] == true) clickMarker_option.title("관제권");
                     else if (liesInside[1][3] == true) clickMarker_option.title("비행위험구역");
                     else clickMarker_option.title("일반공역");
-
                     clickMarker_option.snippet("풍속 : " + wind_click + "m/s");
                     clickMarker = mMap.addMarker(clickMarker_option);
                     clickMarker.showInfoWindow();
-                    mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                        @Override
-                        public void onInfoWindowClick(Marker marker) {
-                            if (marker.equals(clickMarker)) {
-                                CustomDialog dialog;
-                                dialog = new CustomDialog(context, bool1);
-                                dialog.setCanceledOnTouchOutside(true);
-                                dialog.show();
-                            }
-                        }
-                    });
                     getData_success = false;
                 } else delay_marker_display(latLng);
             }
@@ -774,7 +767,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     }
     /** 4대 비행공식 계산(내 위치) **/
     public void fly_enable_check_mylocation(){
-        if (PropertyManager.getInstance().getId() != "") {
+        if (mem_id != "") {
             LatLng latlng;
             try {
                 latlng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -787,6 +780,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             // [1]: 제한구역
             // [2]: 관제권
             // [3]: 위험구역
+            /** 비행 구역 확인 **/
             List<KmlPolygon> polygonsInLayer0 = getPolygons(prohibit_layer.getContainers());
             liesInside[0][0] = liesOnPolygon(polygonsInLayer0, latlng);
             List<KmlPolygon> polygonsInLayer1 = getPolygons(restrict_layer.getContainers());
@@ -795,7 +789,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             liesInside[0][2] = liesOnPolygon(polygonsInLayer2, latlng);
             List<KmlPolygon> polygonsInLayer3 = getPolygons(danger_layer.getContainers());
             liesInside[0][3] = liesOnPolygon(polygonsInLayer3, latlng);
-
             /** 자기장 **/
             NetworkManager.getInstance().getMag(MyApplication.getContext(), new NetworkManager.OnResultListener<MagneticResult>() {
                 @Override
@@ -807,97 +800,144 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.",Toast.LENGTH_SHORT).show();
                 }
             });
-            /** 풍속,일출,일몰 값 받아오기 **/
-            NetworkManager.getInstance().getWind(MyApplication.getContext(), "" + latlng.latitude, "" + latlng.longitude, new NetworkManager.OnResultListener<WeatherResult>() {
-                @Override
-                public void onSuccess(Request request, WeatherResult result) {
+            if(openWeather_count == 0) {
+                /** 풍속,일출,일몰 값 받아오기 **/
+                NetworkManager.getInstance().getWind(MyApplication.getContext(), "" + latlng.latitude, "" + latlng.longitude, new NetworkManager.OnResultListener<WeatherResult>() {
+                    @Override
+                    public void onSuccess(Request request, WeatherResult result) {
                         wind = result.getWind().getSpeed();
                         sunrise = result.getSun().getSunrise();
                         sunset = result.getSun().getSunset();
-
-                    /** 4대 비행 공식 계산 **/
-                    if ((wind != null && sunrise != null && sunset != null) || (wind_click != null && sunrise_click != null && sunset_click != null)) {
-                        NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
-                            @Override
-                            public void onSuccess(Request request, DroneResistanceResult result) {
-                                long now = System.currentTimeMillis() / 1000;
-                                double dr_wind;
-                                long l_sunrise;
-                                long l_sunset;
-                                List<MemDrone> memDrone;
-                                String dr_resistance1;
-                                DroneResistance dr;
-                                dr = result.getResult();
-                                memDrone = dr.getMemResultDrone();
-                                boolean drname = memDrone.isEmpty(); // 사용자의 드론이 없으면 true, 있으면 false
-
-                                if (drname == false) {
-                                    drone_exist = true;
-                                    dr_resistance1 = dr.getDroneResistance().toString();
-                                    dr_resistance = Double.parseDouble(dr_resistance1);
-                                    dr_wind = Double.parseDouble(wind);
-                                    l_sunrise = Long.parseLong(sunrise);
-                                    l_sunset = Long.parseLong(sunset);
-
-                                    if(liesInside[0][0] == false && liesInside[0][1] == false && liesInside[0][2] == false)
-                                        bool[0] = 1;
-                                    else bool[0] = 0;
-
-                                    if (l_sunrise < now && now < l_sunset) bool[1] = 1;
-                                    else bool[1] = 0;
-
-                                    if (dr_wind < dr_resistance) bool[2] = 1;
-                                    else bool[2] = 0;
-
-                                    if (magnetic < 5) bool[3] = 1;
-                                    else bool[3] = 0;
-
-                                    // 비행 가능, 불가능 표시 마커
-                                    if ((bool != null) && location != null) {
-                                        add_marker(location, bool);
-                                    }
-
-                                } else if(drname == true){
-
-                                    for (int i = 0; i < bool.length; i++) {
-                                        bool[i] = 0;
-                                    }
-                                    drone_exist = false;
-                                    if(location != null) {
-                                        add_marker(location, bool);
+                        /** 4대 비행 공식 계산 **/
+                        if ((wind != null && sunrise != null && sunset != null)) {
+                            NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
+                                @Override
+                                public void onSuccess(Request request, DroneResistanceResult result) {
+                                    List<MemDrone> memDrone;
+                                    DroneResistance dr;
+                                    String dr_resistance1;
+                                    long now = System.currentTimeMillis() / 1000;
+                                    double dr_wind;
+                                    long l_sunrise;
+                                    long l_sunset;
+                                    dr = result.getResult();
+                                    memDrone = dr.getMemResultDrone();
+                                    boolean dr_empty = memDrone.isEmpty(); // 사용자의 드론이 없으면 true, 있으면 false
+                                    if (dr_empty == false) {
+                                        drone_exist = true;
+                                        dr_resistance1 = dr.getDroneResistance().toString();
+                                        dr_resistance = Double.parseDouble(dr_resistance1);
+                                        dr_wind = Double.parseDouble(wind);
+                                        l_sunrise = Long.parseLong(sunrise);
+                                        l_sunset = Long.parseLong(sunset);
+                                        if (liesInside[0][0] == false && liesInside[0][1] == false && liesInside[0][2] == false)
+                                            bool[0] = 1;
+                                        else bool[0] = 0;
+                                        if (l_sunrise < now && now < l_sunset) bool[1] = 1;
+                                        else bool[1] = 0;
+                                        if (dr_wind < dr_resistance) bool[2] = 1;
+                                        else bool[2] = 0;
+                                        if (magnetic < 5) bool[3] = 1;
+                                        else bool[3] = 0;
+                                        // 비행 가능, 불가능 표시 마커
+                                        if ((bool != null) && location != null) {
+                                            add_marker(location, bool);
+                                        }
+                                    } else if (dr_empty == true) {
+                                        for (int i = 0; i < bool.length; i++) {
+                                            bool[i] = 0;
+                                        }
+                                        drone_exist = false;
+                                        if (location != null) {
+                                            add_marker(location, bool);
+                                        }
                                     }
                                 }
 
-                            }
-                            @Override
-                            public void onFail(Request request, IOException exception) {
-                                Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.",Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                                @Override
+                                public void onFail(Request request, IOException exception) {
+                                    Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
                     }
+                    @Override
+                    public void onFail(Request request, IOException exception) {
+                        Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                openWeather_count++;
+            } else {
+                /** 4대 비행 공식 계산 **/
+                if ((wind != null && sunrise != null && sunset != null)) {
+                    NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
+                        @Override
+                        public void onSuccess(Request request, DroneResistanceResult result) {
+                            List<MemDrone> memDrone;
+                            String dr_resistance1;
+                            DroneResistance dr;
+                            long now = System.currentTimeMillis() / 1000;
+                            double dr_wind;
+                            long l_sunrise;
+                            long l_sunset;
+                            dr = result.getResult();
+                            memDrone = dr.getMemResultDrone();
+                            boolean dr_empty = memDrone.isEmpty(); // 사용자의 드론이 없으면 true, 있으면 false
+                            if (dr_empty == false) {
+                                drone_exist = true;
+                                dr_resistance1 = dr.getDroneResistance().toString();
+                                dr_resistance = Double.parseDouble(dr_resistance1);
+                                dr_wind = Double.parseDouble(wind);
+                                l_sunrise = Long.parseLong(sunrise);
+                                l_sunset = Long.parseLong(sunset);
+                                if (liesInside[0][0] == false && liesInside[0][1] == false && liesInside[0][2] == false)
+                                    bool[0] = 1;
+                                else bool[0] = 0;
+                                if (l_sunrise < now && now < l_sunset) bool[1] = 1;
+                                else bool[1] = 0;
+                                if (dr_wind < dr_resistance) bool[2] = 1;
+                                else bool[2] = 0;
+                                if (magnetic < 5) bool[3] = 1;
+                                else bool[3] = 0;
+                                // 비행 가능, 불가능 표시 마커
+                                if ((bool != null) && location != null) {
+                                    add_marker(location, bool);
+                                }
+                            } else if (dr_empty == true) {
+                                for (int i = 0; i < bool.length; i++) {
+                                    bool[i] = 0;
+                                }
+                                drone_exist = false;
+                                if (location != null) {
+                                    add_marker(location, bool);
+                                }
+                            }
+                        }
+                        @Override
+                        public void onFail(Request request, IOException exception) {
+                            Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-                @Override
-                public void onFail(Request request, IOException exception) {
-                    Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.",Toast.LENGTH_SHORT).show();
+                openWeather_count++;
+                if(openWeather_count == 3) {
+                    openWeather_count = 0;
                 }
-            });
-
+            }
         } else { // 비회원 일때
-
             drone_exist = false;
             for (int i = 0; i < 4; i++) {
                 bool[i] = 0;
-                bool1[i] = 0;
             }
             if(location != null) {
                 add_marker(location, bool);
             }
         }
-
     }
+
     /** 4대 비행공식 계산(마커 위치) **/
     public void fly_enable_check_marker(LatLng latlng){
-        if (PropertyManager.getInstance().getId() != "") {
+        if (mem_id != "") {
             // liesInside[] index is..
             // [0]: 금지구역
             // [1]: 제한구역
@@ -931,58 +971,53 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                         sunrise_click = result.getSun().getSunrise();
                         sunset_click = result.getSun().getSunset();
                     /** 비행 가능/불가능 bool 값 설정 **/
-                    if ((wind != null && sunrise != null && sunset != null) || (wind_click != null && sunrise_click != null && sunset_click != null)) {
+                    if ((wind_click != null && sunrise_click != null && sunset_click != null)) {
                         NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
                             @Override
                             public void onSuccess(Request request, DroneResistanceResult result) {
+                                List<MemDrone> memDrone;
+                                String dr_resistance1;
+                                DroneResistance dr;
                                 long now = System.currentTimeMillis() / 1000;
                                 double dr_wind;
                                 long l_sunrise;
                                 long l_sunset;
-                                List<MemDrone> memDrone;
-                                String dr_resistance1;
-                                DroneResistance dr;
                                 dr = result.getResult();
                                 memDrone = dr.getMemResultDrone();
-                                boolean drname = memDrone.isEmpty(); // 사용자 드론이 없으면 true, 있으면 false
-                                if (drname == false) {
-
+                                boolean dr_empty = memDrone.isEmpty(); // 사용자 드론이 없으면 true, 있으면 false
+                                if (dr_empty == false) {
                                     drone_exist = true;
                                     dr_resistance1 = dr.getDroneResistance().toString();
                                     dr_resistance = Double.parseDouble(dr_resistance1);
                                     dr_wind = Double.parseDouble(wind_click);
                                     l_sunrise = Long.parseLong(sunrise_click);
                                     l_sunset = Long.parseLong(sunset_click);
-
                                     if(liesInside[1][0] == false && liesInside[1][1] == false && liesInside[1][2] == false)
                                         bool1[0] = 1;
                                     else bool1[0] = 0;
-
                                     if (l_sunrise < now && now < l_sunset) bool1[1] = 1;
                                     else bool1[1] = 0;
-
                                     if (dr_wind < dr_resistance) bool1[2] = 1;
                                     else bool1[2] = 0;
-
                                     if (magnetic < 5) bool1[3] = 1;
                                     else bool1[3] = 0;
-
                                     // 비행 가능, 불가능 표시 마커
-                                    if ((bool != null) || (bool1 != null) && location != null) {
+                                    /*
+                                    if ((bool1 != null) && location != null) {
                                         add_marker(location, bool1);
                                     }
+                                    */
+                                } else if(dr_empty == true){
 
-                                } else if(drname == true){
-
-                                    for (int i = 0; i < bool.length; i++) {
-                                        bool[i] = 0;
+                                    for (int i = 0; i < bool1.length; i++) {
                                         bool1[i] = 0;
                                     }
                                     drone_exist = false;
+                                    /*
                                     if(location != null) {
                                         add_marker(location, bool1);
                                     }
-
+                                    */
                                 }
                                 getData_success = true;
                             }
@@ -993,7 +1028,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                         });
                     }
                 }
-
                 @Override
                 public void onFail(Request request, IOException exception) {
                     Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.",Toast.LENGTH_SHORT).show();
@@ -1002,12 +1036,13 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         } else { // 비회원 일때
             drone_exist = false;
             for (int i = 0; i < 4; i++) {
-                bool[i] = 0;
                 bool1[i] = 0;
             }
+            /*
             if(location != null) {
                 add_marker(location, bool1);
             }
+            */
         }
     }
 

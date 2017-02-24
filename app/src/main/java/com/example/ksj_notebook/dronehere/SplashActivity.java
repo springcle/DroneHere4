@@ -29,6 +29,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         gps_check();
     }
+
     private void goLoginActivity() {
             mHandler.postDelayed(new Runnable() {
                 @Override
