@@ -492,7 +492,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             t4 = (TextView)findViewById(R.id.text_magnetic);
             */
             btn = (Button) findViewById(R.id.dial_btn);
-            exit_btn = (Button) findViewById(R.id.exit_btn);
+            /*exit_btn = (Button) findViewById(R.id.exit_btn);*/
             /*
             contact_btn = (Button) findViewById(R.id.contact_info_btn);
             if(PropertyManager.getInstance().getId() == "") {
@@ -517,12 +517,12 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     startActivity(intent);
                 }
             });*/
-            exit_btn.setOnClickListener(new View.OnClickListener() {
+            /*exit_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dismiss();
                 }
-            });
+            });*/
             if (bool[0] == 1) i1.setImageResource(R.drawable.i_pos1);
             else i1.setImageResource(R.drawable.i_imp1);
 
