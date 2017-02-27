@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
               //  Toast.makeText(MainActivity.this, "미구현 입니다.", Toast.LENGTH_SHORT).show();
-                drawerLayout.openDrawer(Gravity.LEFT);
+                drawerLayout.openDrawer(Gravity.RIGHT);
             }
         });
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {

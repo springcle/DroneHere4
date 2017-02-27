@@ -19,6 +19,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -93,6 +94,8 @@ import okhttp3.Request;
 public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback
         , GoogleMap.OnCameraChangeListener, GoogleMap.OnMarkerClickListener, MainActivity.onKeyBackPressedListener {
 
+
+
     final static int RESULT_OK = -1;
     final static int RESULT_CANCELED = 0;
     LocationManager locationManager;
@@ -106,6 +109,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     AutoCompleteTextView place_text;
     Button myLocation;
     Button search_place;
+    Button toolbar_btn;
     Marker my_marker;
     Handler mHandler = new Handler(Looper.getMainLooper());
     LayoutInflater inflater;
@@ -203,6 +207,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             getChildFragmentManager().beginTransaction().replace(R.id.map_container1, mapFragment, "map").commit();
             mapFragment.getMapAsync(this);
         }
+
 
         myLocation.setOnClickListener(new View.OnClickListener() {
             @Override
