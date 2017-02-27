@@ -87,15 +87,15 @@ public class MainActivity extends AppCompatActivity{
 
         final ImageView tab1 = new ImageView(this);
         tab1.setImageResource(R.drawable.tab1selector);
-        final ImageView tab2 = new ImageView(this);
-        tab2.setImageResource(R.drawable.tab2selector);
+    /*    final ImageView tab2 = new ImageView(this);
+        tab2.setImageResource(R.drawable.tab2selector);*/
         final ImageView tab3 = new ImageView(this);
         tab3.setImageResource(R.drawable.tab3selector);
         ImageView tab4 = new ImageView(this);
         tab4.setImageResource(R.drawable.tab4selector);
 
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(tab1), TabHere.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(tab2), TabGather.class, null);
+    /*    tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(tab2), TabGather.class, null);*/
         tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(tab3), TabNews.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(tab4), TabDrone.class, null);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer_layout);
