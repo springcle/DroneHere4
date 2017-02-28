@@ -303,6 +303,7 @@ public class TabGather extends Fragment implements
         mMap.setOnMarkerClickListener(this);
 
 
+
         CameraUpdate update2 = CameraUpdateFactory.newLatLngZoom(new LatLng(38,128), 12f);
         mMap.moveCamera(update2);
 

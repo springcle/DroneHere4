@@ -11,8 +11,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-       >
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/main_toolbar"
@@ -30,16 +29,10 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:background="#00000000"
-                android:paddingLeft="32dp"
-                android:gravity="right"
+                android:paddingLeft="16dp"
+                android:gravity="left"
                 >
-                <TextView
-                    android:id="@+id/main_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="드론 Here"
-                    android:textColor="#fcfcfc"
-                    android:textSize="21sp"/>
+
                 <Button
 
                     android:layout_width="24dp"
@@ -48,12 +41,18 @@
                     android:background="@drawable/i_ham"
                     android:layout_marginTop="16dp"
                     android:layout_marginRight="16dp" />
+                <TextView
+                    android:id="@+id/main_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="드론 Here"
+                    android:textColor="#fcfcfc"
+                    android:textSize="21sp"/>
 
             </LinearLayout>
 
 
         </android.support.v7.widget.Toolbar>
-
         <android.support.v4.app.FragmentTabHost
             android:id="@+id/tabHost"
             android:layout_width="match_parent"
@@ -90,7 +89,7 @@
         android:id="@+id/drawer_navi"
         android:layout_width="304dp"
         android:layout_height="match_parent"
-        android:layout_gravity="right"
+        android:layout_gravity="left"
         android:name="com.example.ksj_notebook.dronehere.Drawer.DrawerFragment">
     </fragment>
 
