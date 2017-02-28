@@ -204,6 +204,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         super.onStop();
         mClient.disconnect();
     }
+    //
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
