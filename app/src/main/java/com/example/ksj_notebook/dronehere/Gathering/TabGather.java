@@ -342,6 +342,7 @@ public class TabGather extends Fragment implements
 
 
 
+
     @Override
     public boolean onMarkerClick(Marker marker) {
         POI poi = poiResolver.get(marker);

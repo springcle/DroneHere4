@@ -22,6 +22,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,6 +79,8 @@ import com.google.maps.android.kml.KmlContainer;
 import com.google.maps.android.kml.KmlLayer;
 import com.google.maps.android.kml.KmlPlacemark;
 import com.google.maps.android.kml.KmlPolygon;
+// TODO 빌드 그래들에서 map 부분 10.2.0으로 바꾸면서 코드도 바꿔줘야됌
+// import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -93,6 +96,8 @@ import okhttp3.Request;
  */
 public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback
         , GoogleMap.OnCameraChangeListener, GoogleMap.OnMarkerClickListener, MainActivity.onKeyBackPressedListener {
+
+
 
 
 
@@ -126,6 +131,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     Double dr_resistance;
     PlaceDialog placedialog;
 
+
+
     /** lieInside 인덱스 **/
     // [0]: 금지구역
     // [1]: 제한구역
@@ -145,6 +152,12 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     int[] bool1 = new int[4];
     boolean drone_exist;
     PlaceAutocompleteAdapter placeAutocompleteAdapter;
+/*
+
+
+    Double mylocationLat;
+    Double mylocationLng;
+*/
 
     public TabHere() {
         // Required empty public constructor
@@ -198,6 +211,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         View view = inflater.inflate(R.layout.fragment_tab_here, container, false);
 
         myLocation = (Button) view.findViewById(R.id.myLocation);
+        myLocation.setVisibility(View.INVISIBLE);
+
+
         search_place = (Button) view.findViewById(R.id.search_btn);
         this.inflater = inflater;
 
@@ -208,16 +224,20 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             mapFragment.getMapAsync(this);
         }
 
-
+// 버튼 누르면 내위치로 카메라 이동
         myLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (location != null) {
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14f);
                     //37.47547965,126.95924163
+
+
                     if (mMap != null) {
                         mMap.moveCamera(update);
+
                     }
+
                 }
             }
         });
@@ -325,6 +345,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         LocationServices.FusedLocationApi.requestLocationUpdates(mClient, request, mListener);
         delay_getData();
+
+
+
     }
 
     @Override
@@ -350,13 +373,47 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         }
     };
 
+    // 초기 현재 나의 위치로 카메라 이동
     private void displayMessage(Location location) {
         if (location != null) {
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 11f);
+
+
+
             if (mMap != null) {
                 mMap.moveCamera(update);
+                final LatLng mylocationLatLng = mMap.getCameraPosition().target;
+                mylocationButtonFuntion(mylocationLatLng);
             }
         }
+    }
+
+    // mylocation 버튼 visible, invisible할때 사용할 메서드
+    private void mylocationButtonFuntion(final LatLng mylocationLatLng){
+
+        // TODO 빌드 그래들 map부분 버전 올려야 가능함. (우버처럼 움직이기 시작하는것 감지하는 리스너)
+        // https://developers.google.com/android/reference/com/google/android/gms/maps/GoogleMap.OnCameraMoveStartedListener
+
+        // GoogleMap.OnCameraMoveStartedListener(new )
+
+
+
+        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+
+                Log.e("카메라1","카메라 포지션: "+mMap.getCameraPosition());
+                Log.e("카메라2","초기 카메라 포지션: "+mylocationLatLng);
+
+
+                if(mylocationLatLng.equals(mMap.getCameraPosition().target)){
+                    myLocation.setVisibility(View.INVISIBLE);
+                }else{
+                    myLocation.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -377,10 +434,13 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         mMap.setOnMarkerClickListener(this);
-        mMap.setOnCameraChangeListener(this);
+
         final LatLng korea = new LatLng(36.641111, 127.853366);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(korea, 7.1f));
+
+
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
@@ -402,6 +462,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 //            GroundOverlayOptions overlayOptions1 = new GroundOverlayOptions().
 //                    image(BitmapDescriptorFactory.fromResource(R.drawable.m22)).positionFromBounds(bounds);
 //            mMap.addGroundOverlay(overlayOptions1);
+
+
+
     }
 
     private void add_marker(Location location, int[] bool) {
@@ -679,7 +742,34 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     return;
                 }
                 location = LocationServices.FusedLocationApi.getLastLocation(mClient);
+
+
                 displayMessage(location);
+/*
+                mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                    @Override
+                    public void onCameraChange(CameraPosition cameraPosition) {
+
+
+
+
+                        // TODO. 1. 카메라의 위치가 mylocation latlng과 다른 경우 mylocation 버튼 visible.
+
+
+                        if (mylocationLatLng.equals(mMap.getCameraPosition().target)){
+                            myLocation.setVisibility(View.INVISIBLE);
+                        }else{
+
+                            myLocation.setVisibility(View.VISIBLE);
+                        }
+*//*
+                        if(mMap.getCameraPosition().target.equals(new LatLng(location.getLatitude(), location.getLongitude()))){
+                            myLocation.setVisibility(View.VISIBLE);
+                        }else {
+                            myLocation.setVisibility(View.INVISIBLE);
+                        }*//*
+                    }
+                });*/
                 getData();
             }
         }, 1000);
@@ -1057,6 +1147,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 CameraUpdate update = CameraUpdateFactory.newLatLngZoom(place_location, 13f);
                 if (mMap != null) {
                     mMap.moveCamera(update);
+
                 }
             }
         }
