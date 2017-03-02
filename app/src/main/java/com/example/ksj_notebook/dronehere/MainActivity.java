@@ -18,14 +18,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.example.ksj_notebook.dronehere.Dronedb.TabDrone;
-import com.example.ksj_notebook.dronehere.Gathering.TabGather;
 import com.example.ksj_notebook.dronehere.Here.TabHere;
-import com.example.ksj_notebook.dronehere.News.TabNews;
 import com.example.ksj_notebook.dronehere.manager.NetworkCheckManager;
 
 public class MainActivity extends AppCompatActivity{
@@ -40,7 +35,6 @@ public class MainActivity extends AppCompatActivity{
     private static Context context;
     TextView main_title;
     Button toolbar_btn;
-
 
     public static Context getContext() {
         return context;
@@ -68,23 +62,23 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
 
-
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         NetworkCheckManager receiver = new NetworkCheckManager(this);
         registerReceiver(receiver, filter);
         context = this;
         setContentView(R.layout.activity_main);
         gps_check();
+        getSupportFragmentManager().beginTransaction().replace(R.id.tab_frame, new TabHere()).commit();
+        /*
         frameLayout=findViewById(android.R.id.tabcontent);
-
         tabHost = (FragmentTabHost)findViewById(R.id.tabHost);
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
-
+        */
         Window window = getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(getResources().getColor(R.color.status));
         }
-
+        /*
         final ImageView tab1 = new ImageView(this);
         tab1.setImageResource(R.drawable.tab1selector);
         final ImageView tab2 = new ImageView(this);
@@ -93,15 +87,17 @@ public class MainActivity extends AppCompatActivity{
         tab3.setImageResource(R.drawable.tab3selector);
         ImageView tab4 = new ImageView(this);
         tab4.setImageResource(R.drawable.tab4selector);
-
+        */
+        /*
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(tab1), TabHere.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(tab2), TabGather.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(tab3), TabNews.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(tab4), TabDrone.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab2"), TabGather.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab3"), TabNews.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab4"), TabDrone.class, null);
+        */
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer_layout);
-        toolbar=(Toolbar)findViewById(R.id.main_toolbar);
-        main_title=(TextView)findViewById(R.id.main_title);
-
+        //toolbar=(Toolbar)findViewById(R.id.main_toolbar);
+        //main_title=(TextView)findViewById(R.id.main_title);
+        /*
         toolbar_btn=(Button)findViewById(R.id.toolbar_btn);
         toolbar_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +105,8 @@ public class MainActivity extends AppCompatActivity{
               //  Toast.makeText(MainActivity.this, "미구현 입니다.", Toast.LENGTH_SHORT).show();
                 drawerLayout.openDrawer(Gravity.LEFT);
             }
-        });
+        });*/
+        /*
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
@@ -123,13 +120,14 @@ public class MainActivity extends AppCompatActivity{
                     main_title.setText("드론 백과");
                 }
             }
-        });
-
-
+        });*/
         LogWrapper.d(TAG, "debug log");
         LogWrapper.e(TAG, "error log");
    }
 
+    public void openHamberger(){
+        drawerLayout.openDrawer(Gravity.LEFT);
+    }
     public void gps_check(){
         try {
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -159,8 +157,6 @@ public class MainActivity extends AppCompatActivity{
             e.printStackTrace();
         }
     }
-
-
     // 권한 확인
     public boolean checkLocationPermission()
     {

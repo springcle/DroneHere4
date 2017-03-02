@@ -10,32 +10,26 @@
     sothree:umanoShadowHeight="0dp"
     sothree:umanoScrollableView="@+id/gath_recy">
 
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <FrameLayout
-        android:id="@+id/map_container2"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <Button
-        android:id="@+id/myLocation2"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/my_location_btn"/>
-</RelativeLayout>
-
-
-
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:id="@+id/map_container2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <Button
+            android:id="@+id/myLocation2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/my_location_btn"/>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/zzzzz">
-
-
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,9 +37,6 @@
             android:layout_alignParentEnd="true"
             android:background="#ffffff"
             android:id="@id/gath_recy" />
-
-
-
         <ImageButton
             android:id="@+id/flo_1"
             android:layout_width="57dp"
@@ -55,10 +46,5 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/flo_1" />
-
-
-
-
-
     </RelativeLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

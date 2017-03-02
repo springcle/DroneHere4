@@ -18,8 +18,11 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +33,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.ksj_notebook.dronehere.MainActivity;
@@ -72,6 +76,7 @@ import com.google.maps.android.kml.KmlContainer;
 import com.google.maps.android.kml.KmlLayer;
 import com.google.maps.android.kml.KmlPlacemark;
 import com.google.maps.android.kml.KmlPolygon;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -108,10 +113,16 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     AutoCompleteTextView place_text;
     Button myLocation;
     Button search_place;
+    Button hamberger;
 
     Handler mHandler = new Handler(Looper.getMainLooper());
 
-    LayoutInflater inflater;
+    /** 슬라이딩 패널**/
+    SlidingUpPanelLayout sliding;
+    RecyclerView recyclerView;
+    SlidingAdapter adapter;
+    LinearLayout drag_view;
+    Button tab_news_btn, tab_drone_btn;
 
     InputMethodManager inputMethodManager;
     BackPressCloseHandler backPressCloseHandler;
@@ -147,6 +158,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context=getContext();
+        backPressCloseHandler = new BackPressCloseHandler(getActivity());
         mem_id = PropertyManager.getInstance().getId();
         mClient = new GoogleApiClient.Builder(getContext())
                 .addApi(LocationServices.API)
@@ -184,19 +197,35 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_tab_here, container, false);
+        final View view = inflater.inflate(R.layout.fragment_tab_here, container, false);
 
+        sliding = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanel_layout);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recy);
         myLocation = (Button) view.findViewById(R.id.myLocation);
         search_place = (Button) view.findViewById(R.id.search_btn);
-        this.inflater = inflater;
+        hamberger = (Button) view.findViewById(R.id.hamberger_btn);
 
+        tab_drone_btn = (Button) view.findViewById(R.id.tab_drone_btn);
+        tab_news_btn = (Button) view.findViewById(R.id.tab_news_btn);
+        //this.inflater = inflater;
+        drag_view = (LinearLayout) view.findViewById(R.id.drag_view);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentByTag("map");
         if (mapFragment == null) {
             mapFragment = SupportMapFragment.newInstance();
             getChildFragmentManager().beginTransaction().replace(R.id.map_container1, mapFragment, "map").commit();
             mapFragment.getMapAsync(this);
         }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        adapter = new SlidingAdapter(context, getChildFragmentManager(), layoutManager, tab_news_btn, tab_drone_btn);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(layoutManager);
+
+        hamberger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).openHamberger();
+            }
+        });
 
         myLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,7 +239,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 }
             }
         });
-
         search_place.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,7 +267,33 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 }
             }
         });
+        sliding.setFadeOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sliding.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        });
+        sliding.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        /*
+        sliding.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(sliding.getPanelState() != SlidingUpPanelLayout.PanelState.COLLAPSED)
+                {
+                    sliding.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                }
+                return true;
+            }
+        });*/
+        sliding.setClipPanel(false);
+        sliding.setPanelHeight(convertToPixels(context, 60));
         return view;
+    }
+    public static int convertToPixels(Context context, int dp)
+    {
+        DisplayMetrics metrics=context.getResources().getDisplayMetrics();
+        float px=dp*(metrics.densityDpi/160f);
+        return (int) px ;
     }
     @Override
     public void onAttach(Activity activity) {
@@ -249,8 +303,14 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     @Override
     public void onBack() {
-        backPressCloseHandler.onBackPressed();
+        if (sliding != null &&
+                (sliding.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || sliding.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
+            sliding.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        } else if (sliding.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED){
+            backPressCloseHandler.onBackPressed();
+        }
     }
+
 
     /** 장소검색 바 **/
     class PlaceDialog extends Dialog {
@@ -289,9 +349,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
                 }
             });
-
         }
-
         public PlaceDialog(Context context) {
             super(context, android.R.style.Theme_Translucent_NoTitleBar);
         }

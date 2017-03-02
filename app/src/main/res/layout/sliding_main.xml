@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:paddingBottom="12dp"
+    >
+    <android.support.v4.view.ViewPager
+        android:id="@+id/sliding_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="5000dp"/>
+    <!--
+    <FrameLayout
+        android:id="@+id/tabcontent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        -->
+      <!--  <fragment
+            android:id="@+id/tab_news"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:name="com.example.ksj_notebook.dronehere.News.TabNews">
+        </fragment>-->
+    <!--
+        <fragment
+            android:id="@+id/tab_drone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:name="com.example.ksj_notebook.dronehere.Dronedb.TabDrone">
+        </fragment>
+        -->
+</RelativeLayout>

@@ -1,33 +1,90 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/tools"
+    android:id="@+id/slidingUpPanel_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Here.TabHere">
+    android:gravity="bottom"
+    sothree:umanoOverlay="true"
+    sothree:umanoFadeColor="#4e515e"
+    sothree:umanoParallaxOffset="0dp"
+    sothree:umanoPanelHeight="0dp"
+    sothree:umanoDragView="@+id/drag_view"
+    sothree:umanoShadowHeight="0dp"
+    sothree:umanoScrollableView="@+id/recy">
 
-
-    <FrameLayout
-        android:id="@+id/map_container1"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-            <Button
+        <FrameLayout
+            android:id="@+id/map_container1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <Button
+            android:id="@+id/search_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginRight="13dp"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="13dp"
-            android:id="@+id/search_btn"
             android:background="@drawable/i_sear"
-            android:layout_gravity="right|top" />
-    </FrameLayout>
+            android:layout_gravity="top|right" />
+        <Button
+            android:id="@+id/myLocation"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="start|top"
+            android:background="@drawable/my_location_btn"/>
+        <Button
+            android:id="@+id/hamberger_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="start|top"
+            android:background="@drawable/a0"/>
+    </RelativeLayout>
 
-    <Button
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="start|top"
-        android:id="@+id/myLocation"
-        android:background="@drawable/my_location_btn"/>
+    <LinearLayout
+        android:id="@+id/drag_view"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#1b52ac"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/tab_news_btn"
+                android:text="뉴스"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="30dp"
+                android:paddingBottom="9dp"
+                android:paddingTop="7dp"/>
+            <Button
+                android:id="@+id/tab_drone_btn"
+                android:text="백과"
+                android:layout_marginLeft="30dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:paddingBottom="9dp"
+                android:paddingTop="7dp"/>
+        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:gravity="center|center_horizontal"
+             />
+    </LinearLayout>
 
 
-</FrameLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

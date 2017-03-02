@@ -29,8 +29,11 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         titleView = (TextView)itemView.findViewById(R.id.newsTitle);
+        titleView.setHorizontallyScrolling(false);
         dateView = (TextView)itemView.findViewById(R.id.newsDate);
+        dateView.setHorizontallyScrolling(false);
         providerView = (TextView)itemView.findViewById(R.id.newsProvider);
+        providerView.setHorizontallyScrolling(false);
         newsClick=(RelativeLayout)itemView.findViewById(R.id.newsClick);
         newsClick.setOnClickListener(new View.OnClickListener() {
             @Override

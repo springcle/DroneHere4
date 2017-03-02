@@ -207,7 +207,6 @@ public class TabGather extends Fragment implements
             NetworkManager.getInstance().getLocaContent(MyApplication.getContext(), poi2.getLoca_num(), new NetworkManager.OnResultListener<LocaContentResult>() {
                 @Override
                 public void onSuccess(Request request, LocaContentResult result) {
-
                     locatio = result.getResult();
                     adapter.setGather(locatio);
                 }
@@ -318,7 +317,6 @@ public class TabGather extends Fragment implements
             public void onSuccess(Request request, LocaListResult result) {
 
                 List<Locatio> localist = result.getResult();
-
 
                 for (int i = 0; i < localist.size(); i++) {
                     POI poi = new POI();

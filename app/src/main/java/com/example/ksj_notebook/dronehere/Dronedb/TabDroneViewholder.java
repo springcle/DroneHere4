@@ -1,7 +1,6 @@
 package com.example.ksj_notebook.dronehere.Dronedb;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,10 +37,15 @@ public class TabDroneViewholder extends RecyclerView.ViewHolder{
         super(itemView);
 
         drone_name=(TextView)itemView.findViewById(R.id.drone_name);
+        drone_name.setHorizontallyScrolling(false);
         drone_manufactor=(TextView)itemView.findViewById(R.id.drone_manufactor);
+        drone_manufactor.setHorizontallyScrolling(false);
         drone_use2=(TextView)itemView.findViewById(R.id.drone_use2);
+        drone_use2.setHorizontallyScrolling(false);
         drone_rating=(TextView)itemView.findViewById(R.id.drone_rating);
+        drone_rating.setHorizontallyScrolling(false);
         drone_price=(TextView)itemView.findViewById(R.id.drone_price);
+        drone_price.setHorizontallyScrolling(false);
         drone_image=(ImageView) itemView.findViewById(R.id.drone_image);
 
         itemView.setOnClickListener(new View.OnClickListener() {
