@@ -533,6 +533,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         ImageView i1,i2,i3,i4;
         int[] bool;
         Button btn;
+
         Button exit_btn;
         //Button contact_btn;
         //TextView t1,t2,t3,t4;
@@ -561,6 +562,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             t4 = (TextView)findViewById(R.id.text_magnetic);
             */
             btn = (Button) findViewById(R.id.dial_btn);
+
+
             /*exit_btn = (Button) findViewById(R.id.exit_btn);*/
             /*
             contact_btn = (Button) findViewById(R.id.contact_info_btn);
@@ -578,6 +581,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     dismiss();
                 }
             });
+
+
+
             /*
             contact_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
