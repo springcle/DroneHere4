@@ -45,14 +45,15 @@
             android:layout_gravity="start|top"
             android:background="@drawable/a0"/>
     </RelativeLayout>
-
+<!--                                                   -->
     <LinearLayout
         android:id="@+id/drag_view"
         android:gravity="center_horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
+            android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,6 +77,11 @@
                 android:paddingBottom="9dp"
                 android:paddingTop="7dp"/>
         </LinearLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/sliding_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <!--
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recy"
             android:layout_gravity="center_horizontal"
@@ -84,6 +90,7 @@
             android:background="#ffffff"
             android:gravity="center|center_horizontal"
              />
+             -->
     </LinearLayout>
 
 

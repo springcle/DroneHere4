@@ -57,10 +57,6 @@ public class TabNews extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-
-
-
-
         NetworkManager.getInstance().getNews(MyApplication.getContext(), new NetworkManager.OnResultListener<NewsResult>() {
             @Override
             public void onSuccess(Request request, NewsResult result) {

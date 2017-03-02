@@ -18,8 +18,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -37,8 +36,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.ksj_notebook.dronehere.Dronedb.TabDrone;
 import com.example.ksj_notebook.dronehere.MainActivity;
 import com.example.ksj_notebook.dronehere.MyApplication;
+import com.example.ksj_notebook.dronehere.News.TabNews;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneResistance;
 import com.example.ksj_notebook.dronehere.data.DroneResistanceResult;
@@ -90,16 +91,11 @@ import okhttp3.Request;
 // TODO 빌드 그래들에서 map 부분 10.2.0으로 바꾸면서 코드도 바꿔줘야됌
 // import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback
         , GoogleMap.OnCameraChangeListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener ,MainActivity.onKeyBackPressedListener {
-
-
-
-
 
     final static int RESULT_OK = -1;
     final static int RESULT_CANCELED = 0;
@@ -127,10 +123,12 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     /** 슬라이딩 패널**/
     SlidingUpPanelLayout sliding;
-    RecyclerView recyclerView;
     SlidingAdapter adapter;
     LinearLayout drag_view;
     Button tab_news_btn, tab_drone_btn;
+    ViewPager tab_pager;
+    FragmentTabPager viewPager_adpater;
+    Fragment tab_news, tab_drone;
 
     InputMethodManager inputMethodManager;
     BackPressCloseHandler backPressCloseHandler;
@@ -178,7 +176,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 .addOnConnectionFailedListener(this)
                 .addConnectionCallbacks(this)
                 .build();
-
     }
 
     @Override
@@ -211,29 +208,52 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_tab_here, container, false);
 
-        sliding = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanel_layout);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recy);
         myLocation = (Button) view.findViewById(R.id.myLocation);
         myLocation.setVisibility(View.INVISIBLE);
-
-
         search_place = (Button) view.findViewById(R.id.search_btn);
         hamberger = (Button) view.findViewById(R.id.hamberger_btn);
 
+        /** 슬라이딩 패널**/
+        tab_pager = (ViewPager) view.findViewById(R.id.sliding_viewpager);
+        sliding = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanel_layout);
+        tab_news = new TabNews();
+        tab_drone = new TabDrone();
+        List<Fragment> fragmentList = new ArrayList<>();
+        fragmentList.add(new TabNews());
+        fragmentList.add(new TabDrone());
+        viewPager_adpater = new FragmentTabPager(context, getChildFragmentManager(), fragmentList);
+        tab_pager.setAdapter(viewPager_adpater);
+        tab_pager.setCurrentItem(0);
         tab_drone_btn = (Button) view.findViewById(R.id.tab_drone_btn);
         tab_news_btn = (Button) view.findViewById(R.id.tab_news_btn);
-        //this.inflater = inflater;
         drag_view = (LinearLayout) view.findViewById(R.id.drag_view);
+
+        tab_news_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tab_pager.setCurrentItem(0);
+                //lm.scrollToPositionWithOffset(0,0);
+            }
+        });
+        tab_drone_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tab_pager.setCurrentItem(1);
+                //lm.scrollToPositionWithOffset(0,0);
+            }
+        });
+
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentByTag("map");
         if (mapFragment == null) {
             mapFragment = SupportMapFragment.newInstance();
             getChildFragmentManager().beginTransaction().replace(R.id.map_container1, mapFragment, "map").commit();
             mapFragment.getMapAsync(this);
         }
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        adapter = new SlidingAdapter(context, getChildFragmentManager(), layoutManager, tab_news_btn, tab_drone_btn);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(layoutManager);
+
+        // LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        //adapter = new SlidingAdapter(context, getChildFragmentManager(), layoutManager, tab_news_btn, tab_drone_btn);
+        //recyclerView.setAdapter(adapter);
+        //recyclerView.setLayoutManager(layoutManager);
 
         hamberger.setOnClickListener(new View.OnClickListener() {
             @Override
