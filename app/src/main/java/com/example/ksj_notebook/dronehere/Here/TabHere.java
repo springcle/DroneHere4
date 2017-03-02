@@ -168,7 +168,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 .addOnConnectionFailedListener(this)
                 .addConnectionCallbacks(this)
                 .build();
-    }
+    }//
 
     @Override
     public void onStart() {
