@@ -59,11 +59,6 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
     public DroneDetailViewHolderHeader(View itemView) {
         super(itemView);
 
-
-
-
-
-
         drdb_title = (TextView) itemView.findViewById(R.id.drdb_title);
        /* imageView=(ImageView)itemView.findViewById(R.id.detail_imageView);
         imageView2=(ImageView)itemView.findViewById(R.id.detail_imageView2);
@@ -97,7 +92,6 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
         drawable2 = (ClipDrawable) progressBar2.getDrawable();
         drawable3 = (ClipDrawable) progressBar3.getDrawable();
         drawable4 = (ClipDrawable) progressBar4.getDrawable();
-
 
         imbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,17 +185,11 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
         }
 */
 
-
-
         mViewPager = (ViewPager) itemView.findViewById(R.id.detail_imageView);
         /*mViewPager.addOnPageChangeListener(this);*/
 
         detailPagerAdapter = new DetailPagerAdapter();
         mViewPager.setAdapter(detailPagerAdapter);
-
-
-
-
 
         drdb_title.setText(db.getDr_name());
         dt_manu.setText(db.getDr_manufacture());
