@@ -23,24 +23,24 @@
         >
     <Button
         android:id="@+id/facebookbtn"
-        android:layout_width="250dp"
-        android:layout_height="42dp"
+        android:layout_width="211dp"
+        android:layout_height="39dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="17dp"
         android:background="@drawable/facebook_login" />
 
     <Button
         android:id="@+id/naverbtn"
-        android:layout_width="250dp"
-        android:layout_height="42dp"
+        android:layout_width="211dp"
+        android:layout_height="39dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="17dp"
         android:background="@drawable/naver_login" />
 
     <Button
         android:id="@+id/emailbtn"
-        android:layout_width="250dp"
-        android:layout_height="42dp"
+        android:layout_width="211dp"
+        android:layout_height="39dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="17dp"
         android:background="@drawable/email_login" />
@@ -58,13 +58,17 @@
 
             <Button
                 android:id="@+id/joinbtn"
-                android:layout_width="50dp"
-                android:layout_height="25dp"
-                android:text="회원가입"
+                android:layout_width="44dp"
+                android:layout_height="12dp"
+
                 android:textColor="#FFFFFFFF"
-                android:background="@android:color/transparent"
+
+                android:background="@drawable/signup"
+
                  />
-            <!--android:background="@drawable/signup"-->
+            <!--
+            android:text="회원가입"
+            android:background="@android:color/transparent"-->
         </LinearLayout>
 
         <LinearLayout
@@ -75,15 +79,16 @@
 
             <Button
                 android:id="@+id/member_pass"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:text="비회원 둘러보기"
+                android:layout_width="78dp"
+                android:layout_height="12dp"
                 android:textColor="#FFFFFFFF"
-                android:background="@android:color/transparent"
+                android:background="@drawable/member_pass"
 
 
                 />
-<!--android:background="@drawable/member_pass"-->
+<!--
+android:text="비회원 둘러보기"
+android:background="@android:color/transparent"-->
 
 
         </LinearLayout>
