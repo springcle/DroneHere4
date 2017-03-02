@@ -19,15 +19,25 @@
         <FrameLayout
             android:id="@+id/map_container1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        <Button
-            android:id="@+id/search_btn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="13dp"
-            android:background="@drawable/i_sear"
-            android:layout_gravity="top|right" />
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/search_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/i_sear"
+                android:layout_gravity="right|top" />
+            <Button
+                android:id="@+id/hamberger_btn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="50dp"
+                android:layout_gravity="left|top"
+                android:background="@drawable/a0"/>
+        </FrameLayout>
+
         <Button
             android:id="@+id/myLocation"
             android:layout_width="24dp"
@@ -36,14 +46,6 @@
             android:layout_marginTop="16dp"
             android:layout_gravity="start|top"
             android:background="@drawable/my_location_btn"/>
-        <Button
-            android:id="@+id/hamberger_btn"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="50dp"
-            android:layout_gravity="start|top"
-            android:background="@drawable/a0"/>
     </RelativeLayout>
 <!--                                                   -->
     <LinearLayout
@@ -91,6 +93,5 @@
              />
              -->
     </LinearLayout>
-
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

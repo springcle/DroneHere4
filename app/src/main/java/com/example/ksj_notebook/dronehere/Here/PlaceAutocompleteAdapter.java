@@ -92,7 +92,6 @@ public class PlaceAutocompleteAdapter
     public void setBounds(LatLngBounds bounds) {
         mBounds = bounds;
     }
-
     /**
      * Returns the number of results received in the last autocomplete query.
      */
@@ -100,7 +99,6 @@ public class PlaceAutocompleteAdapter
     public int getCount() {
         return mResultList.size();
     }
-
     /**
      * Returns an item from the last autocomplete query.
      */
@@ -155,12 +153,22 @@ public class PlaceAutocompleteAdapter
                 }
                 return results;
             }
-
+            /** "대한민국" 지역정보만 필터링**/
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 if (results != null && results.count > 0) {
                     // The API returned at least one result, update the data.
-                    mResultList = (ArrayList<AutocompletePrediction>) results.values;
+                    ArrayList<AutocompletePrediction> temp = (ArrayList<AutocompletePrediction>)results.values;
+                    ArrayList<AutocompletePrediction> temp2 = new ArrayList<>();
+                    for(int i=0; i<temp.size(); i++){
+                        CharSequence ch = temp.get(i).getFullText(null);
+                        String str = ch.toString();
+                        if(str.contains("대한민국") == true){
+                            temp2.add(temp.get(i));
+                        }
+                    }
+                    mResultList = temp2;
+                    //mResultList = (ArrayList<AutocompletePrediction>) results.values;
                     notifyDataSetChanged();
                 } else {
                     // The API did not return any results, invalidate the data set.
@@ -227,7 +235,11 @@ public class PlaceAutocompleteAdapter
             resultList = new ArrayList<>(autocompletePredictions.getCount());
             while (iterator.hasNext()) {
                 AutocompletePrediction prediction = iterator.next();
-                resultList.add(new PlaceAutocomplete(prediction.getPlaceId()));
+                CharSequence str = prediction.getFullText(null);
+                String place_name = str.toString();
+                if(place_name.contains("대한민국") == true) {
+                    resultList.add(new PlaceAutocomplete(prediction.getPlaceId()));
+                }
             }
             // Buffer release
             //autocompletePredictions.release();
