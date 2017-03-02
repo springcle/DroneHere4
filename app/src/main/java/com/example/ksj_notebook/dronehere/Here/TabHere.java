@@ -123,7 +123,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     /** 슬라이딩 패널**/
     SlidingUpPanelLayout sliding;
-    SlidingAdapter adapter;
     LinearLayout drag_view;
     Button tab_news_btn, tab_drone_btn;
     ViewPager tab_pager;

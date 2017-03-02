@@ -11,7 +11,7 @@
     sothree:umanoPanelHeight="0dp"
     sothree:umanoDragView="@+id/drag_view"
     sothree:umanoShadowHeight="0dp"
-    sothree:umanoScrollableView="@+id/recy">
+    sothree:umanoScrollableView="@+id/sliding_viewpager">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -49,33 +49,32 @@
     <LinearLayout
         android:id="@+id/drag_view"
         android:gravity="center_horizontal"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#1b52ac"
+            android:layout_height="120dp"
+            android:background="@color/white"
             android:orientation="horizontal">
-
             <Button
                 android:id="@+id/tab_news_btn"
                 android:text="뉴스"
-                android:layout_width="60dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
                 android:layout_height="60dp"
-                android:layout_marginRight="30dp"
-                android:paddingBottom="9dp"
-                android:paddingTop="7dp"/>
+                android:layout_marginTop="30dp"
+                />
             <Button
                 android:id="@+id/tab_drone_btn"
                 android:text="백과"
-                android:layout_marginLeft="30dp"
-                android:layout_width="60dp"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
                 android:layout_height="60dp"
-                android:paddingBottom="9dp"
-                android:paddingTop="7dp"/>
+                />
         </LinearLayout>
         <android.support.v4.view.ViewPager
             android:id="@+id/sliding_viewpager"
