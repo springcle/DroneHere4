@@ -1,4 +1,4 @@
-<!--<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/tools"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
     android:id="@+id/slidingUpPanel_layout"
@@ -12,56 +12,23 @@
     sothree:umanoParallaxOffset="0dp"
     sothree:umanoScrollableView="@+id/sliding_viewpager"
     sothree:umanoShadowHeight="0dp"
-    >-->
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-
-    ><!--    android:background="@color/whiteGrayFont"-->
-
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#00FFFFFF">
-
-
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsingToolbarLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            app:contentScrim="@color/colorPrimary"
-            app:expandedTitleMarginBottom="11dp"
-            app:expandedTitleMarginStart="33dp"
-
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-
-            <FrameLayout
-                android:id="@+id/map_container1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></FrameLayout>
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-        <!--            app:expandedTitleTextAppearance="@style/TextAppearanceSet"-->
-    </android.support.design.widget.AppBarLayout>
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
+        <FrameLayout
+            android:id="@+id/map_container1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
 
         <LinearLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="vertical"
+            android:layout_marginTop="10dp"
 
             >
 
@@ -70,8 +37,8 @@
                 android:id="@+id/hamberger_btn"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_gravity="left|center"
                 android:layout_marginLeft="20dp"
+              android:layout_gravity="left|center"
 
                 android:background="@drawable/i_ham" />
 
@@ -164,4 +131,4 @@
     </LinearLayout>
 
 
-</android.support.design.widget.CoordinatorLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
