@@ -24,7 +24,7 @@ public class LoginEmail extends AppCompatActivity {
     EditText email_edit;
     EditText pass_edit;
     Button loginn;
-    Button face_login;
+
     Button button3;
 
     String mem_email;
@@ -39,7 +39,6 @@ public class LoginEmail extends AppCompatActivity {
         pass_edit=(EditText)findViewById(R.id.pass_edit);
 
         loginn=(Button)findViewById(R.id.loginn);
-        face_login=(Button)findViewById(R.id.face_login);
         button3=(Button)findViewById(R.id.button3);
 
 
@@ -76,12 +75,7 @@ public class LoginEmail extends AppCompatActivity {
                 });
             }
         });
-        face_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(LoginEmail.this, "아직 미구현", Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
