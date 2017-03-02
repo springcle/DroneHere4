@@ -3,51 +3,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/back_01"
+    android:orientation="vertical"
     tools:context=".login.StartActivity">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/i_02"/>
 
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"></LinearLayout>
+        android:layout_weight="1"
+        android:orientation="vertical"></LinearLayout>
 
-    <Button
-        android:layout_width="250dp"
-        android:layout_height="42dp"
-        android:text="네이버 로그인"
-        android:id="@+id/naverbtn"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="17dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="30dp"
+        >
     <Button
-        android:layout_width="250dp"
-        android:layout_height="42dp"
-        android:id="@+id/emailbtn"
-        android:background="@drawable/b_02"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="17dp" />
-
-    <Button
-        android:layout_width="250dp"
-        android:layout_height="42dp"
         android:id="@+id/facebookbtn"
-        android:background="@drawable/b_01"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="17dp" />
-
-    <Button
         android:layout_width="250dp"
         android:layout_height="42dp"
-        android:id="@+id/joinbtn"
-        android:background="@drawable/b_03"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="33dp" />
+        android:layout_marginBottom="17dp"
+        android:background="@drawable/facebook_login" />
+
+    <Button
+        android:id="@+id/naverbtn"
+        android:layout_width="250dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="17dp"
+        android:background="@drawable/naver_login" />
+
+    <Button
+        android:id="@+id/emailbtn"
+        android:layout_width="250dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="17dp"
+        android:background="@drawable/email_login" />
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/joinbtn"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:text="회원가입"
+                android:textColor="#FFFFFFFF"
+                android:background="@android:color/transparent"
+                 />
+            <!--android:background="@drawable/signup"-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:text="비회원 둘러보기"
+                android:textColor="#FFFFFFFF"
+                android:background="@android:color/transparent"
+
+
+                />
+<!--android:background="@drawable/member_pass"-->
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>

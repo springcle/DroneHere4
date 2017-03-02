@@ -23,6 +23,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,12 +87,19 @@ import java.util.List;
 
 import okhttp3.Request;
 
+// TODO 빌드 그래들에서 map 부분 10.2.0으로 바꾸면서 코드도 바꿔줘야됌
+// import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback
         , GoogleMap.OnCameraChangeListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener ,MainActivity.onKeyBackPressedListener {
+
+
+
+
 
     final static int RESULT_OK = -1;
     final static int RESULT_CANCELED = 0;
@@ -126,7 +134,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     InputMethodManager inputMethodManager;
     BackPressCloseHandler backPressCloseHandler;
-    PlaceAutocompleteAdapter placeAutocompleteAdapter;
 
     int openWeather_count=0; // 오픈웨더 API 호출 횟수 절약용 카운트
     boolean getData_success = false;
@@ -136,6 +143,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     String wind, wind_click;
     Double dr_resistance;
     PlaceDialog placedialog;
+
+
 
     /** lieInside 인덱스 **/
     // [0]: 금지구역
@@ -149,6 +158,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     int[] bool = new int[4];
     int[] bool1 = new int[4];
     boolean drone_exist;
+    PlaceAutocompleteAdapter placeAutocompleteAdapter;
 
 
     public TabHere() {
@@ -168,7 +178,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 .addOnConnectionFailedListener(this)
                 .addConnectionCallbacks(this)
                 .build();
-    }//
+
+    }
 
     @Override
     public void onStart() {
@@ -194,6 +205,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         super.onStop();
         mClient.disconnect();
     }
+    //
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -202,6 +214,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         sliding = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanel_layout);
         recyclerView = (RecyclerView) view.findViewById(R.id.recy);
         myLocation = (Button) view.findViewById(R.id.myLocation);
+        myLocation.setVisibility(View.INVISIBLE);
+
+
         search_place = (Button) view.findViewById(R.id.search_btn);
         hamberger = (Button) view.findViewById(R.id.hamberger_btn);
 
@@ -227,18 +242,24 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             }
         });
 
+// 버튼 누르면 내위치로 카메라 이동
         myLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (location != null) {
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14f);
                     //37.47547965,126.95924163
+
+
                     if (mMap != null) {
                         mMap.moveCamera(update);
+
                     }
+
                 }
             }
         });
+
         search_place.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -312,6 +333,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     }
 
 
+
     /** 장소검색 바 **/
     class PlaceDialog extends Dialog {
         @Override
@@ -349,7 +371,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
                 }
             });
+
         }
+
         public PlaceDialog(Context context) {
             super(context, android.R.style.Theme_Translucent_NoTitleBar);
         }
@@ -395,13 +419,47 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         }
     };
 
+    // 초기 현재 나의 위치로 카메라 이동
     private void displayMessage(Location location) {
         if (location != null) {
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 11f);
+
+
+
             if (mMap != null) {
                 mMap.moveCamera(update);
+                final LatLng mylocationLatLng = mMap.getCameraPosition().target;
+                mylocationButtonFuntion(mylocationLatLng);
             }
         }
+    }
+
+    // mylocation 버튼 visible, invisible할때 사용할 메서드
+    private void mylocationButtonFuntion(final LatLng mylocationLatLng){
+
+        // TODO 빌드 그래들 map부분 버전 올려야 가능함. (우버처럼 움직이기 시작하는것 감지하는 리스너)
+        // https://developers.google.com/android/reference/com/google/android/gms/maps/GoogleMap.OnCameraMoveStartedListener
+
+        // GoogleMap.OnCameraMoveStartedListener(new )
+
+
+
+        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+
+                Log.e("카메라1","카메라 포지션: "+mMap.getCameraPosition());
+                Log.e("카메라2","초기 카메라 포지션: "+mylocationLatLng);
+
+
+                if(mylocationLatLng.equals(mMap.getCameraPosition().target)){
+                    myLocation.setVisibility(View.INVISIBLE);
+                }else{
+                    myLocation.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -422,12 +480,14 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         mMap.setOnMarkerClickListener(this);
         mMap.setOnCameraChangeListener(this);
-        mMap.setOnInfoWindowClickListener(this);
         final LatLng korea = new LatLng(36.641111, 127.853366);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(korea, 7.1f));
         /** 맵 롱 클릭 시 이벤트 처리 **/
+
+
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
@@ -484,6 +544,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         } else if (mem_id != "" && drone_exist == false) { // drone_exist : false면 터치 시 커스텀 다이얼로그 비활성화
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_not_drone));
         } else {
+            drone_exist = true; // 드론 유/무 확인 후 창 비활성화 용도 인데, 비회원 일때도 커스텀다이얼로그를 활성화 시킨 후 로그인 시켜야하므로 true값을 넣어줌
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1_unable));
         }
         my_marker = mMap.addMarker(options);
@@ -554,7 +615,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             t4 = (TextView)findViewById(R.id.text_magnetic);
             */
             btn = (Button) findViewById(R.id.dial_btn);
-            exit_btn = (Button) findViewById(R.id.exit_btn);
+            /*exit_btn = (Button) findViewById(R.id.exit_btn);*/
             /*
             contact_btn = (Button) findViewById(R.id.contact_info_btn);
             if(PropertyManager.getInstance().getId() == "") {
@@ -579,12 +640,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     startActivity(intent);
                 }
             });*/
-            exit_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dismiss();
-                }
-            });
             if (bool[0] == 1) i1.setImageResource(R.drawable.i_pos1);
             else i1.setImageResource(R.drawable.i_imp1);
 
@@ -736,7 +791,34 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     return;
                 }
                 location = LocationServices.FusedLocationApi.getLastLocation(mClient);
+
+
                 displayMessage(location);
+/*
+                mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                    @Override
+                    public void onCameraChange(CameraPosition cameraPosition) {
+
+
+
+
+                        // TODO. 1. 카메라의 위치가 mylocation latlng과 다른 경우 mylocation 버튼 visible.
+
+
+                        if (mylocationLatLng.equals(mMap.getCameraPosition().target)){
+                            myLocation.setVisibility(View.INVISIBLE);
+                        }else{
+
+                            myLocation.setVisibility(View.VISIBLE);
+                        }
+*//*
+                        if(mMap.getCameraPosition().target.equals(new LatLng(location.getLatitude(), location.getLongitude()))){
+                            myLocation.setVisibility(View.VISIBLE);
+                        }else {
+                            myLocation.setVisibility(View.INVISIBLE);
+                        }*//*
+                    }
+                });*/
                 getData();
             }
         }, 1000);
@@ -815,9 +897,21 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     else if (liesInside[1][2] == true) clickMarker_option.title("관제권");
                     else if (liesInside[1][3] == true) clickMarker_option.title("비행위험구역");
                     else clickMarker_option.title("일반공역");
+
                     clickMarker_option.snippet("풍속 : " + wind_click + "m/s");
                     clickMarker = mMap.addMarker(clickMarker_option);
                     clickMarker.showInfoWindow();
+                    mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        @Override
+                        public void onInfoWindowClick(Marker marker) {
+                            if (marker.equals(clickMarker)) {
+                                flying_state_Dialog dialog;
+                                dialog = new flying_state_Dialog(context, bool1);
+                                dialog.setCanceledOnTouchOutside(true);
+                                dialog.show();
+                            }
+                        }
+                    });
                     getData_success = false;
                 } else delay_marker_display(latLng);
             }
@@ -847,6 +941,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             liesInside[0][2] = liesOnPolygon(polygonsInLayer2, latlng);
             List<KmlPolygon> polygonsInLayer3 = getPolygons(danger_layer.getContainers());
             liesInside[0][3] = liesOnPolygon(polygonsInLayer3, latlng);
+
             /** 자기장 **/
             NetworkManager.getInstance().getMag(MyApplication.getContext(), new NetworkManager.OnResultListener<MagneticResult>() {
                 @Override
@@ -910,6 +1005,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                                             add_marker(location, bool);
                                         }
                                     }
+
+
                                 }
 
                                 @Override
@@ -983,14 +1080,17 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 }
             }
         } else { // 비회원 일때
+
             drone_exist = false;
             for (int i = 0; i < 4; i++) {
                 bool[i] = 0;
+                bool1[i] = 0;
             }
             if(location != null) {
                 add_marker(location, bool);
             }
         }
+
     }
 
     /** 4대 비행공식 계산(마커 위치) **/
@@ -1050,15 +1150,20 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                                     dr_wind = Double.parseDouble(wind_click);
                                     l_sunrise = Long.parseLong(sunrise_click);
                                     l_sunset = Long.parseLong(sunset_click);
+
                                     if(liesInside[1][0] == false && liesInside[1][1] == false && liesInside[1][2] == false)
                                         bool1[0] = 1;
                                     else bool1[0] = 0;
+
                                     if (l_sunrise < now && now < l_sunset) bool1[1] = 1;
                                     else bool1[1] = 0;
+
                                     if (dr_wind < dr_resistance) bool1[2] = 1;
                                     else bool1[2] = 0;
+
                                     if (magnetic < 5) bool1[3] = 1;
                                     else bool1[3] = 0;
+
                                     // 비행 가능, 불가능 표시 마커
                                     /*
                                     if ((bool1 != null) && location != null) {
@@ -1086,6 +1191,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                         });
                     }
                 }
+
                 @Override
                 public void onFail(Request request, IOException exception) {
                     Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.",Toast.LENGTH_SHORT).show();
@@ -1094,6 +1200,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         } else { // 비회원 일때
             drone_exist = false;
             for (int i = 0; i < 4; i++) {
+                bool[i] = 0;
                 bool1[i] = 0;
             }
             /*
@@ -1145,6 +1252,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 CameraUpdate update = CameraUpdateFactory.newLatLngZoom(place_location, 13f);
                 if (mMap != null) {
                     mMap.moveCamera(update);
+
                 }
             }
         }

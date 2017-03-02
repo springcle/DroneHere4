@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity{
     TextView main_title;
     Button toolbar_btn;
 
+
     public static Context getContext() {
         return context;
     }
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
 
+
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         NetworkCheckManager receiver = new NetworkCheckManager(this);
         registerReceiver(receiver, filter);
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity{
         getSupportFragmentManager().beginTransaction().replace(R.id.tab_frame, new TabHere()).commit();
         /*
         frameLayout=findViewById(android.R.id.tabcontent);
+
         tabHost = (FragmentTabHost)findViewById(R.id.tabHost);
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
         */
@@ -157,6 +160,8 @@ public class MainActivity extends AppCompatActivity{
             e.printStackTrace();
         }
     }
+
+
     // 권한 확인
     public boolean checkLocationPermission()
     {
