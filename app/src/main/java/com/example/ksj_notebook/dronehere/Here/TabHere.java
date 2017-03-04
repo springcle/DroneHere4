@@ -33,6 +33,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -126,8 +127,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
      * 슬라이딩 패널
      **/
 /*    SlidingUpPanelLayout sliding;*/
-    NestedScrollView sliding;
+    SlidingUpPanelLayout sliding;
     LinearLayout drag_view;
+    FrameLayout googleMapFrame;
     Button tab_news_btn, tab_drone_btn;
     ViewPager tab_pager;
     FragmentTabPager viewPager_adpater;
@@ -220,7 +222,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         /** 슬라이딩 패널**/
         tab_pager = (ViewPager) view.findViewById(R.id.sliding_viewpager);
 /*        sliding = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanel_layout);*/
-        sliding = (NestedScrollView) view.findViewById(R.id.detail_body_scrollview);
+        sliding = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanel_layout);
         tab_news = new TabNews();
         tab_drone = new TabDrone();
         List<Fragment> fragmentList = new ArrayList<>();
@@ -232,6 +234,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         tab_drone_btn = (Button) view.findViewById(R.id.tab_drone_btn);
         tab_news_btn = (Button) view.findViewById(R.id.tab_news_btn);
         drag_view = (LinearLayout) view.findViewById(R.id.drag_view);
+
+
 
         tab_news_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -253,6 +257,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             mapFragment = SupportMapFragment.newInstance();
             getChildFragmentManager().beginTransaction().replace(R.id.map_container1, mapFragment, "map").commit();
             mapFragment.getMapAsync(this);
+
+
         }
 
         // LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
