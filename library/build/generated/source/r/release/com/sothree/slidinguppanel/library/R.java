@@ -122,6 +122,10 @@ containing a value of this type.
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
+        public static int umanoScrollInterpolator=0x7f01000f;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
         public static int umanoScrollableView=0x7f01000a;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
@@ -136,6 +140,8 @@ containing a value of this type.
     }
     public static final class dimen {
         public static int item_touch_helper_max_drag_scroll_per_frame=0x7f030000;
+        public static int item_touch_helper_swipe_escape_max_velocity=0x7f030001;
+        public static int item_touch_helper_swipe_escape_velocity=0x7f030002;
     }
     public static final class drawable {
         public static int above_shadow=0x7f020000;
@@ -248,6 +254,7 @@ containing a value of this type.
            <tr><td><code>{@link #SlidingUpPanelLayout_umanoOverlay com.sothree.slidinguppanel.library:umanoOverlay}</code></td><td></td></tr>
            <tr><td><code>{@link #SlidingUpPanelLayout_umanoPanelHeight com.sothree.slidinguppanel.library:umanoPanelHeight}</code></td><td></td></tr>
            <tr><td><code>{@link #SlidingUpPanelLayout_umanoParallaxOffset com.sothree.slidinguppanel.library:umanoParallaxOffset}</code></td><td></td></tr>
+           <tr><td><code>{@link #SlidingUpPanelLayout_umanoScrollInterpolator com.sothree.slidinguppanel.library:umanoScrollInterpolator}</code></td><td></td></tr>
            <tr><td><code>{@link #SlidingUpPanelLayout_umanoScrollableView com.sothree.slidinguppanel.library:umanoScrollableView}</code></td><td></td></tr>
            <tr><td><code>{@link #SlidingUpPanelLayout_umanoShadowHeight com.sothree.slidinguppanel.library:umanoShadowHeight}</code></td><td></td></tr>
            </table>
@@ -260,13 +267,14 @@ containing a value of this type.
            @see #SlidingUpPanelLayout_umanoOverlay
            @see #SlidingUpPanelLayout_umanoPanelHeight
            @see #SlidingUpPanelLayout_umanoParallaxOffset
+           @see #SlidingUpPanelLayout_umanoScrollInterpolator
            @see #SlidingUpPanelLayout_umanoScrollableView
            @see #SlidingUpPanelLayout_umanoShadowHeight
          */
         public static final int[] SlidingUpPanelLayout = {
             0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007,
             0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b,
-            0x7f01000c, 0x7f01000d, 0x7f01000e
+            0x7f01000c, 0x7f01000d, 0x7f01000e, 0x7f01000f
         };
         /**
           <p>This symbol is the offset where the {@link com.sothree.slidinguppanel.library.R.attr#umanoAnchorPoint}
@@ -400,6 +408,16 @@ containing a value of this type.
           @attr name com.sothree.slidinguppanel.library:umanoParallaxOffset
         */
         public static int SlidingUpPanelLayout_umanoParallaxOffset = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.sothree.slidinguppanel.library.R.attr#umanoScrollInterpolator}
+          attribute's value can be found in the {@link #SlidingUpPanelLayout} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name com.sothree.slidinguppanel.library:umanoScrollInterpolator
+        */
+        public static int SlidingUpPanelLayout_umanoScrollInterpolator = 11;
         /**
           <p>This symbol is the offset where the {@link com.sothree.slidinguppanel.library.R.attr#umanoScrollableView}
           attribute's value can be found in the {@link #SlidingUpPanelLayout} array.

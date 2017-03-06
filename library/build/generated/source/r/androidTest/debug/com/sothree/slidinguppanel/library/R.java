@@ -21,11 +21,14 @@ public final class R {
         public static final int umanoOverlay = 0x7f01000b;
         public static final int umanoPanelHeight = 0x7f010004;
         public static final int umanoParallaxOffset = 0x7f010006;
+        public static final int umanoScrollInterpolator = 0x7f01000f;
         public static final int umanoScrollableView = 0x7f01000a;
         public static final int umanoShadowHeight = 0x7f010005;
     }
     public static final class dimen {
         public static final int item_touch_helper_max_drag_scroll_per_frame = 0x7f030000;
+        public static final int item_touch_helper_swipe_escape_max_velocity = 0x7f030001;
+        public static final int item_touch_helper_swipe_escape_velocity = 0x7f030002;
     }
     public static final class drawable {
         public static final int above_shadow = 0x7f020000;
@@ -45,7 +48,7 @@ public final class R {
         public static final int RecyclerView_reverseLayout = 3;
         public static final int RecyclerView_spanCount = 2;
         public static final int RecyclerView_stackFromEnd = 4;
-        public static final int[] SlidingUpPanelLayout = { 0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b, 0x7f01000c, 0x7f01000d, 0x7f01000e };
+        public static final int[] SlidingUpPanelLayout = { 0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b, 0x7f01000c, 0x7f01000d, 0x7f01000e, 0x7f01000f };
         public static final int SlidingUpPanelLayout_umanoAnchorPoint = 9;
         public static final int SlidingUpPanelLayout_umanoClipPanel = 8;
         public static final int SlidingUpPanelLayout_umanoDragView = 5;
@@ -55,6 +58,7 @@ public final class R {
         public static final int SlidingUpPanelLayout_umanoOverlay = 7;
         public static final int SlidingUpPanelLayout_umanoPanelHeight = 0;
         public static final int SlidingUpPanelLayout_umanoParallaxOffset = 2;
+        public static final int SlidingUpPanelLayout_umanoScrollInterpolator = 11;
         public static final int SlidingUpPanelLayout_umanoScrollableView = 6;
         public static final int SlidingUpPanelLayout_umanoShadowHeight = 1;
     }
