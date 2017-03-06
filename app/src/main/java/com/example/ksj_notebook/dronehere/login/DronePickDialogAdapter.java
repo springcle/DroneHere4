@@ -25,8 +25,6 @@ public class DronePickDialogAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         mListener = listener;
     }
 
-
-
     List<DroneDB> db;
 
     public void setDb3(List<DroneDB> db){
@@ -43,12 +41,12 @@ public class DronePickDialogAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((DbSearchViewHolder) holder).setList(db.get(position));
-        ((DbSearchViewHolder)holder).setOnItemClickListener(mListener);
+        ((DbSearchViewHolder) holder).setOnItemClickListener(mListener);
     }
 
     @Override
     public int getItemCount() {
-        if(db==null)return 0;
+        if(db == null)return 0;
         return db.size();
     }
 }

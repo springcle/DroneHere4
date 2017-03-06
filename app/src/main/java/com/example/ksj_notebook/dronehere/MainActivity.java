@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
-
-
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         NetworkCheckManager receiver = new NetworkCheckManager(this);
         registerReceiver(receiver, filter);

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,11 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.example.ksj_notebook.dronehere.MainActivity;
 import com.example.ksj_notebook.dronehere.MyApplication;
@@ -36,15 +36,16 @@ import okhttp3.Request;
 
 public class JoinDronePick extends AppCompatActivity {
 
+    Vibrator vibrator;
     EditText nick;
-    ToggleButton btn1;
+    //ToggleButton btn1;
     Button btn2;
-    Button btn3;
+    ImageButton btn3;
 
     String mem_pass;
     String mem_name;
     String mem_email;
-    String dr_id;
+    String dr_id = " ";
     String dr_name;
     String dr_weight1;
 
@@ -55,16 +56,36 @@ public class JoinDronePick extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drone_pick);
 
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
         nick=(EditText)findViewById(R.id.join_nick);
-        btn1=(ToggleButton)findViewById(R.id.searchNot);
         btn2=(Button)findViewById(R.id.search);
-        btn3=(Button)findViewById(R.id.joinjoin);
+        btn3=(ImageButton)findViewById(R.id.joinjoin);
 
         mem_email=getIntent().getStringExtra("email");
         mem_pass=getIntent().getStringExtra("pass");
 
         nick.setHint(R.string.edit_text_nick);
+        nick.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String str1 = nick.getText().toString();
+                if (str1.isEmpty() == true) {
+                    nick.setBackgroundResource(R.drawable.b_04_1);
+                } else nick.setBackgroundResource(R.drawable.b_04);
+            }
+        });
+/*
         btn1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -80,14 +101,20 @@ public class JoinDronePick extends AppCompatActivity {
 
             }
         });
-
+*/
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomDialog3 dialog=new CustomDialog3(JoinDronePick.this);
+                CustomDialog3 dialog = new CustomDialog3(JoinDronePick.this);
                 dialog.show();
             }
         });
+
+        /* 2017-03-06
+        1. 닉네임 입력하면 이메일주소 들어가지 않도록 수정.
+        2. 닉네임 공백 비허용
+        3. 드론 무조건 선택하도록 변경
+        */
 
         btn3.setOnClickListener(new View.OnClickListener() {
 
@@ -95,85 +122,28 @@ public class JoinDronePick extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if((""+nick.getText()).equals("")){
-                    mem_name=mem_email;
-                }else{
-                    mem_name=nick.getText().toString();
+                byte[] test;
+                test = nick.getText().toString().getBytes();
+                if (("" + nick.getText()).equals("")) {
+                    Toast.makeText(getApplicationContext(), "닉네임을 입력해주세요", Toast.LENGTH_SHORT).show();
+                    vibrator.vibrate(100);
                 }
-
-                if(cnt==2){
-
-                    NetworkManager.getInstance().getJoin2(MyApplication.getContext(),mem_pass,mem_name,mem_email, new NetworkManager.OnResultListener() {
-
-                        @Override
-                        public void onSuccess(Request request, final Object result) {
-                            NetworkManager.getInstance().getLogin(MyApplication.getContext(),mem_email,mem_pass, new NetworkManager.OnResultListener<LoginResult>() {
-
-                                @Override
-                                public void onSuccess(Request request, LoginResult result) {
-
-                                    PropertyManager.getInstance().setId(result.getResult().getMem_id());
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-
-                                }
-
-                                @Override
-                                public void onFail(Request request, IOException exception) {
-
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onFail(Request request, IOException exception) {
-
-                        }
-                    });
-
-                }else if(cnt==3){
-
-                    NetworkManager.getInstance().getJoin3(MyApplication.getContext(),mem_pass,mem_name,mem_email,dr_id, new NetworkManager.OnResultListener() {
-
-                        @Override
-                        public void onSuccess(Request request, final Object result) {
-                            NetworkManager.getInstance().getLogin(MyApplication.getContext(),mem_email,mem_pass, new NetworkManager.OnResultListener<LoginResult>() {
-
-
-
-                                @Override
-                                public void onSuccess(Request request, LoginResult result) {
-
-                                    PropertyManager.getInstance().setId(result.getResult().getMem_id());
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-
-                                }
-
-                                @Override
-                                public void onFail(Request request, IOException exception) {
-
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onFail(Request request, IOException exception) {
-
-                        }
-                    });
-
-                }else{
-
-                    NetworkManager.getInstance().getJoin4(MyApplication.getContext(),mem_pass,mem_name,mem_email,dr_name,dr_weight1, new NetworkManager.OnResultListener() {
+                else if(test.length < 2  || test.length > 5){
+                    Toast.makeText(getApplicationContext(), "닉네임(2-5자)형식에 맞게 입력해주세요", Toast.LENGTH_SHORT).show();
+                    vibrator.vibrate(100);
+                }
+                else if(dr_id.equals(" ")){
+                    Toast.makeText(getApplicationContext(), "드론을 추가해주세요", Toast.LENGTH_SHORT).show();
+                    vibrator.vibrate(100);
+                }
+                else {
+                    mem_name = nick.getText().toString();
+                    NetworkManager.getInstance().getJoin3(MyApplication.getContext(), mem_pass, mem_name, mem_email, dr_id, new NetworkManager.OnResultListener() {
 
                         @Override
                         public void onSuccess(Request request, Object result) {
 
-
-                            NetworkManager.getInstance().getLogin(MyApplication.getContext(),mem_email,mem_pass, new NetworkManager.OnResultListener<LoginResult>() {
+                            NetworkManager.getInstance().getLogin(MyApplication.getContext(), mem_email, mem_pass, new NetworkManager.OnResultListener<LoginResult>() {
 
                                 @Override
                                 public void onSuccess(Request request, LoginResult result) {
@@ -200,23 +170,14 @@ public class JoinDronePick extends AppCompatActivity {
                     });
 
                 }
-
-
-
-
-
             }
         });
     }
-
-
-
 
     class CustomDialog3 extends Dialog {
 
         EditText editText;
         RecyclerView recy;
-        Button nodrone;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -236,30 +197,17 @@ public class JoinDronePick extends AppCompatActivity {
 
             editText=(EditText)findViewById(R.id.droneseaa);
             recy=(RecyclerView)findViewById(R.id.drpick_recy);
-            nodrone=(Button)findViewById(R.id.nonono);
-            nodrone.setVisibility(View.VISIBLE);
 
             recy.setAdapter(adap);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             recy.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             recy.setLayoutManager(layoutManager);
 
-            nodrone.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CustomDialog5 dialog=new CustomDialog5(JoinDronePick.this);
-                    dialog.show();
-                    dismiss();
-
-                }
-            });
-
             adap.setOnItemClickListener(new DronePickDialogAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClicked(DbSearchViewHolder holder, View view, DroneDB s, int position) {
-                    cnt=3;
                     dr_id=s.get_id();
-                    btn1.setVisibility(View.INVISIBLE);
+                    //btn1.setVisibility(View.INVISIBLE);
                     btn2.setText(s.getDr_name());
                     btn2.setBackgroundResource(R.drawable.b_11_2);
                     btn3.setVisibility(View.VISIBLE);
@@ -288,6 +236,7 @@ public class JoinDronePick extends AppCompatActivity {
 
                             @Override
                             public void onSuccess(Request request, DroneSearchResult result) {
+                                /** 에디트텍스트 검색 시 필터 된 드론정보 서버로 부터 받아와서 저장 **/
                                 adap.setDb3(result.getResult());
                             }
 
@@ -309,7 +258,7 @@ public class JoinDronePick extends AppCompatActivity {
     }
 
 
-
+/*
     class CustomDialog5 extends Dialog {
 
         EditText drn_name;
@@ -341,12 +290,9 @@ public class JoinDronePick extends AppCompatActivity {
             down12.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                         down12.setBackgroundResource(R.drawable.b_16_2);
                         up12.setBackgroundResource(R.drawable.b_17_1);
                         dr_weight1="0";
-
-
                 }
             });
             up12.setOnClickListener(new View.OnClickListener() {
@@ -366,7 +312,7 @@ public class JoinDronePick extends AppCompatActivity {
                     }else{
                         dr_name=drn_name.getText().toString();
                         btn3.setVisibility(View.VISIBLE);
-                        btn1.setVisibility(View.INVISIBLE);
+                        //btn1.setVisibility(View.INVISIBLE);
                         btn2.setVisibility(View.INVISIBLE);
                         cnt=4;
                         dismiss();
@@ -382,6 +328,6 @@ public class JoinDronePick extends AppCompatActivity {
             super(context, android.R.style.Theme_Translucent_NoTitleBar);
         }
     }
-
+*/
 
 }

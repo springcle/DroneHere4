@@ -13,7 +13,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -42,7 +41,7 @@ public class AddDrone extends Dialog{
     Member member;
     EditText editText;
     RecyclerView recy;
-    Button nonono;
+   // Button nonono;
     Activity activity;
     private String mem_id = PropertyManager.getInstance().getId();
 
@@ -78,8 +77,8 @@ public class AddDrone extends Dialog{
 
         editText=(EditText)findViewById(R.id.droneseaa);
         recy=(RecyclerView)findViewById(R.id.drpick_recy);
-        nonono=(Button)findViewById(R.id.nonono);
-        nonono.setVisibility(View.GONE);
+       // nonono=(Button)findViewById(R.id.nonono);
+       // nonono.setVisibility(View.GONE);
 
         recy.setAdapter(adap);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);

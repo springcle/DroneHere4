@@ -38,6 +38,7 @@ public class StartActivity extends AppCompatActivity {
     Button facebookbtn;
     Button joinbtn;
     Button naverbtn;
+    Button not_user;
     Handler mHandler = new Handler(Looper.getMainLooper());
     /**  네이버 로그인 모듈 **/
     private final String OAUTH_CLIENT_ID = "xw392fTm7F61rSmsEBbH";
@@ -64,6 +65,7 @@ public class StartActivity extends AppCompatActivity {
         emailbtn=(Button)findViewById(R.id.emailbtn);
         facebookbtn=(Button)findViewById(R.id.facebookbtn);
         joinbtn=(Button)findViewById(R.id.joinbtn);
+        not_user = (Button) findViewById(R.id.member_pass);
 
         naverbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +91,15 @@ public class StartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), JoinEmail.class);
                 startActivity(intent);
+            }
+        });
+
+        not_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+
             }
         });
 

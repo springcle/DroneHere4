@@ -1,83 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.LoginEmail"
-    android:background="@drawable/back_02"
+    android:background="@drawable/email_login_back_01"
     android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context=".login.LoginEmail">
 
-    <EditText
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/email_edit"
-        android:inputType="textEmailAddress"
-        android:hint="이메일"
-        android:background="@drawable/b_04"
-        android:layout_above="@+id/pass_edit"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:textColorHint="#99007ac2"
-        android:textColor="#079b34"
-        android:paddingLeft="16dp"
-        android:textSize="15sp" />
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/imageView15"
+            android:layout_width="match_parent"
+            android:layout_height="136dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/back_01" >
+        <ImageView
+            android:layout_width="89dp"
+            android:layout_height="65dp"
+            android:background="@drawable/email_login_icon" />
+            </LinearLayout>
+    </LinearLayout>
 
-    <EditText
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/pass_edit"
-        android:hint="비밀번호"
-        android:background="@drawable/b_04"
-        android:inputType="textPassword"
-        android:layout_above="@+id/loginn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:textColorHint="#99007ac2"
-        android:textColor="#079b34"
-        android:paddingLeft="16dp"
-        android:textSize="15sp" />
+        android:layout_weight="1"
+        android:layout_marginTop="23dp"
+        android:gravity="center|top"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/email_edit"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_above="@+id/pass_edit"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/b_04_1"
+            android:hint="이메일"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="12dp"
+            android:textColor="#99007ac2"
+            android:textColorHint="#99007ac2"
+            android:textSize="12dp" />
+        <EditText
+            android:id="@+id/pass_edit"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_above="@+id/loginn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/b_04_1"
+            android:hint="비밀번호"
+            android:inputType="textPassword"
+            android:paddingLeft="12dp"
+            android:textColor="#99007ac2"
+            android:textColorHint="#99007ac2"
+            android:textSize="12dp" />
 
-    <Button
-        android:layout_width="250dp"
-        android:layout_height="42dp"
-        android:id="@+id/loginn"
-        android:background="@drawable/b_05"
-        android:layout_above="@+id/face_login"
-        android:layout_alignStart="@+id/pass_edit"
-        android:layout_marginBottom="16dp" />
+        <ImageButton
+            android:id="@+id/loginn"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:src="@drawable/email_login_loginbutton"
+            android:background="@android:color/transparent" />
 
-    <Button
-        android:layout_width="120dp"
-        android:layout_height="42dp"
-        android:background="@drawable/b_06"
-        android:id="@+id/face_login"
-        android:layout_alignTop="@+id/button3"
-        android:layout_alignStart="@+id/loginn" />
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_marginTop="18dp">
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="145dp"
+                android:layout_height="11dp"
+                android:background="@drawable/email_login_signup_button" />
+        </LinearLayout>
+    </LinearLayout>
 
-    <Button
-        android:layout_width="120dp"
-        android:layout_height="42dp"
-        android:background="@drawable/b_07"
-        android:id="@+id/button3"
-        android:layout_marginBottom="32dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/loginn" />
-
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView15"
-        android:background="@drawable/i_04"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginBottom="29dp"
+        android:layout_weight="1"
+        android:gravity="center|bottom">
+        <TextView
+            android:layout_width="119dp"
+            android:layout_height="13dp"
+            android:background="@drawable/email_login_textview2"
+            />
+    </LinearLayout>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView16"
-        android:background="@drawable/i_01"
-        android:layout_marginBottom="32dp"
-        android:layout_above="@+id/email_edit"
-        android:layout_centerHorizontal="true" />
-</RelativeLayout>
+</LinearLayout>
