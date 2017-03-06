@@ -9,26 +9,23 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.v4.app.BundleCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
+import android.widget.ListView;
+import android.widget.ScrollView;
 
+import com.nineoldandroids.view.animation.AnimatorProxy;
 import com.sothree.slidinguppanel.library.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SlidingUpPanelLayout extends ViewGroup {
 
@@ -77,10 +74,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
     private static final int[] DEFAULT_ATTRS = new int[]{
             android.R.attr.gravity
     };
-    /**
-     * Tag for the sliding state stored inside the bundle
-     */
-    public static final String SLIDING_STATE = "sliding_state";
 
     /**
      * Minimum velocity that will be detected as a fling
@@ -154,7 +147,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
      */
     private View mScrollableView;
     private int mScrollableViewResId;
-    private ScrollableViewHelper mScrollableViewHelper = new ScrollableViewHelper();
 
     /**
      * The child view that can slide, if any.
@@ -182,7 +174,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     /**
      * If the current slide state is DRAGGING, this will store the last non dragging state
      */
-    private PanelState mLastNotDraggingSlideState = DEFAULT_SLIDE_STATE;
+    private PanelState mLastNotDraggingSlideState = null;
 
     /**
      * How far the panel is offset from its expanded position.
@@ -216,8 +208,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     private float mInitialMotionY;
     private boolean mIsScrollableViewHandlingTouch = false;
 
-    private List<PanelSlideListener> mPanelSlideListeners = new ArrayList<>();
-    private View.OnClickListener mFadeOnClickListener;
+    private PanelSlideListener mPanelSlideListener;
 
     private final ViewDragHelper mDragHelper;
 
@@ -243,11 +234,32 @@ public class SlidingUpPanelLayout extends ViewGroup {
         public void onPanelSlide(View panel, float slideOffset);
 
         /**
-         * Called when a sliding panel state changes
+         * Called when a sliding panel becomes slid completely collapsed.
          *
          * @param panel The child view that was slid to an collapsed position
          */
-        public void onPanelStateChanged(View panel, PanelState previousState, PanelState newState);
+        public void onPanelCollapsed(View panel);
+
+        /**
+         * Called when a sliding panel becomes slid completely expanded.
+         *
+         * @param panel The child view that was slid to a expanded position
+         */
+        public void onPanelExpanded(View panel);
+
+        /**
+         * Called when a sliding panel becomes anchored.
+         *
+         * @param panel The child view that was slid to a anchored position
+         */
+        public void onPanelAnchored(View panel);
+
+        /**
+         * Called when a sliding panel becomes completely hidden.
+         *
+         * @param panel The child view that was slid to a hidden position
+         */
+        public void onPanelHidden(View panel);
     }
 
     /**
@@ -260,7 +272,19 @@ public class SlidingUpPanelLayout extends ViewGroup {
         }
 
         @Override
-        public void onPanelStateChanged(View panel, PanelState previousState, PanelState newState) {
+        public void onPanelCollapsed(View panel) {
+        }
+
+        @Override
+        public void onPanelExpanded(View panel) {
+        }
+
+        @Override
+        public void onPanelAnchored(View panel) {
+        }
+
+        @Override
+        public void onPanelHidden(View panel) {
         }
     }
 
@@ -281,7 +305,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
             return;
         }
 
-        Interpolator scrollerInterpolator = null;
         if (attrs != null) {
             TypedArray defAttrs = context.obtainStyledAttributes(attrs, DEFAULT_ATTRS);
 
@@ -311,11 +334,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 mAnchorPoint = ta.getFloat(R.styleable.SlidingUpPanelLayout_umanoAnchorPoint, DEFAULT_ANCHOR_POINT);
 
                 mSlideState = PanelState.values()[ta.getInt(R.styleable.SlidingUpPanelLayout_umanoInitialState, DEFAULT_SLIDE_STATE.ordinal())];
-
-                int interpolatorResId = ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoScrollInterpolator, -1);
-                if (interpolatorResId != -1) {
-                    scrollerInterpolator = AnimationUtils.loadInterpolator(context, interpolatorResId);
-                }
             }
 
             ta.recycle();
@@ -344,7 +362,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
         setWillNotDraw(false);
 
-        mDragHelper = ViewDragHelper.create(this, 0.5f, scrollerInterpolator, new DragHelperCallback());
+        mDragHelper = ViewDragHelper.create(this, 0.5f, new DragHelperCallback());
         mDragHelper.setMinVelocity(mMinFlingVelocity * density);
 
         mIsTouchEnabled = true;
@@ -382,7 +400,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
      */
     public void setCoveredFadeColor(int color) {
         mCoveredFadeColor = color;
-        requestLayout();
+        invalidate();
     }
 
     /**
@@ -495,35 +513,12 @@ public class SlidingUpPanelLayout extends ViewGroup {
     }
 
     /**
-     * Adds a panel slide listener
+     * Sets the panel slide listener
      *
      * @param listener
      */
-    public void addPanelSlideListener(PanelSlideListener listener) {
-        synchronized (mPanelSlideListeners) {
-            mPanelSlideListeners.add(listener);
-        }
-    }
-
-    /**
-     * Removes a panel slide listener
-     *
-     * @param listener
-     */
-    public void removePanelSlideListener(PanelSlideListener listener) {
-        synchronized (mPanelSlideListeners) {
-            mPanelSlideListeners.remove(listener);
-        }
-    }
-
-    /**
-     * Provides an on click for the portion of the main view that is dimmed. The listener is not
-     * triggered if the panel is in a collapsed or a hidden position. If the on click listener is
-     * not provided, the clicks on the dimmed area are passed through to the main layout.
-     * @param listener
-     */
-    public void setFadeOnClickListener(View.OnClickListener listener) {
-        mFadeOnClickListener = listener;
+    public void setPanelSlideListener(PanelSlideListener listener) {
+        mPanelSlideListener = listener;
     }
 
     /**
@@ -580,14 +575,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
     }
 
     /**
-     * Sets the current scrollable view helper. See ScrollableViewHelper description for details.
-     * @param helper
-     */
-    public void setScrollableViewHelper(ScrollableViewHelper helper) {
-        mScrollableViewHelper = helper;
-    }
-
-    /**
      * Set an anchor point where the panel can stop during sliding
      *
      * @param anchorPoint A value between 0 and 1, determining the position of the anchor point
@@ -596,8 +583,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
     public void setAnchorPoint(float anchorPoint) {
         if (anchorPoint > 0 && anchorPoint <= 1) {
             mAnchorPoint = anchorPoint;
-            mFirstLayout = true;
-            requestLayout();
         }
     }
 
@@ -642,21 +627,36 @@ public class SlidingUpPanelLayout extends ViewGroup {
         return mClipPanel;
     }
 
-
     void dispatchOnPanelSlide(View panel) {
-        synchronized (mPanelSlideListeners) {
-            for (PanelSlideListener l : mPanelSlideListeners) {
-                l.onPanelSlide(panel, mSlideOffset);
-            }
+        if (mPanelSlideListener != null) {
+            mPanelSlideListener.onPanelSlide(panel, mSlideOffset);
         }
     }
 
+    void dispatchOnPanelExpanded(View panel) {
+        if (mPanelSlideListener != null) {
+            mPanelSlideListener.onPanelExpanded(panel);
+        }
+        sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+    }
 
-    void dispatchOnPanelStateChanged(View panel, PanelState previousState, PanelState newState) {
-        synchronized (mPanelSlideListeners) {
-            for (PanelSlideListener l : mPanelSlideListeners) {
-                l.onPanelStateChanged(panel, previousState, newState);
-            }
+    void dispatchOnPanelCollapsed(View panel) {
+        if (mPanelSlideListener != null) {
+            mPanelSlideListener.onPanelCollapsed(panel);
+        }
+        sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+    }
+
+    void dispatchOnPanelAnchored(View panel) {
+        if (mPanelSlideListener != null) {
+            mPanelSlideListener.onPanelAnchored(panel);
+        }
+        sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+    }
+
+    void dispatchOnPanelHidden(View panel) {
+        if (mPanelSlideListener != null) {
+            mPanelSlideListener.onPanelHidden(panel);
         }
         sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
     }
@@ -729,9 +729,9 @@ public class SlidingUpPanelLayout extends ViewGroup {
         final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         final int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        if (widthMode != MeasureSpec.EXACTLY && widthMode != MeasureSpec.AT_MOST) {
+        if (widthMode != MeasureSpec.EXACTLY) {
             throw new IllegalStateException("Width must have an exact value or MATCH_PARENT");
-        } else if (heightMode != MeasureSpec.EXACTLY && heightMode != MeasureSpec.AT_MOST) {
+        } else if (heightMode != MeasureSpec.EXACTLY) {
             throw new IllegalStateException("Height must have an exact value or MATCH_PARENT");
         }
 
@@ -791,14 +791,10 @@ public class SlidingUpPanelLayout extends ViewGroup {
             int childHeightSpec;
             if (lp.height == LayoutParams.WRAP_CONTENT) {
                 childHeightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST);
-            } else {
-                // Modify the height based on the weight.
-                if (lp.weight > 0 && lp.weight < 1) {
-                    height = (int) (height * lp.weight);
-                } else if (lp.height != LayoutParams.MATCH_PARENT) {
-                    height = lp.height;
-                }
+            } else if (lp.height == LayoutParams.MATCH_PARENT) {
                 childHeightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+            } else {
+                childHeightSpec = MeasureSpec.makeMeasureSpec(lp.height, MeasureSpec.EXACTLY);
             }
 
             child.measure(childWidthSpec, childHeightSpec);
@@ -884,34 +880,29 @@ public class SlidingUpPanelLayout extends ViewGroup {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         // If the scrollable view is handling touch, never intercept
-        if (mIsScrollableViewHandlingTouch || !isTouchEnabled()) {
-            mDragHelper.abort();
+        if (mIsScrollableViewHandlingTouch) {
+            mDragHelper.cancel();
             return false;
         }
 
         final int action = MotionEventCompat.getActionMasked(ev);
         final float x = ev.getX();
         final float y = ev.getY();
-        final float adx = Math.abs(x - mInitialMotionX);
-        final float ady = Math.abs(y - mInitialMotionY);
-        final int dragSlop = mDragHelper.getTouchSlop();
 
         switch (action) {
             case MotionEvent.ACTION_DOWN: {
                 mIsUnableToDrag = false;
                 mInitialMotionX = x;
                 mInitialMotionY = y;
-                if (!isViewUnder(mDragView, (int) x, (int) y)) {
-                    mDragHelper.cancel();
-                    mIsUnableToDrag = true;
-                    return false;
-                }
-
                 break;
             }
 
             case MotionEvent.ACTION_MOVE: {
-                if (ady > dragSlop && adx > ady) {
+                final float adx = Math.abs(x - mInitialMotionX);
+                final float ady = Math.abs(y - mInitialMotionY);
+                final int dragSlop = mDragHelper.getTouchSlop();
+
+                if ((ady > dragSlop && adx > ady) || !isViewUnder(mDragView, (int) mInitialMotionX, (int) mInitialMotionY)) {
                     mDragHelper.cancel();
                     mIsUnableToDrag = true;
                     return false;
@@ -928,21 +919,13 @@ public class SlidingUpPanelLayout extends ViewGroup {
                     mDragHelper.processTouchEvent(ev);
                     return true;
                 }
-                // Check if this was a click on the faded part of the screen, and fire off the listener if there is one.
-                if (ady <= dragSlop
-                        && adx <= dragSlop
-                        && mSlideOffset > 0 && !isViewUnder(mSlideableView, (int) mInitialMotionX, (int) mInitialMotionY) && mFadeOnClickListener != null) {
-                    playSoundEffect(android.view.SoundEffectConstants.CLICK);
-                    mFadeOnClickListener.onClick(this);
-                    return true;
-                }
                 break;
         }
         return mDragHelper.shouldInterceptTouchEvent(ev);
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
+    public boolean onTouchEvent(@NonNull MotionEvent ev) {
         if (!isEnabled() || !isTouchEnabled()) {
             return super.onTouchEvent(ev);
         }
@@ -956,11 +939,11 @@ public class SlidingUpPanelLayout extends ViewGroup {
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
+    public boolean dispatchTouchEvent(@NonNull MotionEvent ev) {
         final int action = MotionEventCompat.getActionMasked(ev);
 
         if (!isEnabled() || !isTouchEnabled() || (mIsUnableToDrag && action != MotionEvent.ACTION_DOWN)) {
-            mDragHelper.abort();
+            mDragHelper.cancel();
             return super.dispatchTouchEvent(ev);
         }
 
@@ -983,7 +966,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
             if (dy * (mIsSlidingUp ? 1 : -1) > 0) { // Collapsing
                 // Is the child less than fully scrolled?
                 // Then let the child handle it.
-                if (mScrollableViewHelper.getScrollableViewScrollPosition(mScrollableView, mIsSlidingUp) > 0) {
+                if (getScrollableViewScrollPosition() > 0) {
                     mIsScrollableViewHandlingTouch = true;
                     return super.dispatchTouchEvent(ev);
                 }
@@ -1024,12 +1007,10 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 mIsScrollableViewHandlingTouch = true;
                 return super.dispatchTouchEvent(ev);
             }
-        } else if (action == MotionEvent.ACTION_UP) {
+        } else if (action == MotionEvent.ACTION_UP && mIsScrollableViewHandlingTouch) {
             // If the scrollable view was handling the touch and we receive an up
             // we want to clear any previous dragging state so we don't intercept a touch stream accidentally
-            if (mIsScrollableViewHandlingTouch) {
-                mDragHelper.setDragState(ViewDragHelper.STATE_IDLE);
-            }
+            mDragHelper.setDragState(ViewDragHelper.STATE_IDLE);
         }
 
         // In all other cases, just let the default behavior take over.
@@ -1046,6 +1027,46 @@ public class SlidingUpPanelLayout extends ViewGroup {
         int screenY = parentLocation[1] + y;
         return screenX >= viewLocation[0] && screenX < viewLocation[0] + view.getWidth() &&
                 screenY >= viewLocation[1] && screenY < viewLocation[1] + view.getHeight();
+    }
+
+    protected int getScrollableViewScrollPosition() {
+        if (mScrollableView == null) return 0;
+        if (mScrollableView instanceof ScrollView) {
+            if (mIsSlidingUp) {
+                return mScrollableView.getScrollY();
+            } else {
+                ScrollView sv = ((ScrollView) mScrollableView);
+                View child = sv.getChildAt(0);
+                return (child.getBottom() - (sv.getHeight() + sv.getScrollY()));
+            }
+        } else if (mScrollableView instanceof ListView && ((ListView) mScrollableView).getChildCount() > 0) {
+            ListView lv = ((ListView) mScrollableView);
+            if (lv.getAdapter() == null) return 0;
+            if (mIsSlidingUp) {
+                View firstChild = lv.getChildAt(0);
+                // Approximate the scroll position based on the top child and the first visible item
+                return lv.getFirstVisiblePosition() * firstChild.getHeight() - firstChild.getTop();
+            } else {
+                View lastChild = lv.getChildAt(lv.getChildCount() - 1);
+                // Approximate the scroll position based on the bottom child and the last visible item
+                return (lv.getAdapter().getCount() - lv.getLastVisiblePosition() - 1) * lastChild.getHeight() + lastChild.getBottom() - lv.getBottom();
+            }
+        } else if (mScrollableView instanceof RecyclerView && ((RecyclerView) mScrollableView).getChildCount() > 0) {
+            RecyclerView rv = ((RecyclerView) mScrollableView);
+            RecyclerView.LayoutManager lm = rv.getLayoutManager();
+            if (rv.getAdapter() == null) return 0;
+            if (mIsSlidingUp) {
+                View firstChild = rv.getChildAt(0);
+                // Approximate the scroll position based on the top child and the first visible item
+                return rv.getChildLayoutPosition(firstChild) * lm.getDecoratedMeasuredHeight(firstChild) - lm.getDecoratedTop(firstChild);
+            } else {
+                View lastChild = rv.getChildAt(rv.getChildCount() - 1);
+                // Approximate the scroll position based on the bottom child and the last visible item
+                return (rv.getAdapter().getItemCount() - 1) * lm.getDecoratedMeasuredHeight(lastChild) + lm.getDecoratedBottom(lastChild) - rv.getBottom();
+            }
+        } else {
+            return 0;
+        }
     }
 
     /*
@@ -1098,7 +1119,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 || mSlideState == PanelState.DRAGGING) return;
 
         if (mFirstLayout) {
-            setPanelStateInternal(state);
+            mSlideState = state;
         } else {
             if (mSlideState == PanelState.HIDDEN) {
                 mSlideableView.setVisibility(View.VISIBLE);
@@ -1122,13 +1143,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
         }
     }
 
-    private void setPanelStateInternal(PanelState state) {
-        if (mSlideState == state) return;
-        PanelState oldState = mSlideState;
-        mSlideState = state;
-        dispatchOnPanelStateChanged(this, oldState, state);
-    }
-
     /**
      * Update the parallax based on the current slide offset.
      */
@@ -1136,15 +1150,17 @@ public class SlidingUpPanelLayout extends ViewGroup {
     private void applyParallaxForCurrentSlideOffset() {
         if (mParallaxOffset > 0) {
             int mainViewOffset = getCurrentParallaxOffset();
-            ViewCompat.setTranslationY(mMainView, mainViewOffset);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                mMainView.setTranslationY(mainViewOffset);
+            } else {
+                AnimatorProxy.wrap(mMainView).setTranslationY(mainViewOffset);
+            }
         }
     }
 
     private void onPanelDragged(int newTop) {
-        if (mSlideState != PanelState.DRAGGING) {
-            mLastNotDraggingSlideState = mSlideState;
-        }
-        setPanelStateInternal(PanelState.DRAGGING);
+        mLastNotDraggingSlideState = mSlideState;
+        mSlideState = PanelState.DRAGGING;
         // Recompute the slide offset based on the new top position
         mSlideOffset = computeSlideOffset(newTop);
         applyParallaxForCurrentSlideOffset();
@@ -1158,12 +1174,9 @@ public class SlidingUpPanelLayout extends ViewGroup {
         if (mSlideOffset <= 0 && !mOverlayContent) {
             // expand the main view
             lp.height = mIsSlidingUp ? (newTop - getPaddingBottom()) : (getHeight() - getPaddingBottom() - mSlideableView.getMeasuredHeight() - newTop);
-            if (lp.height == defaultHeight) {
-                lp.height = LayoutParams.MATCH_PARENT;
-            }
             mMainView.requestLayout();
-        } else if (lp.height != LayoutParams.MATCH_PARENT && !mOverlayContent) {
-            lp.height = LayoutParams.MATCH_PARENT;
+        } else if (lp.height != defaultHeight && !mOverlayContent) {
+            lp.height = defaultHeight;
             mMainView.requestLayout();
         }
     }
@@ -1173,7 +1186,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         boolean result;
         final int save = canvas.save(Canvas.CLIP_SAVE_FLAG);
 
-        if (mSlideableView != null && mSlideableView != child) { // if main view
+        if (mSlideableView != child) { // if main view
             // Clip against the slider; no sense drawing what will immediately be covered,
             // Unless the panel is set to overlay content
             canvas.getClipBounds(mTmpRect);
@@ -1244,7 +1257,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         super.draw(c);
 
         // draw the shadow
-        if (mShadowDrawable != null && mSlideableView != null) {
+        if (mShadowDrawable != null) {
             final int right = mSlideableView.getRight();
             final int top;
             final int bottom;
@@ -1317,21 +1330,22 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     @Override
     public Parcelable onSaveInstanceState() {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("superState", super.onSaveInstanceState());
-        bundle.putSerializable(SLIDING_STATE, mSlideState != PanelState.DRAGGING ? mSlideState : mLastNotDraggingSlideState);
-        return bundle;
+        Parcelable superState = super.onSaveInstanceState();
+
+        SavedState ss = new SavedState(superState);
+        if (mSlideState != PanelState.DRAGGING) {
+            ss.mSlideState = mSlideState;
+        } else {
+            ss.mSlideState = mLastNotDraggingSlideState;
+        }
+        return ss;
     }
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        if(state instanceof Bundle) {
-            Bundle bundle = (Bundle) state;
-            mSlideState = (PanelState) bundle.getSerializable(SLIDING_STATE);
-            mSlideState = mSlideState == null ? DEFAULT_SLIDE_STATE : mSlideState;
-            state = bundle.getParcelable("superState");
-        }
-        super.onRestoreInstanceState(state);
+        SavedState ss = (SavedState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
+        mSlideState = ss.mSlideState != null ? ss.mSlideState : DEFAULT_SLIDE_STATE;
     }
 
     private class DragHelperCallback extends ViewDragHelper.Callback {
@@ -1352,16 +1366,24 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 applyParallaxForCurrentSlideOffset();
 
                 if (mSlideOffset == 1) {
-                    updateObscuredViewVisibility();
-                    setPanelStateInternal(PanelState.EXPANDED);
+                    if (mSlideState != PanelState.EXPANDED) {
+                        updateObscuredViewVisibility();
+                        mSlideState = PanelState.EXPANDED;
+                        dispatchOnPanelExpanded(mSlideableView);
+                    }
                 } else if (mSlideOffset == 0) {
-                    setPanelStateInternal(PanelState.COLLAPSED);
+                    if (mSlideState != PanelState.COLLAPSED) {
+                        mSlideState = PanelState.COLLAPSED;
+                        dispatchOnPanelCollapsed(mSlideableView);
+                    }
                 } else if (mSlideOffset < 0) {
-                    setPanelStateInternal(PanelState.HIDDEN);
+                    mSlideState = PanelState.HIDDEN;
                     mSlideableView.setVisibility(View.INVISIBLE);
-                } else {
+                    dispatchOnPanelHidden(mSlideableView);
+                } else if (mSlideState != PanelState.ANCHORED) {
                     updateObscuredViewVisibility();
-                    setPanelStateInternal(PanelState.ANCHORED);
+                    mSlideState = PanelState.ANCHORED;
+                    dispatchOnPanelAnchored(mSlideableView);
                 }
             }
         }
@@ -1433,19 +1455,12 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 android.R.attr.layout_weight
         };
 
-        public float weight = 0;
-
         public LayoutParams() {
             super(MATCH_PARENT, MATCH_PARENT);
         }
 
         public LayoutParams(int width, int height) {
             super(width, height);
-        }
-
-        public LayoutParams(int width, int height, float weight) {
-            super(width, height);
-            this.weight = weight;
         }
 
         public LayoutParams(android.view.ViewGroup.LayoutParams source) {
@@ -1463,12 +1478,44 @@ public class SlidingUpPanelLayout extends ViewGroup {
         public LayoutParams(Context c, AttributeSet attrs) {
             super(c, attrs);
 
-            final TypedArray ta = c.obtainStyledAttributes(attrs, ATTRS);
-            if (ta != null) {
-                this.weight = ta.getFloat(0, 0);
-            }
-
-            ta.recycle();
+            final TypedArray a = c.obtainStyledAttributes(attrs, ATTRS);
+            a.recycle();
         }
+    }
+
+    static class SavedState extends BaseSavedState {
+        PanelState mSlideState;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            try {
+                mSlideState = Enum.valueOf(PanelState.class, in.readString());
+            } catch (IllegalArgumentException e) {
+                mSlideState = PanelState.COLLAPSED;
+            }
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeString(mSlideState.toString());
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    @Override
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
+
+                    @Override
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
     }
 }
