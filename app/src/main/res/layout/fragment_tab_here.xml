@@ -1,6 +1,7 @@
-<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/tools"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/tools"
     android:id="@+id/slidingUpPanel_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,98 +13,85 @@
     sothree:umanoParallaxOffset="0dp"
     sothree:umanoScrollableView="@+id/sliding_viewpager"
     sothree:umanoShadowHeight="0dp">
-
+    <!--    "sothree:umanoScrollableView="@+id/sliding_viewpager"-->
+    <!-- sothree:umanoScrollInterpolator="@+id/sliding_viewpager"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-
+        <FrameLayout
+            android:id="@+id/map_container1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
+            android:layout_height="match_parent" />
 
-            >
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:paddingLeft="20dp">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="left"
-                    android:paddingLeft="20dp">
+                <Button
+                    android:id="@+id/hamberger_btn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="left|center"
+                    android:background="@drawable/i_ham" />
 
-                    <Button
-                        android:id="@+id/hamberger_btn"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="left|center"
-                        android:layout_marginLeft="20dp"
-
-                        android:background="@drawable/i_ham" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:paddingRight="20dp">
-
-                    <Button
-
-                        android:id="@+id/search_btn"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/i_sear" />
-                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom|right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
                 android:paddingRight="20dp">
 
                 <Button
-                    android:id="@+id/myLocation"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
 
-
-                    android:background="@drawable/my_location_btn" />
-
+                    android:id="@+id/search_btn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/i_sear" />
             </LinearLayout>
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/map_container1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"></FrameLayout>
+            android:layout_alignParentTop="true"
+            android:gravity="bottom|right"
+            android:paddingBottom="80dp"
+            android:paddingRight="20dp">
 
+            <Button
+                android:id="@+id/myLocation"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
 
+                android:background="@drawable/my_location_btn" />
+
+        </LinearLayout>
     </RelativeLayout>
-
-
-    <!-- Sliding Pannel -->
+    <!--                                                   -->
     <LinearLayout
+
         android:id="@+id/drag_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
+
         <LinearLayout
+            android:id="@+id/layout_up_bar"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_gravity="center_horizontal"
@@ -128,18 +116,32 @@
                 android:text="백과" />
         </LinearLayout>
 
+        <!--      <android.support.v4.widget.NestedScrollView
+                  android:id="@+id/nested"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content">-->
+
+
         <android.support.v4.view.ViewPager
             android:id="@+id/sliding_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <!--
+                </android.support.v4.widget.NestedScrollView>
+        -->
+
+        <!--
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recy"
+            android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:background="#ffffff"
-            android:gravity="center|center_horizontal" />
+            android:gravity="center|center_horizontal"
+             />
+             -->
+
     </LinearLayout>
 
 
