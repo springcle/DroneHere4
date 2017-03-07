@@ -69,13 +69,10 @@
 
             <Button
                 android:id="@+id/joinbtn"
-                android:layout_width="33dp"
+                android:layout_width="38dp"
                 android:layout_height="10dp"
-
                 android:textColor="#FFFFFFFF"
-
                 android:background="@drawable/signup"
-
                  />
             <!--
             android:text="회원가입"

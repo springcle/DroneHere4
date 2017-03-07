@@ -147,7 +147,7 @@ public class Drawer_fix extends AppCompatActivity {
 
         EditText editText;
         RecyclerView recy;
-        Button nonono;
+        //Button nonono;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -167,8 +167,8 @@ public class Drawer_fix extends AppCompatActivity {
 
             editText=(EditText)findViewById(R.id.droneseaa);
             recy=(RecyclerView)findViewById(R.id.drpick_recy);
-            nonono=(Button)findViewById(R.id.nonono);
-            nonono.setVisibility(View.GONE);
+            //nonono=(Button)findViewById(R.id.nonono);
+            //nonono.setVisibility(View.GONE);
 
             recy.setAdapter(adap);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);

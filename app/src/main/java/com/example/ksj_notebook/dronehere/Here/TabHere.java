@@ -19,14 +19,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -80,7 +78,6 @@ import com.google.maps.android.kml.KmlContainer;
 import com.google.maps.android.kml.KmlLayer;
 import com.google.maps.android.kml.KmlPlacemark;
 import com.google.maps.android.kml.KmlPolygon;
-/*import com.sothree.slidinguppanel.ScrollableViewHelper;*/
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -103,7 +100,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     final static int RESULT_OK = -1;
     final static int RESULT_CANCELED = 0;
 
-
     LocationManager locationManager;
     GoogleApiClient mClient;
     GoogleMap mMap;
@@ -113,42 +109,48 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     MarkerOptions clickMarker_option;
     Location location;
 
+    /** 공역 정보 구분(금지, 제한, 관제권, 위험) **/
     KmlLayer prohibit_layer;
     KmlLayer restrict_layer;
     KmlLayer airControlZone_layer;
     KmlLayer danger_layer;
 
+    /** Google Places API 관련 **/
+    PlaceAutocompleteAdapter placeAutocompleteAdapter;
+    PlaceDialog placedialog;
     AutoCompleteTextView place_text;
-    Button myLocation;
     Button search_place;
+
+    /** 햄버거바, 내위치 버튼(카메라이동) **/
+    Button myLocation;
     Button hamberger;
 
+    /** 롱 클릭 마커를 표시 할 때, 클릭마커 위치의 4대비행가능공식 계산 후 마커를 표시해주어야 하므로, 정보 받는동안 딜레이 후 마커표시(delayed_marker_display()함수에서 사용) **/
     Handler mHandler = new Handler(Looper.getMainLooper());
 
     /** 슬라이딩 패널**/
     SlidingUpPanelLayout sliding;
-
-
     LinearLayout drag_view;
-    LinearLayout up_bar;
     Button tab_news_btn, tab_drone_btn;
     ViewPager tab_pager;
     FragmentTabPager viewPager_adpater;
     Fragment tab_news, tab_drone;
 
+    /** 백버튼, 입력자판 제어 관련**/
     InputMethodManager inputMethodManager;
     BackPressCloseHandler backPressCloseHandler;
 
     int openWeather_count=0; // 오픈웨더 API 호출 횟수 절약용 카운트
+
+    /** 데이터 수신 완료 동기화 관련**/
     boolean getData_success = false;
+
+    /** 4대 비행가능 요인 변수들(자기장, 풍속제한, 일출일몰) **/
     int magnetic;
     String sunrise, sunrise_click;
     String sunset, sunset_click;
     String wind, wind_click;
     Double dr_resistance;
-    PlaceDialog placedialog;
-
-
 
 
 
@@ -158,16 +160,22 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     // [1]: 제한구역
     // [2]: 관제권
     // [3]: 위험구역
+
+    /** 내위치, 롱클릭마커의 위치 구분을 분리 시키기 위해 이차원 배열 생성 **/
     private boolean liesInside[][] = new boolean[2][4];
 
+    /** 사용자 일련번호(비회원, 사용자 구분 등) **/
     String mem_id;
 
+    /** 4대 비행가능 공식(자기장, 풍속제한, 일출일몰, 비행구역) 중 1개라도 부합하지 않을경우, 비행 불가능 표시를 하기위한 변수 **/
     int[] bool = new int[4];
     int[] bool1 = new int[4];
+
+    /** 유저의 드론 유/무 판단 **/
     boolean drone_exist;
-    PlaceAutocompleteAdapter placeAutocompleteAdapter;
 
 
+    /** 프래그먼트 기본 생성자 **/
     public TabHere() {
         // Required empty public constructor
     }
@@ -213,8 +221,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     }
     //
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_tab_here, container, false);
@@ -233,13 +239,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
 
         sliding = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanel_layout);
-
-        //SlidingUpPanelLayout.inflate(fragmentList.add(TabNews.class)
-
-
-      /*  sliding.setDragView(((TabHere)getActivity(‌)).tab_pager);
-        sliding.setEnableDragViewTouchEvents(true);*/
-
         tab_news = new TabNews();
         tab_drone = new TabDrone();
         final List<Fragment> fragmentList = new ArrayList<>();
@@ -267,18 +266,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         });
 
         tab_pager.setCurrentItem(0);
-
-     /*   *//* 슬라이딩 빽빽한거 테스트 *//*
-        tab_pager.setEnabled(false);
-        drag_view.onInterceptTouchEvent(MotionEvent)
-
-        *//**/
-
-
         tab_drone_btn = (Button) view.findViewById(R.id.tab_drone_btn);
         tab_news_btn = (Button) view.findViewById(R.id.tab_news_btn);
         drag_view = (LinearLayout) view.findViewById(R.id.drag_view);
- //       up_bar = (LinearLayout) view.findViewById(R.id.layout_up_bar);
 
         tab_news_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -360,6 +350,18 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 }
             }
         });
+        sliding.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+
+            }
+        });
+
         sliding.setFadeOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -382,9 +384,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         sliding.setPanelHeight(convertToPixels(context, 60));
         return view;
     }
-
-
-
     public static int convertToPixels(Context context, int dp)
     {
         DisplayMetrics metrics=context.getResources().getDisplayMetrics();
@@ -407,9 +406,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         }
     }
 
-
-
-    /** 장소검색 바 **/
+    /** 장소검색용 가로 형태 다이얼로그 **/
     class PlaceDialog extends Dialog {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -425,9 +422,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             place_text = (AutoCompleteTextView) findViewById(R.id.place_text);
             place_text.setOnItemClickListener(mAutocompleteClickListener);
             LatLngBounds latLngBounds = mMap.getProjection().getVisibleRegion().latLngBounds;
-            AutocompleteFilter filter = new AutocompleteFilter.Builder()
-                    .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
-                    .build();
+
+            /** 어댑터 안에서 지역내용 받아와서 지역내용에 "대한민국"이 포함된 지역만 필터링 **/
             placeAutocompleteAdapter = new PlaceAutocompleteAdapter(context, mClient, latLngBounds, null);
             place_text.setAdapter(placeAutocompleteAdapter);
             placeAutocompleteAdapter.setGoogleApiClient(mClient);
@@ -537,6 +533,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
     }
 
+    /** 구글맵이 준비되면 4대 공역 레이어 형성, 마커 이벤트리스너 생성 및 대한민국으로 카메라 이동 **/
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -657,7 +654,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         }
     }
 
-    // 4대 비행가능 요소 가능/불가능 표시
+    /** 4대 비행가능 요소 가능/불가능 표시 다이얼로그 (마커 클릭시) **/
     class flying_state_Dialog extends Dialog {
         ImageView i1,i2,i3,i4;
         int[] bool;
@@ -774,11 +771,12 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         if (location == null) {
             delay_getData();
         } else {
-            // 4대 비행공식 계산
+            // 내 위치 기준에서 4대 비행공식 계산
             fly_enable_check_mylocation();
         }
     }
 
+    /** 4개의 공역안에 존재 하는 지 확인을 위한 KML 함수들**/
     private List<KmlPolygon> getPolygons(Iterable<KmlContainer> containers) {
         List<KmlPolygon> polygons = new ArrayList<>();
 
@@ -913,6 +911,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             }
         },1000);
     }*/
+    /** 위치기능(GPS) 활성화 유무 체크 **/
     public void gps_check(){
             AlertDialog mDialog;
             AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
@@ -945,6 +944,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             mDialog.show();
     }
 
+    /** 해당위치의 비행가능공식계산 후, 클릭 마커표시**/
     private void delay_marker_display(final LatLng latLng) {
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -1286,6 +1286,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         }
     }
 
+    /** 장소 검색 다이얼로그에서 위치 클릭 시**/
     private AdapterView.OnItemClickListener mAutocompleteClickListener
             = new AdapterView.OnItemClickListener() {
         @Override
@@ -1301,6 +1302,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         }
     };
 
+    /** 장소 검색 다이얼로그에서 위치 클릭 시 이벤트처리 **/
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
         @Override
@@ -1332,7 +1334,5 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             }
         }
     };
-
-
 
 }

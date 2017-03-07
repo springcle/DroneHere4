@@ -2,6 +2,7 @@
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/tools"
+
     android:id="@+id/slidingUpPanel_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,8 +14,7 @@
     sothree:umanoParallaxOffset="0dp"
     sothree:umanoScrollableView="@+id/sliding_viewpager"
     sothree:umanoShadowHeight="0dp">
-    <!--    "sothree:umanoScrollableView="@+id/sliding_viewpager"-->
-    <!-- sothree:umanoScrollInterpolator="@+id/sliding_viewpager"-->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -87,7 +87,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="false">
 
 
         <LinearLayout

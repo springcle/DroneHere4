@@ -1,61 +1,82 @@
 package com.example.ksj_notebook.dronehere.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
-import com.example.ksj_notebook.dronehere.data.EmailResult;
-import com.example.ksj_notebook.dronehere.manager.NetworkManager;
 
-import java.io.IOException;
 import java.util.regex.Pattern;
-
-import okhttp3.Request;
 
 public class JoinEmail extends AppCompatActivity {
 
-    EditText email;
+    Vibrator vibrator;
+
+    EditText email_text;
     EditText pass1;
     EditText pass2;
-    Button btn;
+    ImageButton btn;
 
     String em;
 
     Button lolol;
-
+    EditTextEventHandler editTextEventHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_join);
 
-        email=(EditText)findViewById(R.id.email);
-        pass1=(EditText)findViewById(R.id.pass);
-        btn=(Button)findViewById(R.id.gopick);
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        email_text=(EditText)findViewById(R.id.email);
+        pass1=(EditText)findViewById(R.id.pass1);
+        btn=(ImageButton)findViewById(R.id.email_join_btn);
         pass2=(EditText)findViewById(R.id.pass2);
-        lolol=(Button)findViewById(R.id.lolol);
-
-        email.setHint(R.string.edit_text_email);
+        //lolol=(Button)findViewById(R.id.lolol);
+        email_text.setHint(R.string.edit_text_email);
         pass1.setHint(R.string.edit_text_pass1);
         pass2.setHint(R.string.edit_text_pass2);
 
+        editTextEventHandler = new EditTextEventHandler(email_text, pass1, pass2);
+        email_text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                editTextEventHandler.text_event();
+            }
+        });
+        pass1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                editTextEventHandler.text_event();
+            }
+        });
+        pass2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                editTextEventHandler.text_event();
+            }
+        });
 
-        lolol.setOnClickListener(new View.OnClickListener() {
+
+        /*lolol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+        */
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 em= ""+ email.getText();
                if(isEmail(em)){
 
@@ -95,14 +116,34 @@ public class JoinEmail extends AppCompatActivity {
                }else{
                    Toast.makeText(JoinEmail.this, "email이 맞지 않는 형식입니다.", Toast.LENGTH_SHORT).show();
                }
+*/
+                em = "" + email_text.getText();
+                if (isEmail(em)) {
+                    String email;
+                    String pw, pw1;
+                    email = email_text.getText().toString();
+                    pw = pass1.getText().toString();
+                    pw1 = pass2.getText().toString();
 
-
-
-
-
-
-
-
+                    if (email.isEmpty() == true || pw.isEmpty() == true || pw1.isEmpty() == true || email.contains("@") == false) {
+                        Toast.makeText(getApplicationContext(), "형식에 맞게 입력해주세요", Toast.LENGTH_SHORT).show();
+                        vibrator.vibrate(100);
+                    }
+                    if (pw.equals(pw1) == false) {
+                        Toast.makeText(getApplicationContext(), "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
+                        vibrator.vibrate(100);
+                    } else if (email.isEmpty() != true) {
+                        Intent intent = new Intent(getApplicationContext(), JoinDronePick.class);
+                        intent.putExtra("email", em);
+                        intent.putExtra("pass", pass1.getText().toString());
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+                else {
+                    Toast.makeText(JoinEmail.this, "email이 맞지 않는 형식입니다.", Toast.LENGTH_SHORT).show();
+                    vibrator.vibrate(100);
+                }
             }
         });
     }

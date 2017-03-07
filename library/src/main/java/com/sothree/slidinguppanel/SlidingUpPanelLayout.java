@@ -220,6 +220,8 @@ public class SlidingUpPanelLayout extends ViewGroup {
     private View.OnClickListener mFadeOnClickListener;
 
     private final ViewDragHelper mDragHelper;
+    private PanelSlideListener mPanelSlideListener;
+
 
     /**
      * Stores whether or not the pane was expanded the last time it was slideable.
@@ -553,15 +555,19 @@ public class SlidingUpPanelLayout extends ViewGroup {
         }
     }
 
+    public void setPanelSlideListener(PanelSlideListener listener) {
+        mPanelSlideListener = listener;
+    }
+
     /**
      * Set the draggable view portion. Use to null, to allow the whole panel to be draggable
      *
      * @param dragViewResId The resource ID of the new drag view
      */
-    public void setDragView(int dragViewResId) {
+  /*  public void setDragView(int dragViewResId) {
         mDragViewResId = dragViewResId;
         setDragView(findViewById(dragViewResId));
-    }
+    }*/
 
     /**
      * Set the scrollable child of the sliding layout. If set, scrolling will be transfered between

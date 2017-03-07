@@ -20,7 +20,6 @@ public class DbSearchViewHolder extends RecyclerView.ViewHolder {
 
     public DbSearchViewHolder(final View itemView) {
         super(itemView);
-
         drname=(TextView)itemView.findViewById(R.id.search_drname);
         drmanu=(TextView)itemView.findViewById(R.id.search_manu);
         linn=(LinearLayout)itemView.findViewById(R.id.item_linn);
