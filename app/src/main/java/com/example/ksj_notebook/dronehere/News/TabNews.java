@@ -54,7 +54,7 @@ public class TabNews extends Fragment {
         view.setBackgroundColor(Color.rgb(234,234,234));
 
         recyclerView.setAdapter(newsAdapter);
-        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setNestedScrollingEnabled(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 

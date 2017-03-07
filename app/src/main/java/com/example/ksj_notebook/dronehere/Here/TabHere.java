@@ -132,7 +132,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     SlidingUpPanelLayout sliding;
     LinearLayout drag_view;
     Button tab_news_btn, tab_drone_btn;
-    ViewPager tab_pager;
+    ViewPagerOverride tab_pager;
     FragmentTabPager viewPager_adpater;
     Fragment tab_news, tab_drone;
 
@@ -231,7 +231,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         hamberger = (Button) view.findViewById(R.id.hamberger_btn);
 
         /** 슬라이딩 패널**/
-        tab_pager = (ViewPager) view.findViewById(R.id.sliding_viewpager);
+        tab_pager = (ViewPagerOverride) view.findViewById(R.id.sliding_viewpager);
       /*  tab_pager.setEnabled(false);*/
 
 
@@ -246,7 +246,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         fragmentList.add(new TabDrone());
         viewPager_adpater = new FragmentTabPager(context, getChildFragmentManager(), fragmentList);
         tab_pager.setAdapter(viewPager_adpater);
-        tab_pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        tab_pager.setPagingEnabled(false); // 커스텀뷰페이저의 setpagingEnabled로 page swipe disable.
+
+        tab_pager.addOnPageChangeListener(new ViewPagerOverride.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

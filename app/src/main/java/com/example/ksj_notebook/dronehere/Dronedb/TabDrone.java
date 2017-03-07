@@ -73,7 +73,7 @@ public class TabDrone extends Fragment {
         spinner.setAdapter(adapter);
 
         recyclerView.setAdapter(db2);
-        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setNestedScrollingEnabled(true);
         layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
         editText.setHint(R.string.drone_pick);
