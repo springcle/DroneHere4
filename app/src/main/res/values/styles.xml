@@ -30,4 +30,8 @@
         <item name="android:textSize">21sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
+    <style name="ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:displayOptions">homeAsUp</item>
+    </style>
 </resources>
