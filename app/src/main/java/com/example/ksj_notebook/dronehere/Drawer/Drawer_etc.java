@@ -16,12 +16,13 @@ import com.example.ksj_notebook.dronehere.Drawercontent.Dc8;
 import com.example.ksj_notebook.dronehere.Drawercontent.Dc9;
 import com.example.ksj_notebook.dronehere.MainActivity;
 import com.example.ksj_notebook.dronehere.R;
+import com.example.ksj_notebook.dronehere.login.StartActivity;
+import com.example.ksj_notebook.dronehere.manager.PropertyManager;
 
 /**
  * Created by NAKNAK on 2017-01-23.
  */
 public class Drawer_etc extends AppCompatActivity{
-
     private ListView listview;
     private ArrayAdapter<String> adapter;
     @Override
@@ -61,6 +62,14 @@ public class Drawer_etc extends AppCompatActivity{
                         MainActivity.getContext().startActivity(intent9);
                         break;
                     case 6 :
+                        PropertyManager.getInstance().setId("");
+                        Intent intent10 = new Intent(MainActivity.getContext(), StartActivity.class);
+                        MainActivity.getContext().startActivity(intent10);
+                        finish();
+                        MainActivity mainActivity = (MainActivity)MainActivity.mainactivity;
+                        mainActivity.finish();
+                        break;
+                    case 7 :
                         break;
                 }
             }
@@ -71,6 +80,7 @@ public class Drawer_etc extends AppCompatActivity{
         adapter.add("국토부 링크");
         adapter.add("회원약관");
         adapter.add("프로그램 정보");
+        adapter.add("로그아웃");
         adapter.add(" ");
     }
 

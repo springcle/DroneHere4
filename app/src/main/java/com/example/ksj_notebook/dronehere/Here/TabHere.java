@@ -19,7 +19,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -59,7 +58,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
@@ -79,7 +77,6 @@ import com.google.maps.android.kml.KmlContainer;
 import com.google.maps.android.kml.KmlLayer;
 import com.google.maps.android.kml.KmlPlacemark;
 import com.google.maps.android.kml.KmlPolygon;
-import com.sothree.slidinguppanel.ScrollableViewHelper;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -147,7 +144,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     ViewPager tab_pager;
     FragmentTabPager viewPager_adpater;
     Fragment tab_news, tab_drone;
-
 
     /**
      * 백버튼, 입력자판 제어 관련
@@ -259,8 +255,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
         /** 슬라이딩 패널**/
         tab_pager = (ViewPager) view.findViewById(R.id.sliding_viewpager);
-      /*  tab_pager.setEnabled(false);*/
-
+          /*  tab_pager.setEnabled(false);*/
 
         sliding = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanel_layout);
         sliding.setAnchorPoint(1.0f);
@@ -280,7 +275,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         tab_pager.setAdapter(viewPager_adpater);
         //tab_pager.setPagingEnabled(false); // 커스텀뷰페이저의 setpagingEnabled로 page swipe disable.
 
-        tab_pager.addOnPageChangeListener(new ViewPagerOverride.OnPageChangeListener() {
+        tab_pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -288,8 +283,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
             @Override
             public void onPageSelected(int position) {
-
-                /* 슬라이드 패널 올린뒤 스와이프하면 선택되는 페이지
+                 /* 슬라이드 패널 올린뒤 스와이프하면 선택되는 페이지
                 *  슬라이딩패널 RecyclerView 대응된 버전 사용함. (setScrollableView)
                 *  0번,1번 페이지를 선택하면 위아래로 스크롤이 되도록 설정.
                 * */
@@ -297,9 +291,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 // 위아래 스크롤이 뻑뻑하여 setNestedScrollingEnabled(false)로 설정해주었다.
 
                 sliding.setScrollableView(fragmentList.get(1).getView().findViewById(R.id.ryview));
-
             }
-
 
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -570,13 +562,13 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
-                Log.e("카메라1","카메라 포지션: "+mMap.getCameraPosition());
-                Log.e("카메라2","초기 카메라 포지션: "+mylocationLatLng);
+                Log.e("카메라1", "카메라 포지션: " + mMap.getCameraPosition());
+                Log.e("카메라2", "초기 카메라 포지션: " + mylocationLatLng);
 
 
                 if (mylocationLatLng.equals(mMap.getCameraPosition().target)) {
                     myLocation.setVisibility(View.INVISIBLE);
-                }else {
+                } else {
                     myLocation.setVisibility(View.VISIBLE);
                 }
 
@@ -584,15 +576,11 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         });
 
         /*
-
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
-
                 *//*Log.e("카메라1","카메라 포지션: "+mMap.getCameraPosition());
                 Log.e("카메라2","초기 카메라 포지션: "+mylocationLatLng);*//*
-
-
                 if (mylocationLatLng.equals(mMap.getCameraPosition().target)) {
                     myLocation.setVisibility(View.INVISIBLE);
                 } else {
@@ -739,6 +727,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
      **/
     class flying_state_Dialog extends Dialog {
         ImageView i1, i2, i3, i4;
+        ImageView t1, t2, t3, t4;
         int[] bool;
         Button btn;
         Button exit_btn;
@@ -763,6 +752,10 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             i2 = (ImageView) findViewById(R.id.dial_image2);
             i3 = (ImageView) findViewById(R.id.dial_image3);
             i4 = (ImageView) findViewById(R.id.dial_image4);
+            t1 = (ImageView) findViewById(R.id.dial_text1);
+            t2 = (ImageView) findViewById(R.id.dial_text2);
+            t3 = (ImageView) findViewById(R.id.dial_text3);
+            t4 = (ImageView) findViewById(R.id.dial_text4);
             /*
             t1 = (TextView)findViewById(R.id.text_area);
             t2 = (TextView)findViewById(R.id.text_time);
@@ -795,8 +788,13 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     startActivity(intent);
                 }
             });*/
-            if (bool[0] == 1) i1.setImageResource(R.drawable.i_pos1);
-            else i1.setImageResource(R.drawable.i_imp1);
+            if (bool[0] == 1) {
+                i1.setImageResource(R.drawable.fly_enable_place_image);
+                t1.setImageResource(R.drawable.fly_enable_place_text);
+            } else {
+                i1.setImageResource(R.drawable.no_fly_place_image);
+                i1.setImageResource(R.drawable.no_fly_place_text);
+            }
 
             if (mem_id != "") {
                 /* 4대 비행가능요소를 Detail하게 표시하는 코드
@@ -821,24 +819,44 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 btn.setEnabled(true);
                 btn.setClickable(true);
                 */
-                if (bool[1] == 1) i2.setImageResource(R.drawable.i_pos2);
-                else i2.setImageResource(R.drawable.i_imp2);
-                if (bool[2] == 1) i3.setImageResource(R.drawable.i_pos3);
-                else i3.setImageResource(R.drawable.i_imp3);
-                if (bool[3] == 1) i4.setImageResource(R.drawable.i_pos4);
-                else i4.setImageResource(R.drawable.i_imp4);
+                if (bool[1] == 1) {
+                    i2.setImageResource(R.drawable.fly_enable_time_image);
+                    t2.setImageResource(R.drawable.fly_enable_time_text);
+                } else {
+                    i2.setImageResource(R.drawable.no_fly_time_image);
+                    t2.setImageResource(R.drawable.no_fly_time_text);
+                }
+                if (bool[2] == 1) {
+                    i3.setImageResource(R.drawable.fly_enable_wind_image);
+                    t3.setImageResource(R.drawable.fly_enable_wind_text);
+                } else {
+                    i3.setImageResource(R.drawable.no_fly_wind_image);
+                    t3.setImageResource(R.drawable.no_fly_wind_text);
+                }
+                if (bool[3] == 1) {
+                    i4.setImageResource(R.drawable.fly_enable_magnetic_image);
+                    t4.setImageResource(R.drawable.fly_enable_magnetic_text);
+                }
+                else {
+                    i4.setImageResource(R.drawable.no_fly_magnetic_image);
+                    t4.setImageResource(R.drawable.no_fly_magnetic_text);
+                }
                 for (int j = 0; j < 4; j++) {
                     if (bool[j] == 0) {
-                        btn.setBackgroundResource(R.drawable.b_imp2);
+                        btn.setBackgroundResource(R.drawable.not_here);
                         return;
-                    } else btn.setBackgroundResource(R.drawable.b_pos2);
+                    } else btn.setBackgroundResource(R.drawable.fly_enable);
                 }
             } else {
-                i1.setImageResource(R.drawable.i_imp1_not_user);
-                i2.setImageResource(R.drawable.i_imp2_unable);
-                i3.setImageResource(R.drawable.i_imp3_unable);
-                i4.setImageResource(R.drawable.i_imp4_unable);
-                btn.setBackgroundResource(R.drawable.b_imp2_unable);
+                i1.setImageResource(R.drawable.not_user_place_image);
+                t1.setImageResource(R.drawable.not_user_login_plz);
+                i2.setImageResource(R.drawable.not_user_time_image);
+                t2.setImageResource(R.drawable.not_user_login_plz);
+                i3.setImageResource(R.drawable.not_user_wind_image);
+                t3.setImageResource(R.drawable.not_user_login_plz);
+                i4.setImageResource(R.drawable.not_user_magnetic_image);
+                t4.setImageResource(R.drawable.not_user_login_plz);
+                btn.setBackgroundResource(R.drawable.not_user);
             }
         }
 
@@ -1442,20 +1460,4 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         }
     };
 
-/*
-    public class NestedScrollableViewHelper extends ScrollableViewHelper {
-        public int getScrollableViewScrollPosition(View scrollableView, boolean isSlidingUp) {
-            if (sliding instanceof NestedScrollView) {
-                if(isSlidingUp){
-                    return tab_pager.getScrollY();
-                } else {
-                    NestedScrollView nsv = ((NestedScrollView) sliding);
-                    View child = nsv.getChildAt(0);
-                    return (child.getBottom() - (nsv.getHeight() + nsv.getScrollY()));
-                }
-            } else {
-                return 0;
-            }
-        }
-    }*/
 }

@@ -8,6 +8,8 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -50,6 +52,11 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        int id = getResources().getIdentifier("config_enableTranslucentDecor", "bool", "android");
+        if (id != 0 && getResources().getBoolean(id)) {
+            Window window = getWindow();
+            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         backPressCloseHandler = new BackPressCloseHandler(this);
         /**  네이버 로그인 모듈 **/
         mOAuthLoginModule = OAuthLogin.getInstance();
@@ -70,6 +77,7 @@ public class StartActivity extends AppCompatActivity {
         naverbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.w("네이버클릭", "클릭먹고");
                 mOAuthLoginModule.startOauthLoginActivity(StartActivity.this, mOAuthLoginHandler);
             }
         });
@@ -149,6 +157,7 @@ public class StartActivity extends AppCompatActivity {
         @Override
         public void run(boolean success) {
             if (success) {
+                Log.w("네이버핸들러", "성공했고");
                 final String accessToken = mOAuthLoginModule.getAccessToken(StartActivity.this);
                 String refreshToken = mOAuthLoginModule.getRefreshToken(StartActivity.this);
                 long expiresAt = mOAuthLoginModule.getExpiresAt(StartActivity.this);
@@ -169,12 +178,13 @@ public class StartActivity extends AppCompatActivity {
                             JSONObject json = new JSONObject( response );
                             // response 객체에서 원하는 값 얻어오기
                             em = json.getJSONObject("response").getString("email");
+                            Log.w("네이버이메일 확인", em);
                             // 액티비티 이동 등 원하는 함수 호출
                             /** 이메일 중복검사 **/
                             NetworkManager.getInstance().getEmail(MyApplication.getContext(), em, new NetworkManager.OnResultListener<EmailResult>() {
-
                                 @Override
                                 public void onSuccess(Request request, EmailResult result) {
+                                    Log.w("확인", String.valueOf(result.getResult()));
                                     if (result.getResult() == 1) { /** 최초 로그인시 드론, 닉네임 설정 액티비티로 **/
                                         Intent intent = new Intent(getApplicationContext(), JoinDronePick.class);
                                         intent.putExtra("email", em);
@@ -184,12 +194,11 @@ public class StartActivity extends AppCompatActivity {
                                     } else {  /** 이미 가입되었으면, 바로 메인액티비티로 **/
                                         goLoginActivity();
                                     }
-
                                 }
 
                                 @Override
                                 public void onFail(Request request, IOException exception) {
-
+                                    Log.w("서버실패", "실패");
                                 }
                             });
                         } catch ( JSONException e )
@@ -211,6 +220,7 @@ public class StartActivity extends AppCompatActivity {
                 //startActivity(intent);
                 //finish();
             } else {
+                Log.w("완전실패","완전");
                 String errorCode = mOAuthLoginModule.getLastErrorCode(StartActivity.this).getCode();
                 String errorDesc = mOAuthLoginModule.getLastErrorDesc(StartActivity.this);
                 Toast.makeText(StartActivity.this, "errorCode:" + errorCode
@@ -223,12 +233,12 @@ public class StartActivity extends AppCompatActivity {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.w("고로그인 이메일",em);
                 NetworkManager.getInstance().getLogin(MyApplication.getContext(),em,pw, new NetworkManager.OnResultListener<LoginResult>() {
 
                     @Override
                     public void onSuccess(Request request, LoginResult result) {
                         PropertyManager.getInstance().setId(result.getResult().getMem_id());
-                        Log.w("확인",result.getResult().getMem_id()+"");
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                         finish();

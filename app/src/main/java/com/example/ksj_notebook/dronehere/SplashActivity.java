@@ -14,7 +14,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.test.mock.MockPackageManager;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.example.ksj_notebook.dronehere.login.StartActivity;
+import com.example.ksj_notebook.dronehere.manager.PropertyManager;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -27,6 +32,11 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        int id = getResources().getIdentifier("config_enableTranslucentDecor", "bool", "android");
+        if (id != 0 && getResources().getBoolean(id)) {
+            Window window = getWindow();
+            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         gps_check();
     }
 
@@ -34,9 +44,15 @@ public class SplashActivity extends AppCompatActivity {
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if ("" ==PropertyManager.getInstance().getId()){
+                        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }, 2000);
     }
@@ -110,7 +126,7 @@ public class SplashActivity extends AppCompatActivity {
             }
             else{
                 // Failure Stuff
-                Toast.makeText(getApplicationContext(), "GPS 권한이 승인되지 않았습니다.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "위치 권한이 승인되지 않았습니다.",Toast.LENGTH_SHORT).show();
                 System.exit(0);
             }
         }

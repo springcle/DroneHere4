@@ -22,10 +22,10 @@
         sothree:umanoShadowHeight="0dp">
         <!--      sothree:umanoScrollableView="@+id/sliding_viewpager"-->
 
-       <!-- <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">-->
+        <!-- <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">-->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -102,7 +102,7 @@
 
             </LinearLayout>
         </FrameLayout>
-  <!--      </LinearLayout>-->
+        <!--      </LinearLayout>-->
         <!--                                                   -->
         <LinearLayout
 
@@ -113,7 +113,6 @@
             android:focusable="false"
             android:gravity="center_horizontal"
             android:orientation="vertical">
-
 
             <LinearLayout
                 android:id="@+id/layout_up_bar"
@@ -145,8 +144,6 @@
                       android:id="@+id/nested"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content">-->
-
-
             <android.support.v4.view.ViewPager
                 android:id="@+id/sliding_viewpager"
                 android:layout_width="match_parent"
@@ -169,7 +166,6 @@
                  -->
 
         </LinearLayout>
-
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </RelativeLayout>

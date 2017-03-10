@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/drawer_navi"
-        android:layout_width="304dp"
+        android:layout_width="270dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:name="com.example.ksj_notebook.dronehere.Drawer.DrawerFragment">

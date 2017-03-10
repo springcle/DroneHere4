@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,16 +30,13 @@ import okhttp3.Request;
  */
 public class TabNews extends Fragment {
 
-
     RecyclerView recyclerView;
     NewsAdapter newsAdapter;
     List<News> news;
 
-    public static TabNews newInstance(String text) {
-        TabNews tabNews = new TabNews();
-        return tabNews;
+    public TabNews() {
+        // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,8 +52,6 @@ public class TabNews extends Fragment {
         View view= inflater.inflate(R.layout.fragment_tab_news, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.newslist);
         view.setBackgroundColor(Color.rgb(234,234,234));
-
-
 
         recyclerView.setAdapter(newsAdapter);
         recyclerView.setNestedScrollingEnabled(false);

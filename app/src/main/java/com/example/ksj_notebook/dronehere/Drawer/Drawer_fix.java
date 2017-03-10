@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,7 +46,7 @@ public class Drawer_fix extends AppCompatActivity {
     Member member;
     EditText editText2;
     ImageView im;
-
+    Vibrator vibrator;
     Button adddrone;
     Button okokok;
 
@@ -58,7 +59,7 @@ public class Drawer_fix extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer_fix);
-
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         editText2=(EditText)findViewById(R.id.editText2);
         im=(ImageView)findViewById(R.id.droneimage);
 
@@ -111,8 +112,12 @@ public class Drawer_fix extends AppCompatActivity {
         okokok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(editText2.getText().toString()==""){
+                if(editText2.getText().toString()=="") {
                     Toast.makeText(Drawer_fix.this, "닉네임을 입력하세요", Toast.LENGTH_SHORT).show();
+                }
+                else if(editText2.getText().toString().getBytes().length < 2 || editText2.getText().toString().getBytes().length > 5){
+                    Toast.makeText(getApplicationContext(), "닉네임(2-5자)형식에 맞게 입력해주세요", Toast.LENGTH_SHORT).show();
+                    vibrator.vibrate(100);
                 }else{
                     String dr_select;
                     List<String> dr_delete2=new ArrayList();

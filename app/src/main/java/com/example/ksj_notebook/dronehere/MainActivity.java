@@ -1,11 +1,11 @@
 package com.example.ksj_notebook.dronehere;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTabHost;
@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -36,21 +37,21 @@ public class MainActivity extends AppCompatActivity{
     TextView main_title;
     Button toolbar_btn;
 
-
+    /** 로그아웃 시, 설정 창(Drawer_etc)과 메인액티비티까지 finish() 해줘야 하므로, Drawer_etc 액티비티에서 메인액티비티를 사용하기 위함 **/
+    public static Activity mainactivity;
 
     public static Context getContext() {
         return context;
     }
 
+    /** back키 overriding **/
+    private onKeyBackPressedListener mOnKeyBackPressedListener;
     public interface onKeyBackPressedListener {
         public void onBack();
     }
-    private onKeyBackPressedListener mOnKeyBackPressedListener;
-
     public void setOnKeyBackPressedListener(onKeyBackPressedListener listener) {
         mOnKeyBackPressedListener = listener;
     }
-
     @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(Gravity.LEFT)) {
@@ -63,74 +64,39 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
+        mainactivity = MainActivity.this;
 
+        /** 네트워크 체크 리스너 **/
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         NetworkCheckManager receiver = new NetworkCheckManager(this);
         registerReceiver(receiver, filter);
+
         context = this;
         setContentView(R.layout.activity_main);
-        gps_check();
-        getSupportFragmentManager().beginTransaction().replace(R.id.tab_frame, new TabHere()).commit();
-        /*
-        frameLayout=findViewById(android.R.id.tabcontent);
-
-        tabHost = (FragmentTabHost)findViewById(R.id.tabHost);
-        tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
-        */
-        Window window = getWindow();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(getResources().getColor(R.color.status));
-        }
-        /*
-        final ImageView tab1 = new ImageView(this);
-        tab1.setImageResource(R.drawable.tab1selector);
-        final ImageView tab2 = new ImageView(this);
-        tab2.setImageResource(R.drawable.tab2selector);
-        final ImageView tab3 = new ImageView(this);
-        tab3.setImageResource(R.drawable.tab3selector);
-        ImageView tab4 = new ImageView(this);
-        tab4.setImageResource(R.drawable.tab4selector);
-        */
-        /*
-        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(tab1), TabHere.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab2"), TabGather.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab3"), TabNews.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab4"), TabDrone.class, null);
-        */
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer_layout);
-        //toolbar=(Toolbar)findViewById(R.id.main_toolbar);
-        //main_title=(TextView)findViewById(R.id.main_title);
-        /*
-        toolbar_btn=(Button)findViewById(R.id.toolbar_btn);
-        toolbar_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              //  Toast.makeText(MainActivity.this, "미구현 입니다.", Toast.LENGTH_SHORT).show();
-                drawerLayout.openDrawer(Gravity.LEFT);
-            }
-        });*/
-        /*
-        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            @Override
-            public void onTabChanged(String tabId) {
-                if(tabId.equals("tab1")){
-                    main_title.setText("드론 Here");
-                }else if(tabId.equals("tab2")){
-                    main_title.setText("드론 장소");
-                }else if(tabId.equals("tab3")){
-                    main_title.setText("드론 뉴스");
-                }else{
-                    main_title.setText("드론 백과");
-                }
-            }
-        });*/
-        LogWrapper.d(TAG, "debug log");
-        LogWrapper.e(TAG, "error log");
-   }
 
+        gps_check();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.tab_frame, new TabHere()).commit();
+        /** status바(최상단 바) **/
+        int id = getResources().getIdentifier("config_enableTranslucentDecor", "bool", "android");
+        if (id != 0 && getResources().getBoolean(id)) {
+            Window window = getWindow();
+            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+    }
+        /*
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(getResources().getColor(R.color.Transparency));
+        drawerLayout=(DrawerLayout)findViewById(R.id.drawer_layout);
+         }
+   */
+    /** 탭히어 프래그먼트에 햄버거 버튼이 있으므로, 탭히어에 사용하기위해 public 선언 **/
     public void openHamberger(){
         drawerLayout.openDrawer(Gravity.LEFT);
     }
+
+    /** 위치기능 on/off 체크 **/
     public void gps_check(){
         try {
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -145,6 +111,7 @@ public class MainActivity extends AppCompatActivity{
             e.printStackTrace();
         }
     }
+    /*
     public void storage_check(){
         try {
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -159,17 +126,16 @@ public class MainActivity extends AppCompatActivity{
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
-
-    // 권한 확인
+    /** 위치기능 사용 권한 확인 **/
     public boolean checkLocationPermission()
     {
         String permission = "android.permission.ACCESS_FINE_LOCATION";
         int res = this.checkCallingOrSelfPermission(permission);
         return (res == PackageManager.PERMISSION_GRANTED);
     }
-    // 권한 확인
+    /** 위치기능 사용 권한 확인 **/
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

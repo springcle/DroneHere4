@@ -18,10 +18,8 @@ public class Dc5 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dc5);
-
         zzz=(TextView)findViewById(R.id.dc5text);
         zzz.setText(readTxt());
-
     }
     private String readTxt() {
         String data = null;
