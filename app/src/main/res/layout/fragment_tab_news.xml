@@ -1,23 +1,60 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     tools:context=".News.TabNews">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tab_news_nested">
-
-        <android.support.v7.widget.RecyclerView
+    <!--   <RelativeLayout
+            android:id="@+id/tab_news_Relative"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/newslist"
-            />
+            android:layout_height="wrap_content"
+            ></RelativeLayout>--><!--
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:id="@+id/nested"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested22"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+         >
+
+            <RelativeLayout
+                android:id="@+id/tab_news_rela3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></RelativeLayout>
+
+            <!--android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"-->
+            <!--       <android.support.v4.widget.NestedScrollView
+                       android:id="@+id/nested22"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content">-->
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/newslist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true" />
+            <!--android:layout_below="@+id/tab_news_Relative"-->
+            <!--      </android.support.v4.widget.NestedScrollView>-->
 
 
+        </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 
-</FrameLayout>
+</LinearLayout><!--
+    </android.support.v4.widget.NestedScrollView>-->

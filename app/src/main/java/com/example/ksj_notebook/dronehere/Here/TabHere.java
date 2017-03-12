@@ -287,8 +287,10 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 *  슬라이딩패널 RecyclerView 대응된 버전 사용함. (setScrollableView)
                 *  0번,1번 페이지를 선택하면 위아래로 스크롤이 되도록 설정.
                 * */
-                sliding.setScrollableView(fragmentList.get(0).getView().findViewById(R.id.tab_news_nested));
+               // sliding.setScrollableView(fragmentList.get(0).getView().findViewById(R.id.newslist));
+                sliding.setScrollableView(fragmentList.get(0).getView().findViewById(R.id.nested22));
                 // 위아래 스크롤이 뻑뻑하여 setNestedScrollingEnabled(false)로 설정해주었다.
+                Log.e("선택한 뷰페이저",""+fragmentList.get(position));
 
                 sliding.setScrollableView(fragmentList.get(1).getView().findViewById(R.id.ryview));
             }
