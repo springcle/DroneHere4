@@ -49,9 +49,7 @@ public class AddDrone extends Dialog{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         NetworkManager.getInstance().getFix(MyApplication.getContext(), mem_id,new NetworkManager.OnResultListener<MemberResult>() {
-
             @Override
             public void onSuccess(Request request, MemberResult result) {
                 member = result.getResult();
@@ -62,11 +60,11 @@ public class AddDrone extends Dialog{
             }
 
         });
-
         WindowManager.LayoutParams lpWindow = new WindowManager.LayoutParams();
         lpWindow.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         lpWindow.dimAmount = 0.8f;
-        lpWindow.gravity= Gravity.CENTER;
+        lpWindow.gravity = Gravity.CENTER;
+        lpWindow.flags = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
         lpWindow.width=WindowManager.LayoutParams.MATCH_PARENT;
         lpWindow.height=WindowManager.LayoutParams.MATCH_PARENT;
         getWindow().setAttributes(lpWindow);
@@ -82,9 +80,8 @@ public class AddDrone extends Dialog{
 
         recy.setAdapter(adap);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        recy.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        recy.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         recy.setLayoutManager(layoutManager);
-
 
         adap.setOnItemClickListener(new DronePickDialogAdapter.OnItemClickListener() {
             @Override

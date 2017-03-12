@@ -13,8 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.example.ksj_notebook.dronehere.R;
 
 /**
@@ -24,7 +24,7 @@ public class TabDrone extends Fragment {
 
     SelectCategory selectCategory;
     RecyclerView recyclerView;
-    Spinner spinner;
+    MySpinner spinner;
     TabDroneAdapter db2;
     EditText editText;
     Button button;
@@ -46,14 +46,14 @@ public class TabDrone extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_db, container, false);
-        spinner = (Spinner)view.findViewById(R.id.spinner);
+        spinner = (MySpinner) view.findViewById(R.id.spinner);
         recyclerView=(RecyclerView)view.findViewById(R.id.ryview);
         editText=(EditText)view.findViewById(R.id.drone_search);
         button=(Button)view.findViewById(R.id.drone_search_btn);
         gone_text=(TextView)view.findViewById(R.id.gone_text);
         //logo=(ImageView)view.findViewById(R.id.imageView6);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.sort, R.layout.spinner_view);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.setting_list_view_2);
         spinner.setAdapter(adapter);
         /** 픽셀 = dp 곱하기 3 **/
         spinner.setDropDownVerticalOffset(105);
@@ -66,8 +66,12 @@ public class TabDrone extends Fragment {
         editText.setHint(R.string.drone_pick);
         selectCategory =  new SelectCategory(getContext(), spinner, editText, db2, layoutManager, recyclerView);
 
+        /** 텍스트 변화 감지 **/
         selectCategory.text_listener();
+        /** 초기화면 이름 순으로 드론 출력**/
         selectCategory.recommand_list();
+
+        /** 리사이클러 뷰 아이템 선택 시 상세 드론 페이지 이동 **/
         db2.setOnItemClickListener(new TabDroneAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(TabDroneViewholder holder, View view, String s, int position) {

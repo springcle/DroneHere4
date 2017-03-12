@@ -3,7 +3,7 @@
     android:id="@+id/dt_dd"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eaeaea"
+    android:background="#646464"
     tools:context=".Dronedb.TabDrone">
 
 
@@ -54,7 +54,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="7dp"
             android:text="이런 드론은 어떠세요?"
-            android:textColor="#3b89dd"
+            android:textColor="#fcfcfc"
             android:textSize="12dp"
             android:textStyle="bold" />
 
@@ -65,7 +65,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/gone_text"
-            android:background="#eaeaea"></RelativeLayout>
+            android:background="#646464"></RelativeLayout>
         <!--
                 <android.support.v4.widget.NestedScrollView
                     android:layout_width="match_parent"
@@ -75,10 +75,11 @@
             android:id="@+id/ryview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout5"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-            />
-
-        <Spinner
+        <com.example.ksj_notebook.dronehere.Dronedb.MySpinner
             android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

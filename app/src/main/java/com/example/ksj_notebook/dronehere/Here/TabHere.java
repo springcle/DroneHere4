@@ -559,15 +559,12 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         if (location != null) {
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 11f);
 
-
             if (mMap != null) {
                 mMap.moveCamera(update);
-                final LatLng mylocationLatLng = mMap.getCameraPosition().target;
-                mylocationButtonFuntion(mylocationLatLng);
             }
         }
     }
-
+/*
     // mylocation 버튼 visible, invisible할때 사용할 메서드
     private void mylocationButtonFuntion(final LatLng mylocationLatLng) {
 
@@ -590,7 +587,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             }
         });
 
-        /*
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
@@ -602,10 +598,10 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     myLocation.setVisibility(View.VISIBLE);
                 }
             }
-        });*/
+        });
 
     }
-
+*/
     /**
      * 구글맵이 준비되면 4대 공역 레이어 형성, 마커 이벤트리스너 생성 및 대한민국으로 카메라 이동
      **/
@@ -632,9 +628,37 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         mMap.setOnCameraChangeListener(this);
         final LatLng korea = new LatLng(36.641111, 127.853366);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(korea, 7.1f));
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                myLocation.setVisibility(View.VISIBLE);
+                myLocation.setEnabled(true);
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        myLocation.setVisibility(View.INVISIBLE);
+                        myLocation.setEnabled(false);
+                    }
+                }, 2000);
+            }
+        });
+        mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
+            @Override
+            public void onCameraMoveStarted(int i) {
+                myLocation.setVisibility(View.VISIBLE);
+                myLocation.setEnabled(true);
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        myLocation.setVisibility(View.INVISIBLE);
+                        myLocation.setEnabled(false);
+                    }
+                }, 2000);
+            }
+        });
+
         /** 맵 롱 클릭 시 이벤트 처리 **/
-
-
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {

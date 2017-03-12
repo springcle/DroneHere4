@@ -112,6 +112,6 @@
         android:layout_height="6dp"
         android:layout_below="@id/drrr"
         android:layout_centerHorizontal="true"
-        android:background="#eaeaea"></RelativeLayout>
+        android:background="#646464"></RelativeLayout>
 
 </RelativeLayout>
