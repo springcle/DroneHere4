@@ -15,20 +15,20 @@
         android:gravity="center_vertical|center"
         android:background="#2D79C3">
         <FrameLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:background="#eeeeee"
             android:foreground="@drawable/hamberger_header_circle">
             <ImageView
                 android:id="@+id/circle_image"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:scaleType="fitXY" />
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:scaleType="centerCrop" />
             <Button
                 android:id="@+id/hamberger_edit_btn"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:background="@android:color/transparent"/>
         </FrameLayout>
         <TextView

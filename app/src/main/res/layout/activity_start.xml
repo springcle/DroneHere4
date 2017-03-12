@@ -44,6 +44,7 @@
         android:id="@+id/naverbtn"
         android:layout_width="211dp"
         android:layout_height="39dp"
+        android:elevation="10dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="17dp"
         android:background="@drawable/naver_login" />
@@ -52,6 +53,7 @@
         android:id="@+id/emailbtn"
         android:layout_width="211dp"
         android:layout_height="39dp"
+        android:elevation="10dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="17dp"
         android:background="@drawable/email_login" />
@@ -71,6 +73,7 @@
                 android:id="@+id/joinbtn"
                 android:layout_width="38dp"
                 android:layout_height="10dp"
+                android:elevation="10dp"
                 android:textColor="#FFFFFFFF"
                 android:background="@drawable/signup"
                  />

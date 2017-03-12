@@ -26,10 +26,7 @@ import com.example.ksj_notebook.dronehere.manager.NetworkCheckManager;
 
 public class MainActivity extends AppCompatActivity{
 
-    // 깃 고장난거 고치는중
-
     private static final String TAG = "MainActivity";
-
     private static final int REQUEST_CODE_PERMISSION = 2;
     FragmentTabHost tabHost;
     View frameLayout;

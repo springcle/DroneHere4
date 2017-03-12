@@ -4,7 +4,6 @@ package com.example.ksj_notebook.dronehere.Drawer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -49,7 +48,7 @@ public class DrawerFragment extends Fragment {
     TextView drawer_nick;
     TextView drone_name;
     ImageView drawer_image;
-    Button edit; // 원 모양 에디트 버튼
+    Button edit; // 원 모양 에디트 버튼(드론사진)
     DroneDB user_drone;
 
     /** Hamberger Body (내활동내역, 비행가이드, 설정)**/
@@ -147,18 +146,21 @@ public class DrawerFragment extends Fragment {
         return view;
     }
     public void init_event(){
+        /** 헤더 **/
         if(PropertyManager.getInstance().getId() != "") { // 회원 일 경우
             set_hamburger_Info(mem);
-        } else drawer_nick.setText("비회원");
-        /** 헤더 **/
-        // Circle Image(에디트 버튼)
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), Drawer_fix.class);
-                getContext().startActivity(intent);
-            }
-        });
+            // Circle Image(에디트 버튼)
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), Drawer_fix.class);
+                    getContext().startActivity(intent);
+                }
+            });
+        } else {
+            edit.setEnabled(false);
+            drawer_nick.setText("비회원");
+        }
         /** 바디 **/
         // 내 활동내역
         my_activity_btn.setOnClickListener(new View.OnClickListener() {
@@ -211,7 +213,7 @@ public class DrawerFragment extends Fragment {
         GlideUrl url = new GlideUrl(member.getDr_photo());
         Glide.with(MyApplication.getContext())
                 .load(url)
-                .override(drawer_image.getMaxWidth(),drawer_image.getMaxHeight())
+                //.override(drawer_image.getMaxWidth(),drawer_image.getMaxHeight())
                 .into(drawer_image);
         user_drone = new DroneDB();
         if(member.getMem_drone() != null) {
