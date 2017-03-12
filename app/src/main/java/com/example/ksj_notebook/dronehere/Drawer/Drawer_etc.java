@@ -27,7 +27,7 @@ public class Drawer_etc extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_etc);
         setTitle("기타설정");
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
+        adapter = new ArrayAdapter<String>(this,R.layout.setting_list_view);
         listview = (ListView) findViewById(R.id.listView);
         listview.setAdapter(adapter);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -68,10 +68,6 @@ public class Drawer_fix extends AppCompatActivity {
         re=(RecyclerView)findViewById(R.id.re);
 
         adap1=new Drawer_fix_adapter();
-
-
-
-
         NetworkManager.getInstance().getFix(MyApplication.getContext(), mem_id,new NetworkManager.OnResultListener<MemberResult>() {
 
             @Override
@@ -118,7 +114,7 @@ public class Drawer_fix extends AppCompatActivity {
                 else if(editText2.getText().toString().getBytes().length < 2 || editText2.getText().toString().getBytes().length > 5){
                     Toast.makeText(getApplicationContext(), "닉네임(2-5자)형식에 맞게 입력해주세요", Toast.LENGTH_SHORT).show();
                     vibrator.vibrate(100);
-                }else{
+                } else {
                     String dr_select;
                     List<String> dr_delete2=new ArrayList();
                     List<Integer> dr_delete1=new ArrayList(adap1.mapp);
@@ -133,7 +129,6 @@ public class Drawer_fix extends AppCompatActivity {
                     }
                     NetworkManager.getInstance().getFix2(MyApplication.getContext(), mem_id,editText2.getText().toString(),dr_delete2,dr_select,new NetworkManager.OnResultListener() {
                     //member.getMem_name()
-
                         @Override
                         public void onSuccess(Request request, Object result) {
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);

@@ -18,21 +18,17 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nested22"
+        android:gravity="center"
+        android:background="#646464"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         >
 
         <RelativeLayout
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-         >
-
-            <RelativeLayout
-                android:id="@+id/tab_news_rela3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></RelativeLayout>
+            >
 
             <!--android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"-->
@@ -45,10 +41,7 @@
                 android:id="@+id/newslist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true" />
+                android:gravity="center" />
             <!--android:layout_below="@+id/tab_news_Relative"-->
             <!--      </android.support.v4.widget.NestedScrollView>-->
 

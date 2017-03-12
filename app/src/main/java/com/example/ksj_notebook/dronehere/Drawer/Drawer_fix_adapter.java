@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneDB;
@@ -26,7 +27,6 @@ public class Drawer_fix_adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     List<DroneDB> drlist;
     int CheckedPostion;
     int mCheckedPostion;
-
     Set<Integer> mapp=new HashSet<>();
 
     static RadioButton lastChecked=null;
@@ -60,7 +60,6 @@ public class Drawer_fix_adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }else {
                     ((Fix_Viewholder) holder).radioButton.setChecked(true);
                     lastChecked = ((Fix_Viewholder) holder).radioButton;
-
                 }
             }
         });
@@ -70,7 +69,12 @@ public class Drawer_fix_adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v) {
                 if( ((Fix_Viewholder) holder).checkBox.isChecked()==true){
-                    mapp.add(position);
+                    if(mem.getMem_drone().size() != 1) {
+                        mapp.add(position);
+                    } else {
+                        Toast.makeText(context, "소유 드론이 1개는 있어야합니다.",Toast.LENGTH_SHORT).show();
+                        ((Fix_Viewholder) holder).checkBox.setChecked(false);
+                    }
                 }else{
                     mapp.remove(position);
                 }

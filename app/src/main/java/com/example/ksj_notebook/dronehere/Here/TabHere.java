@@ -140,7 +140,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
      **/
     SlidingUpPanelLayout sliding;
     LinearLayout drag_view;
-    Button tab_news_btn, tab_drone_btn;
+    LinearLayout tab_news_btn, tab_drone_btn;
+    LinearLayout sliding_panel_btn_selector;
     ViewPager tab_pager;
     FragmentTabPager viewPager_adpater;
     Fragment tab_news, tab_drone;
@@ -256,7 +257,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         /** 슬라이딩 패널**/
         tab_pager = (ViewPager) view.findViewById(R.id.sliding_viewpager);
           /*  tab_pager.setEnabled(false);*/
-
+        sliding_panel_btn_selector = (LinearLayout)view.findViewById(R.id.sliding_panel_btn_selector);
         sliding = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanel_layout);
         sliding.setAnchorPoint(1.0f);
         sliding.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
@@ -288,11 +289,21 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 *  0번,1번 페이지를 선택하면 위아래로 스크롤이 되도록 설정.
                 * */
                // sliding.setScrollableView(fragmentList.get(0).getView().findViewById(R.id.newslist));
-                sliding.setScrollableView(fragmentList.get(0).getView().findViewById(R.id.nested22));
+                /*
+                if (position != 0) {
+                    sliding.setScrollableView(fragmentList.get(0).getView().findViewById(R.id.nested22));
+                } else if (position != 1) {
+                    sliding.setScrollableView(fragmentList.get(1).getView().findViewById(R.id.ryview));
+                }*/
                 // 위아래 스크롤이 뻑뻑하여 setNestedScrollingEnabled(false)로 설정해주었다.
                 Log.e("선택한 뷰페이저",""+fragmentList.get(position));
 
-                sliding.setScrollableView(fragmentList.get(1).getView().findViewById(R.id.ryview));
+                /** 페이지 스와이프 시 상단의 메뉴 버튼 활성화된 이미지로 변경**/
+                if(position == 0){
+                    sliding_panel_btn_selector.setBackgroundResource(R.drawable.on_dronenews);
+                } else if(position == 1){
+                    sliding_panel_btn_selector.setBackgroundResource(R.drawable.on_dronedb);
+                }
             }
 
             @Override
@@ -313,14 +324,15 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         });
 
         tab_pager.setCurrentItem(0);
-        tab_drone_btn = (Button) view.findViewById(R.id.tab_drone_btn);
-        tab_news_btn = (Button) view.findViewById(R.id.tab_news_btn);
+        tab_drone_btn = (LinearLayout) view.findViewById(R.id.tab_drone_btn);
+        tab_news_btn = (LinearLayout) view.findViewById(R.id.tab_news_btn);
         drag_view = (LinearLayout) view.findViewById(R.id.drag_view);
 
         tab_news_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tab_pager.setCurrentItem(0);
+                sliding_panel_btn_selector.setBackgroundResource(R.drawable.on_dronenews);
                 //lm.scrollToPositionWithOffset(0,0);
             }
         });
@@ -328,6 +340,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             @Override
             public void onClick(View v) {
                 tab_pager.setCurrentItem(1);
+                sliding_panel_btn_selector.setBackgroundResource(R.drawable.on_dronedb);
                 //lm.scrollToPositionWithOffset(0,0);
             }
         });
@@ -428,7 +441,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             }
         });*/
         sliding.setClipPanel(false);
-        sliding.setPanelHeight(convertToPixels(context, 60));
+        sliding.setPanelHeight(convertToPixels(context, 40));
         return view;
     }
 
