@@ -9,8 +9,6 @@ import java.util.List;
 public class DroneDB {
     int[] dr_array;
 
-
-
 /*    public ArrayList<String> dr_image = new ArrayList<>(); */
     String _id;
     String dr_name;
@@ -24,9 +22,7 @@ public class DroneDB {
     String dr_spec;
     double dr_resistance;
     String dr_temp;
-
     String dr_impossible;
-
     String dr_reference;
     double dr_megapixels;
     double dr_receiptrange;

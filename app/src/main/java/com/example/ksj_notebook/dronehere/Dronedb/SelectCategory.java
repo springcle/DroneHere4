@@ -265,6 +265,7 @@ public class SelectCategory {
                                         db2.setDb2(full_list);
                                         layoutManager.scrollToPositionWithOffset(0, 0);
                                     } else {
+                                        /** 에디트 텍스트 문자열과 전체 드론 리스트 문자열 비교 필터링 후 새 리스트에 저장 **/
                                         for (int i = 0; i < full_list.size(); i++) {
                                             if (full_list.get(i).getDr_name().toUpperCase().contains(str) == true) {
                                                 filter_list.add(full_list.get(i));
@@ -361,14 +362,14 @@ public class SelectCategory {
                                     for (int i = 0; i < full_list.size(); i++) {
                                         duplication = false;
                                         for (int j = 0; j < usage_list.size(); j++) {
-                                            /** 중복된 제조사 명 제거 **/
+                                            /** 중복된 용도 명 제거 **/
                                             if (usage_list.get(j).toString().toUpperCase().equals(full_list.get(i).getDr_use().toString().toUpperCase()) == true) {
                                                 duplication = true;
                                                 break;
                                             }
                                         }
                                         if (duplication == false) {
-                                            usage_list.add(full_list.get(i).getDr_use().toString());
+                                            usage_list.add(full_list.get(i).getDr_use().toString().toUpperCase());
                                         }
                                     }
                                     UsageDialog dialog = new UsageDialog(context, usage_list);
