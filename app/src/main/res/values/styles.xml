@@ -16,7 +16,7 @@
     </style>
 
     <style name="StarRatingBar" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/star_rating</item>
+        <item name="android:progressDrawable">@drawable/rating_star</item>
         <item name="android:minHeight">15dp</item>
         <item name="android:maxHeight">15dp</item>
     </style>
@@ -28,7 +28,7 @@
     </style>
 
     <style name="StarRatingBar3" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/star_rating3</item>
+        <item name="android:progressDrawable">@drawable/star_rating</item>
         <item name="android:minHeight">15dp</item>
         <item name="android:maxHeight">15dp</item>
     </style>
