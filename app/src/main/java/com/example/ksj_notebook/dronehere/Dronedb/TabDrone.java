@@ -77,7 +77,7 @@ public class TabDrone extends Fragment {
             }
         });
 
-        return view;
+        return view;  //
     }
 
     @Override
