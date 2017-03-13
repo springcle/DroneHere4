@@ -50,7 +50,7 @@ public class TabDrone extends Fragment {
         recyclerView=(RecyclerView)view.findViewById(R.id.ryview);
         editText=(EditText)view.findViewById(R.id.drone_search);
         button=(Button)view.findViewById(R.id.drone_search_btn);
-        gone_text=(TextView)view.findViewById(R.id.gone_text);
+        //gone_text=(TextView)view.findViewById(R.id.gone_text);
         //logo=(ImageView)view.findViewById(R.id.imageView6);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.sort, R.layout.spinner_view);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -85,7 +85,7 @@ public class TabDrone extends Fragment {
         super.onResume();
         //cnt=0;
         //logo.setVisibility(View.VISIBLE);
-        gone_text.setVisibility(View.VISIBLE);
+        //gone_text.setVisibility(View.VISIBLE);
         layoutManager.setStackFromEnd(false);
         recyclerView.setLayoutManager(layoutManager);
         /** 스피너 아이템 선택 리스너 **/
