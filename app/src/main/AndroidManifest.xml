@@ -21,10 +21,9 @@
         android:theme="@style/Theme.AppCompat.Light">
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -40,11 +39,11 @@
         <!-- -->
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".login.StartActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"  />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Gathering.TabGatherWriteGathering"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"

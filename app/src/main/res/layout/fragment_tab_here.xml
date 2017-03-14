@@ -50,8 +50,8 @@
 
                     <Button
                         android:id="@+id/hamberger_btn"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="left|center"
                         android:background="@drawable/i_ham" />
 
@@ -66,8 +66,8 @@
 
                     <Button
                         android:id="@+id/search_btn"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:background="@drawable/i_sear" />
                 </LinearLayout>
             </LinearLayout>
@@ -163,7 +163,6 @@
                 android:gravity="center|center_horizontal"
                  />
                  -->
-
         </LinearLayout>
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>

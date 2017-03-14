@@ -49,7 +49,7 @@ public class TabDrone extends Fragment {
         spinner = (MySpinner) view.findViewById(R.id.spinner);
         recyclerView=(RecyclerView)view.findViewById(R.id.ryview);
         editText=(EditText)view.findViewById(R.id.drone_search);
-        button=(Button)view.findViewById(R.id.drone_search_btn);
+        //button=(Button)view.findViewById(R.id.drone_search_btn);
         //gone_text=(TextView)view.findViewById(R.id.gone_text);
         //logo=(ImageView)view.findViewById(R.id.imageView6);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.sort, R.layout.spinner_view);
@@ -58,7 +58,6 @@ public class TabDrone extends Fragment {
         /** 픽셀 = dp 곱하기 3 **/
         spinner.setDropDownVerticalOffset(105);
         spinner.setDropDownWidth(300);
-
         recyclerView.setAdapter(db2);
         recyclerView.setNestedScrollingEnabled(false);
         layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
