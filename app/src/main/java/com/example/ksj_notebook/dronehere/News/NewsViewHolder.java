@@ -2,7 +2,7 @@ package com.example.ksj_notebook.dronehere.News;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ksj_notebook.dronehere.R;
@@ -17,24 +17,21 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
     public void setOnItemClickListener(NewsAdapter.OnItemClickListener listener){
         mItemClickListener = listener;
     }
-
     TextView titleView;
     TextView dateView;
     TextView providerView;
-    RelativeLayout newsClick;
+    LinearLayout newsClick;
     String address;
-
 
     public NewsViewHolder(final View itemView) {
         super(itemView);
-
         titleView = (TextView)itemView.findViewById(R.id.newsTitle);
         titleView.setHorizontallyScrolling(false);
         dateView = (TextView)itemView.findViewById(R.id.newsDate);
         dateView.setHorizontallyScrolling(false);
         providerView = (TextView)itemView.findViewById(R.id.newsProvider);
         providerView.setHorizontallyScrolling(false);
-        newsClick=(RelativeLayout)itemView.findViewById(R.id.newsClick);
+        newsClick=(LinearLayout)itemView.findViewById(R.id.newsClick);
         newsClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,7 +41,6 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
             }
         });
     }
-
     public void setArticle(News news){
         address=news.getNews_url();
         titleView.setText(news.getNews_title());

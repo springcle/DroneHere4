@@ -1,16 +1,16 @@
 package com.example.ksj_notebook.dronehere.Drawercontent;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.example.ksj_notebook.dronehere.BaseActivity;
 import com.example.ksj_notebook.dronehere.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Dc8 extends AppCompatActivity {
+public class Dc8 extends BaseActivity {
     TextView zzz;
 
 

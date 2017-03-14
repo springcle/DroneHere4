@@ -2,14 +2,14 @@ package com.example.ksj_notebook.dronehere.Drawercontent;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.example.ksj_notebook.dronehere.BaseActivity;
 import com.example.ksj_notebook.dronehere.R;
 
 import java.util.List;
 
-public class Dc4 extends AppCompatActivity {
+public class Dc4 extends BaseActivity {
 
     List<String> bit;
     ViewPager pager3;

@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.test.mock.MockPackageManager;
 import android.util.Log;
 import android.view.Window;
@@ -21,7 +20,7 @@ import android.widget.Toast;
 import com.example.ksj_notebook.dronehere.login.StartActivity;
 import com.example.ksj_notebook.dronehere.manager.PropertyManager;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     LocationManager locationManager;
     private static final int REQUEST_CODE_PERMISSION = 2;

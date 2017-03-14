@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.ksj_notebook.dronehere.R;
@@ -28,13 +27,13 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
     TextView dt_manu;
     TextView dt_price;
     TextView dt_use;
-    TextView dt_rate;
-    RatingBar dt_ratingbar;
 
     ImageView progressBar;
     ImageView progressBar2;
     ImageView progressBar3;
     ImageView progressBar4;
+
+    ImageView star1, star2, star3, star4, star5;
 
     TextView dt_flight;
     TextView dt_range;
@@ -59,6 +58,13 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
     public DroneDetailViewHolderHeader(View itemView) {
         super(itemView);
 
+        star1 = (ImageView)itemView.findViewById(R.id.detail_star1);
+        star2 = (ImageView)itemView.findViewById(R.id.detail_star2);
+        star3 = (ImageView)itemView.findViewById(R.id.detail_star3);
+        star4 = (ImageView)itemView.findViewById(R.id.detail_star4);
+        star5 = (ImageView)itemView.findViewById(R.id.detail_star5);
+
+
         drdb_title = (TextView) itemView.findViewById(R.id.drdb_title);
        /* imageView=(ImageView)itemView.findViewById(R.id.detail_imageView);
         imageView2=(ImageView)itemView.findViewById(R.id.detail_imageView2);
@@ -71,8 +77,6 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
         dt_manu = (TextView) itemView.findViewById(R.id.dt_manu);
         dt_price = (TextView) itemView.findViewById(R.id.dt_price);
         dt_use = (TextView) itemView.findViewById(R.id.dt_use);
-        dt_rate = (TextView) itemView.findViewById(R.id.dt_rate);
-        dt_ratingbar = (RatingBar) itemView.findViewById(R.id.dt_ratingbar);
 
         progressBar = (ImageView) itemView.findViewById(R.id.progressBar11);
         progressBar2 = (ImageView) itemView.findViewById(R.id.progressBar22);
@@ -195,14 +199,79 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
         dt_manu.setText(db.getDr_manufacture());
         dt_price.setText(db.getDr_price());
         dt_use.setText(db.getDr_use());
-        dt_rate.setText(""+db.getDr_rate());
-        dt_ratingbar.setRating((float)db.getDr_rate());
 
         drawable1.setLevel(db.getDr_array()[0]*2000);
         drawable2.setLevel(db.getDr_array()[1]*2000);
         drawable3.setLevel(db.getDr_array()[2]*2000);
         drawable4.setLevel(db.getDr_array()[3]*2000);
 
+        if (db.getDr_rate() == 0.0) {
+            star1.setBackgroundResource(R.drawable.rating_star_empty);
+            star2.setBackgroundResource(R.drawable.rating_star_empty);
+            star3.setBackgroundResource(R.drawable.rating_star_empty);
+            star4.setBackgroundResource(R.drawable.rating_star_empty);
+            star5.setBackgroundResource(R.drawable.rating_star_empty);
+        } else if (db.getDr_rate() == 0.5) {
+            star1.setBackgroundResource(R.drawable.rating_star_half);
+            star2.setBackgroundResource(R.drawable.rating_star_empty);
+            star3.setBackgroundResource(R.drawable.rating_star_empty);
+            star4.setBackgroundResource(R.drawable.rating_star_empty);
+            star5.setBackgroundResource(R.drawable.rating_star_empty);
+        } else if (db.getDr_rate() == 1.0) {
+            star1.setBackgroundResource(R.drawable.rating_star);
+            star2.setBackgroundResource(R.drawable.rating_star_empty);
+            star3.setBackgroundResource(R.drawable.rating_star_empty);
+            star4.setBackgroundResource(R.drawable.rating_star_empty);
+            star5.setBackgroundResource(R.drawable.rating_star_empty);
+        } else if (db.getDr_rate() == 1.5) {
+            star1.setBackgroundResource(R.drawable.rating_star);
+            star2.setBackgroundResource(R.drawable.rating_star_half);
+            star3.setBackgroundResource(R.drawable.rating_star_empty);
+            star4.setBackgroundResource(R.drawable.rating_star_empty);
+            star5.setBackgroundResource(R.drawable.rating_star_empty);
+        } else if (db.getDr_rate() == 2.0) {
+            star1.setBackgroundResource(R.drawable.rating_star);
+            star2.setBackgroundResource(R.drawable.rating_star);
+            star3.setBackgroundResource(R.drawable.rating_star_empty);
+            star4.setBackgroundResource(R.drawable.rating_star_empty);
+            star5.setBackgroundResource(R.drawable.rating_star_empty);
+        } else if (db.getDr_rate() == 2.5) {
+            star1.setBackgroundResource(R.drawable.rating_star);
+            star2.setBackgroundResource(R.drawable.rating_star);
+            star3.setBackgroundResource(R.drawable.rating_star_half);
+            star4.setBackgroundResource(R.drawable.rating_star_empty);
+            star5.setBackgroundResource(R.drawable.rating_star_empty);
+        } else if (db.getDr_rate() == 3.0) {
+            star1.setBackgroundResource(R.drawable.rating_star);
+            star2.setBackgroundResource(R.drawable.rating_star);
+            star3.setBackgroundResource(R.drawable.rating_star);
+            star4.setBackgroundResource(R.drawable.rating_star_empty);
+            star5.setBackgroundResource(R.drawable.rating_star_empty);
+        } else if (db.getDr_rate() == 3.5) {
+            star1.setBackgroundResource(R.drawable.rating_star);
+            star2.setBackgroundResource(R.drawable.rating_star);
+            star3.setBackgroundResource(R.drawable.rating_star);
+            star4.setBackgroundResource(R.drawable.rating_star_half);
+            star5.setBackgroundResource(R.drawable.rating_star_empty);
+        } else if (db.getDr_rate() == 4.0) {
+            star1.setBackgroundResource(R.drawable.rating_star);
+            star2.setBackgroundResource(R.drawable.rating_star);
+            star3.setBackgroundResource(R.drawable.rating_star);
+            star4.setBackgroundResource(R.drawable.rating_star);
+            star5.setBackgroundResource(R.drawable.rating_star_empty);
+        } else if (db.getDr_rate() == 4.5) {
+            star1.setBackgroundResource(R.drawable.rating_star);
+            star2.setBackgroundResource(R.drawable.rating_star);
+            star3.setBackgroundResource(R.drawable.rating_star);
+            star4.setBackgroundResource(R.drawable.rating_star);
+            star5.setBackgroundResource(R.drawable.rating_star_half);
+        } else if (db.getDr_rate() == 5.0) {
+            star1.setBackgroundResource(R.drawable.rating_star);
+            star2.setBackgroundResource(R.drawable.rating_star);
+            star3.setBackgroundResource(R.drawable.rating_star);
+            star4.setBackgroundResource(R.drawable.rating_star);
+            star5.setBackgroundResource(R.drawable.rating_star);
+        }
         String zz;
         if (db.getDr_pk()>100){
             zz="p";

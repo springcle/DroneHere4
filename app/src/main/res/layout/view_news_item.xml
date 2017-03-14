@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/newsClick"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
-
-
+    android:orientation="horizontal">
+<!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="9"/>
+-->
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="108dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="#00000000"
         card_view:cardCornerRadius="5dp"
-        card_view:cardElevation="@dimen/cardview_default_elevation"
-        card_view:cardUseCompatPadding="true">
+        card_view:cardElevation="2dp"
+        card_view:contentPadding="5dp"
+        android:layout_marginTop="10dp">
 
         <RelativeLayout
             android:id="@+id/linear"
             android:layout_width="match_parent"
-            android:layout_height="98dp"
-            android:layout_gravity="bottom"
+            android:layout_height="match_parent"
             android:background="#ffffffff">
 
             <FrameLayout
+                android:id="@+id/frameLayout2"
                 android:layout_width="92dp"
                 android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:gravity="center"
-                android:id="@+id/frameLayout2">
+                android:gravity="center">
 
                 <LinearLayout
                     android:id="@+id/imageView8"
@@ -43,7 +43,7 @@
                     android:id="@+id/newsDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|center"
+                    android:layout_gravity="center"
                     android:text="New Text"
                     android:textColor="#ffffffff"
                     android:textSize="12dp" />
@@ -53,8 +53,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/frameLayout2"
-                android:layout_toEndOf="@+id/frameLayout2">
+                android:layout_toEndOf="@+id/frameLayout2"
+                android:layout_toRightOf="@+id/frameLayout2">
 
                 <TextView
                     android:id="@+id/newsTitle"
@@ -63,10 +63,10 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
-                    android:singleLine="true"
+                    android:layout_marginTop="20dp"
                     android:ellipsize="marquee"
+                    android:singleLine="true"
                     android:text="New Text"
                     android:textColor="#2f2f2f"
                     android:textSize="14dp" />
@@ -78,12 +78,12 @@
                     android:layout_alignLeft="@+id/newsTitle"
                     android:layout_alignStart="@+id/newsTitle"
                     android:layout_centerVertical="true"
-                    android:singleLine="true"
                     android:ellipsize="marquee"
+                    android:singleLine="true"
                     android:text="New Text"
                     android:textColor="#2f2f2f"
-                    android:visibility="invisible"
-                    android:textSize="12dp" />
+                    android:textSize="12dp"
+                    android:visibility="invisible" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -96,8 +96,12 @@
                 android:layout_marginTop="30dp"
                 android:background="#eaeaea"></RelativeLayout>-->
     </android.support.v7.widget.CardView>
-
-
+    <!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="9"/>
+-->
     <!--
                 <ImageView
                     android:id="@+id/imageView8"
@@ -109,4 +113,4 @@
                     android:layout_gravity="top"
                     android:background="@drawable/news_image" />
                     -->
-</RelativeLayout>
+</LinearLayout>

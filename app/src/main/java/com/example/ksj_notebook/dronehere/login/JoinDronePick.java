@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -20,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.ksj_notebook.dronehere.BaseActivity;
 import com.example.ksj_notebook.dronehere.MainActivity;
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 import okhttp3.Request;
 
-public class JoinDronePick extends AppCompatActivity {
+public class JoinDronePick extends BaseActivity {
 
     Vibrator vibrator;
     EditText nick;

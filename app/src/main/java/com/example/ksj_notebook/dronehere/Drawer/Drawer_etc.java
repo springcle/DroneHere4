@@ -3,12 +3,12 @@ package com.example.ksj_notebook.dronehere.Drawer;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.ksj_notebook.dronehere.BaseActivity;
 import com.example.ksj_notebook.dronehere.Drawercontent.Dc5;
 import com.example.ksj_notebook.dronehere.Drawercontent.Dc6;
 import com.example.ksj_notebook.dronehere.MainActivity;
@@ -19,7 +19,7 @@ import com.example.ksj_notebook.dronehere.manager.PropertyManager;
 /**
  * Created by NAKNAK on 2017-01-23.
  */
-public class Drawer_etc extends AppCompatActivity{
+public class Drawer_etc extends BaseActivity {
     private ListView listview;
     private ArrayAdapter<String> adapter;
     @Override

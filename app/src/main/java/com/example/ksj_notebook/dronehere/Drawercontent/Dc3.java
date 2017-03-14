@@ -1,12 +1,12 @@
 package com.example.ksj_notebook.dronehere.Drawercontent;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.example.ksj_notebook.dronehere.BaseActivity;
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.Dc1Result;
@@ -17,7 +17,7 @@ import java.io.IOException;
 
 import okhttp3.Request;
 
-public class Dc3 extends AppCompatActivity {
+public class Dc3 extends BaseActivity {
 
     Dc3Adapter adp;
     RecyclerView recy;

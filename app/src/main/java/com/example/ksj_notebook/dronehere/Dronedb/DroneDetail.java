@@ -3,13 +3,13 @@ package com.example.ksj_notebook.dronehere.Dronedb;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.ksj_notebook.dronehere.BaseActivity;
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneDB;
@@ -23,7 +23,7 @@ import okhttp3.Request;
 
 //TODO ImageList가 adapter -> holderHeader로 이동시켜야 되는데 안되는듯? 확인 필요.
 
-public class DroneDetail extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+public class DroneDetail extends BaseActivity implements ViewPager.OnPageChangeListener {
 
     DroneDetailAdapter dtAdapter;
     RecyclerView recyclerView;
