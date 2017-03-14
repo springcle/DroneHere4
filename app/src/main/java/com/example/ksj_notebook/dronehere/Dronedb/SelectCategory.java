@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
@@ -35,8 +34,8 @@ import okhttp3.Request;
  * Created by NAKNAK on 2017-03-07.
  */
 public class SelectCategory {
-    int cnt;
-    Spinner spinner;
+
+    MySpinner spinner;
     EditText editText;
     TabDroneAdapter db2;
     LinearLayoutManager layoutManager;
@@ -45,10 +44,12 @@ public class SelectCategory {
     String manufacture;
     String usage;
     Context context;
+    /** 롤백 시, 이전 스피너 선택 상태 저장용 **/
     String previous_selected;
+    /** 롤백 시, 스피너 아이템에 재 선택이 이루어지므로 재 선택 상황 시 리스너 효과 방지처리용 **/
+    int cnt;
 
-
-    public SelectCategory(Context context, Spinner spinner, EditText editText, TabDroneAdapter db2, LinearLayoutManager linearLayoutManager, RecyclerView recyclerView) {
+    public SelectCategory(Context context, MySpinner spinner, EditText editText, TabDroneAdapter db2, LinearLayoutManager linearLayoutManager, RecyclerView recyclerView) {
         this.context = context;
         this.spinner = spinner;
         this.editText = editText;
@@ -57,7 +58,6 @@ public class SelectCategory {
         this.recyclerView = recyclerView;
     }
     public void spinner_rollback(Spinner spinner, String previous_selected){
-        Toast.makeText(context,previous_selected,Toast.LENGTH_SHORT).show();
         if(previous_selected.equals("이름(전체)")){
             cnt=1;
             spinner.setSelection(0);
@@ -133,7 +133,7 @@ public class SelectCategory {
                                     recommand_list();
                                 } else {
                                     for (int i = 0; i < full_list.size(); i++) {
-                                        if (full_list.get(i).getDr_name().toUpperCase().contains(input_text) == true) {
+                                        if (full_list.get(i).getDr_name().toString().toUpperCase().contains(input_text) == true) {
                                             filter_list.add(full_list.get(i));
                                         }
                                     }
@@ -257,6 +257,7 @@ public class SelectCategory {
                                 @Override
                                 public void onSuccess(Request request, DroneRecommendResult result) {
                                     previous_selected = "이름";
+                                    /** 지역변수로 해놔서 따로 리무브 할 필요 없음**/
                                     ArrayList<DroneDB> full_list = new ArrayList<DroneDB>();
                                     ArrayList<DroneDB> filter_list = new ArrayList<DroneDB>();
                                     full_list = result.getResult();
@@ -273,6 +274,7 @@ public class SelectCategory {
                                         }
                                         db2.setDb2(filter_list);
                                         layoutManager.scrollToPositionWithOffset(0, 0);
+
                                     }
                                 }
 
@@ -320,6 +322,8 @@ public class SelectCategory {
                                         duplication = false;
                                         for (int j = 0; j < manufacture_list.size(); j++) {
                                             /** 중복된 제조사 명 제거 **/
+                                            /** 전체 드론 중에서 제조사 명을 리스트에 담는데, 현재 제조사 명 리스트에 그게 있으면 담지 않음 **/
+                                            /** 처음에 한개 들어가고 그러면서 manufacture 리스트가 늘어나면서 계속 비교함 **/
                                             if (manufacture_list.get(j).toString().toUpperCase().equals(full_list.get(i).getDr_manufacture().toString().toUpperCase()) == true) {
                                                 duplication = true;
                                                 break;
@@ -363,13 +367,13 @@ public class SelectCategory {
                                         duplication = false;
                                         for (int j = 0; j < usage_list.size(); j++) {
                                             /** 중복된 용도 명 제거 **/
-                                            if (usage_list.get(j).toString().toUpperCase().equals(full_list.get(i).getDr_use().toString().toUpperCase()) == true) {
+                                            if (usage_list.get(j).toString().equals(full_list.get(i).getDr_use().toString().toUpperCase()) == true) {
                                                 duplication = true;
                                                 break;
                                             }
                                         }
                                         if (duplication == false) {
-                                            usage_list.add(full_list.get(i).getDr_use().toString().toUpperCase());
+                                            usage_list.add(full_list.get(i).getDr_use().toString());
                                         }
                                     }
                                     UsageDialog dialog = new UsageDialog(context, usage_list);
@@ -385,10 +389,8 @@ public class SelectCategory {
                                         }
                                     });
                                 }
-
                                 @Override
                                 public void onFail(Request request, IOException exception) {
-
                                 }
                             });
                             break;
@@ -396,12 +398,12 @@ public class SelectCategory {
                 } else if(cnt==1) cnt=0;
             }
 
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+
     }
 
     class RatingDialog extends Dialog {
@@ -424,7 +426,6 @@ public class SelectCategory {
                     rating = Double.valueOf(ratingBar.getRating());
                     previous_selected = "별점";
                     dismiss();
-
                     NetworkManager.getInstance().getDroneRecommendRate(MyApplication.getContext(), new NetworkManager.OnResultListener<DroneRecommendResult>() {
                         @Override
                         public void onSuccess(Request request, DroneRecommendResult result) {
@@ -483,7 +484,7 @@ public class SelectCategory {
             getWindow().setAttributes(lpWindow);
             setContentView(R.layout.manufacture_dialog);
             listView = (ListView) findViewById(R.id.manufacture_list);
-            adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1);
+            adapter = new ArrayAdapter<String>(context, R.layout.setting_list_view);
             listView.setAdapter(adapter);
             for (int i = 0; i < manufacture_list.size(); i++) {
                 adapter.add(manufacture_list.get(i).toString());
@@ -557,7 +558,7 @@ public class SelectCategory {
             getWindow().setAttributes(lpWindow);
             setContentView(R.layout.usage_dialog);
             listView = (ListView) findViewById(R.id.usage_list);
-            adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1);
+            adapter = new ArrayAdapter<String>(context, R.layout.setting_list_view);
             listView.setAdapter(adapter);
             for (int i = 0; i < usage_list.size(); i++) {
                 adapter.add(usage_list.get(i).toString());

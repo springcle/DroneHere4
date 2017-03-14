@@ -3,7 +3,7 @@
     android:id="@+id/dt_dd"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2f2f2f"
+    android:background="#eaeaea"
     tools:context=".Dronedb.TabDrone">
 
 
@@ -12,31 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:paddingBottom="16dp"
+
         android:paddingTop="16dp">
 
         <EditText
             android:id="@+id/drone_search"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:background="#fcfcfc"
+            android:background="@drawable/search_bar"
             android:paddingLeft="23dp"
             android:textColor="#70000000"
             android:textColorHint="#80000000"
             android:textSize="12dp" />
-
-        <Button
-            android:id="@+id/drone_search_btn"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="23dp"
-            android:background="@drawable/i_sear" />
 
     </RelativeLayout>
 
@@ -74,7 +65,16 @@
                     android:layout_height="wrap_content">
         -->
 
-        <Spinner
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ryview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+
+            />
+
+
+        <com.example.ksj_notebook.dronehere.Dronedb.MySpinner
             android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,14 +85,6 @@
             android:layout_toEndOf="@+id/gone_text"
             android:layout_toRightOf="@+id/gone_text"
             android:prompt="@string/sort1" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/ryview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-
-            />
 
 
         <!--
