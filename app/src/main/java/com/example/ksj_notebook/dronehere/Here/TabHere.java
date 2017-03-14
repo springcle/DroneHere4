@@ -831,6 +831,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 i1.setImageResource(R.drawable.fly_enable_place_image);
                 t1.setImageResource(R.drawable.fly_enable_place_text);
             } else {
+
                 i1.setImageResource(R.drawable.no_fly_place_image);
                 i1.setImageResource(R.drawable.no_fly_place_text);
             }

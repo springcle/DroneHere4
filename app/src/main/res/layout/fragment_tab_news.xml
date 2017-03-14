@@ -19,16 +19,14 @@
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nested22"
         android:gravity="center"
-        android:background="#646464"
+        android:background="#2f2f2f"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content" >
 
             <!--android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"-->
