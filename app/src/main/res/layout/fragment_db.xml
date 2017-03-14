@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dt_dd"
     android:layout_width="match_parent"
@@ -11,68 +12,66 @@
         android:id="@+id/relativeLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:gravity="center"
 
         android:paddingTop="16dp">
+        <!--
+                <com.cjj.sva.JJSearchView
+                    android:id="@+id/jjsv"
+                    android:layout_width="350dp"
+                    android:layout_height="22dp"
+                    android:background="#eaeaea"/>-->
+
 
         <EditText
             android:id="@+id/drone_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_width="150dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center"
+
+            android:alpha="0"
             android:background="@drawable/search_bar"
-            android:paddingLeft="23dp"
+            android:onClick="searchbaranim"
             android:textColor="#70000000"
             android:textColorHint="#80000000"
             android:textSize="12dp" />
+
 
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_below="@+id/relativeLayout3"
 
-        android:layout_below="@+id/relativeLayout3">
+        android:orientation="vertical">
 
-    <!--    <TextView
-            android:id="@+id/gone_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="7dp"
-            android:text="이런 드론은 어떠세요?"
-            android:textColor="#3b89dd"
-            android:textSize="12dp"
-            android:textStyle="bold" />-->
-<!--
-        <RelativeLayout
-            android:id="@+id/relativeLayout5"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/gone_text"
-            android:background="#eaeaea"></RelativeLayout>-->
+        <!--    <TextView
+                android:id="@+id/gone_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="7dp"
+                android:text="이런 드론은 어떠세요?"
+                android:textColor="#3b89dd"
+                android:textSize="12dp"
+                android:textStyle="bold" />-->
+        <!--
+                <RelativeLayout
+                    android:id="@+id/relativeLayout5"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/gone_text"
+                    android:background="#eaeaea"></RelativeLayout>-->
         <!--
                 <android.support.v4.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
         -->
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/ryview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-
-            />
-
 
         <com.example.ksj_notebook.dronehere.Dronedb.MySpinner
             android:id="@+id/spinner"
@@ -85,6 +84,14 @@
             android:layout_toEndOf="@+id/gone_text"
             android:layout_toRightOf="@+id/gone_text"
             android:prompt="@string/sort1" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ryview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+
+            />
 
 
         <!--
