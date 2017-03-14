@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\gta2v\\Android_Project\\DroneHere4\\library\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values\\values.xml",
+        "outputFile": "C:\\Users\\NAKNAK\\AndroidStudioProjects\\DroneHere4\\library\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 1254
                 },
                 "from": {
-                    "file": "C:\\Users\\gta2v\\.android\\build-cache\\ca63535b158836403f4ed0ccd5b0d35fa2658025\\output\\res\\values\\values.xml",
+                    "file": "C:\\Users\\NAKNAK\\.android\\build-cache\\467d2d0652a1455cc5b3de083e46c029afefa824\\output\\res\\values\\values.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -30,7 +30,7 @@
                     "endOffset": 1330
                 },
                 "from": {
-                    "file": "C:\\Users\\gta2v\\.android\\build-cache\\ca63535b158836403f4ed0ccd5b0d35fa2658025\\output\\res\\values\\values.xml",
+                    "file": "C:\\Users\\NAKNAK\\.android\\build-cache\\467d2d0652a1455cc5b3de083e46c029afefa824\\output\\res\\values\\values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -49,7 +49,7 @@
                     "endOffset": 1402
                 },
                 "from": {
-                    "file": "C:\\Users\\gta2v\\.android\\build-cache\\ca63535b158836403f4ed0ccd5b0d35fa2658025\\output\\res\\values\\values.xml",
+                    "file": "C:\\Users\\NAKNAK\\.android\\build-cache\\467d2d0652a1455cc5b3de083e46c029afefa824\\output\\res\\values\\values.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -68,7 +68,7 @@
                     "endOffset": 1468
                 },
                 "from": {
-                    "file": "C:\\Users\\gta2v\\.android\\build-cache\\ca63535b158836403f4ed0ccd5b0d35fa2658025\\output\\res\\values\\values.xml",
+                    "file": "C:\\Users\\NAKNAK\\.android\\build-cache\\467d2d0652a1455cc5b3de083e46c029afefa824\\output\\res\\values\\values.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,

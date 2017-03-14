@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -11,6 +12,8 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneDB;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by ksj_notebook on 2016-05-20.
@@ -27,7 +30,7 @@ public class TabDroneViewholder extends RecyclerView.ViewHolder{
     TextView drone_name;
     TextView drone_manufactor;
     TextView drone_use2;
-    TextView drone_rating;
+    RatingBar drone_rating;
     TextView drone_price;
     ImageView drone_image;
     LinearLayout dblist;
@@ -42,10 +45,10 @@ public class TabDroneViewholder extends RecyclerView.ViewHolder{
         drone_manufactor.setHorizontallyScrolling(false);
         drone_use2=(TextView)itemView.findViewById(R.id.drone_use2);
         drone_use2.setHorizontallyScrolling(false);
-        drone_rating=(TextView)itemView.findViewById(R.id.drone_rating);
-        drone_rating.setHorizontallyScrolling(false);
-        drone_price=(TextView)itemView.findViewById(R.id.drone_price);
-        drone_price.setHorizontallyScrolling(false);
+        drone_rating=(RatingBar) itemView.findViewById(R.id.drone_rating);
+      /*  drone_rating.setHorizontallyScrolling(false);*/
+/*        drone_price=(TextView)itemView.findViewById(R.id.drone_price);
+        drone_price.setHorizontallyScrolling(false);*/
         drone_image=(ImageView) itemView.findViewById(R.id.drone_image);
 
         itemView.setOnClickListener(new View.OnClickListener() {
@@ -71,8 +74,8 @@ public class TabDroneViewholder extends RecyclerView.ViewHolder{
         drone_name.setText(db.getDr_name());
         drone_manufactor.setText(db.getDr_manufacture());
         drone_use2.setText(db.getDr_use());
-        drone_rating.setText(""+db.getDr_rate());
-        drone_price.setText(db.getDr_price());
+        drone_rating.setRating(((float) db.getDr_rate()));
+     /*   drone_price.setText(db.getDr_price());*/
     }
 
 }

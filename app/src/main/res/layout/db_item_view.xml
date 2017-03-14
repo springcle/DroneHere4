@@ -1,117 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/dblist"
-    android:background="#ffffff">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:id="@+id/drrr">
 
-    <RelativeLayout
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/drrr"
-        android:paddingRight="31dp">
-
-        <ImageView
-            android:layout_width="112dp"
-            android:layout_height="78dp"
-            android:id="@+id/drone_image"
-            android:scaleType="fitXY"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="22dp"
-            android:layout_centerVertical="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/drone_name"
-            android:textStyle="bold"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@id/drone_image"
-            android:layout_marginTop="17dp"
-            android:textSize="16sp"
-            android:textColor="#0068d3"
-            android:layout_marginBottom="11dp" />
+        android:layout_height="108dp"
+        android:layout_marginBottom="13dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:cardCornerRadius="5dp"
+        card_view:cardElevation="@dimen/cardview_default_elevation"
+        card_view:cardUseCompatPadding="true">
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/drone_name"
-            android:layout_alignLeft="@+id/drone_name"
-            android:layout_marginBottom="16dp"
-            android:id="@+id/linearLayout">
+            android:layout_width="350dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/drone_manufactor"
-                android:textStyle="bold"
-                android:layout_below="@id/drone_name"
-                android:layout_toRightOf="@id/drone_image"
-                android:textColor="#e4474747"
-                android:textSize="14sp" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/drone_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/_a_001_splash"
+                app:civ_border_color="#8e8282"
+                app:civ_border_width="2dp" />
 
-            <ImageView
-                android:layout_width="25dp"
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/imageView7"
-                android:background="@drawable/line_3"
-                android:layout_alignBottom="@+id/drone_manufactor"
-                android:layout_toRightOf="@+id/drone_manufactor" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center|left"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/drone_price"
-                android:textStyle="bold"
-                android:textColor="#e4474747"
-                android:textSize="14sp"
-                android:layout_alignTop="@id/drone_manufactor"
-                android:layout_toRightOf="@+id/imageView7" />
+                <TextView
+                    android:id="@+id/drone_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="9dp"
+                    android:text="Item Name"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/drone_manufactor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="9dp"
+                    android:text="Company Name"
+                    android:textColor="#e4474747"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/drone_use2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Usage"
+                    android:textColor="#e4474747"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+                <RatingBar
+                    android:id="@+id/drone_rating"
+                    style="@style/StarRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:layout_marginRight="36dp"
+                    android:max="5"
+                    android:numStars="5"
+                    android:stepSize="0.5" />
+
+            </LinearLayout>
+
+            <!--
+                        <TextView
+                            android:id="@+id/drone_rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignEnd="@+id/linearLayout3"
+                            android:layout_alignRight="@+id/linearLayout3"
+                            android:layout_alignTop="@+id/drone_name"
+                            android:text="New Text"
+                            android:textColor="#e43b89dd"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />-->
+
+            <!--   <LinearLayout
+                   android:id="@+id/linearLayout3"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@+id/linearLayout"
+                   android:layout_marginBottom="16dp"
+                   android:layout_toRightOf="@+id/drone_image"
+                   android:orientation="vertical">
+
+                   <TextView
+                       android:id="@+id/drone_use2"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="#80474747"
+                       android:textSize="14sp" />
+               </LinearLayout>-->
         </LinearLayout>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/drone_rating"
-            android:textColor="#e43b89dd"
-            android:textStyle="bold"
-            android:textSize="12sp"
-            android:layout_alignTop="@+id/drone_name"
-            android:layout_alignRight="@+id/linearLayout3"
-            android:layout_alignEnd="@+id/linearLayout3" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout"
-            android:layout_toRightOf="@+id/drone_image"
-            android:layout_marginBottom="16dp"
-            android:id="@+id/linearLayout3">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/drone_use2"
-                android:textSize="14sp"
-                android:textColor="#80474747" />
-        </LinearLayout>
-
-    </RelativeLayout>
-
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:layout_below="@id/drrr"
-        android:layout_centerHorizontal="true"
-        android:background="#646464"></RelativeLayout>
-
-</RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

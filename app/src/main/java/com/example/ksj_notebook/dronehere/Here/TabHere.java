@@ -295,6 +295,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 } else if (position != 1) {
                     sliding.setScrollableView(fragmentList.get(1).getView().findViewById(R.id.ryview));
                 }*/
+                sliding.setScrollableView(fragmentList.get(1).getView().findViewById(R.id.ryview));
                 // 위아래 스크롤이 뻑뻑하여 setNestedScrollingEnabled(false)로 설정해주었다.
                 Log.e("선택한 뷰페이저",""+fragmentList.get(position));
 
