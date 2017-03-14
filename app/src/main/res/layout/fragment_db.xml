@@ -78,6 +78,7 @@
             android:layout_below="@+id/relativeLayout5"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+        <!---->
 
         <com.example.ksj_notebook.dronehere.Dronedb.MySpinner
             android:id="@+id/spinner"
