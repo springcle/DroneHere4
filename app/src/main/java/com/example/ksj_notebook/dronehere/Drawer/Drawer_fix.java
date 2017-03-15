@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,6 @@ public class Drawer_fix extends BaseActivity {
     Vibrator vibrator;
     Button adddrone;
     Button okokok;
-
     RecyclerView re;
     Drawer_fix_adapter adap1;
 
@@ -100,7 +100,6 @@ public class Drawer_fix extends BaseActivity {
             @Override
             public void onClick(View v) {
                 CustomDialog7 dialog=new CustomDialog7(Drawer_fix.this);
-
                 dialog.show();
 
             }
@@ -109,11 +108,16 @@ public class Drawer_fix extends BaseActivity {
         okokok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("okbutton 후 드론개수", adap1.drone_cnt+"");
+                Log.e("okbutton 후 드론 카운트", adap1.check_cnt+"");
                 if(editText2.getText().toString()=="") {
                     Toast.makeText(Drawer_fix.this, "닉네임을 입력하세요", Toast.LENGTH_SHORT).show();
                 }
                 else if(editText2.getText().toString().getBytes().length < 2 || editText2.getText().toString().getBytes().length > 5){
                     Toast.makeText(getApplicationContext(), "닉네임(2-5자)형식에 맞게 입력해주세요", Toast.LENGTH_SHORT).show();
+                    vibrator.vibrate(100);
+                } else if(adap1.drone_cnt - adap1.check_cnt == 0){
+                    Toast.makeText(getApplicationContext(), "소유 드론이 1개는 있어야합니다.",Toast.LENGTH_SHORT).show();
                     vibrator.vibrate(100);
                 } else {
                     String dr_select;
@@ -190,7 +194,6 @@ public class Drawer_fix extends BaseActivity {
             recy.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             recy.setLayoutManager(layoutManager);
 
-
             adap.setOnItemClickListener(new DronePickDialogAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClicked(DbSearchViewHolder holder, View view, DroneDB s, int position) {
@@ -208,13 +211,13 @@ public class Drawer_fix extends BaseActivity {
                                 public void onSuccess(Request request, MemberResult result) {
                                     member=result.getResult();
                                     adap1.setMem(member,getApplicationContext());
+                                    adap1.drone_cnt++;
                                     dismiss();
                                 }
                                 @Override
                                 public void onFail(Request request, IOException exception) {
                                 }
                             });
-
                         }
                         @Override
                         public void onFail(Request request, IOException exception) {

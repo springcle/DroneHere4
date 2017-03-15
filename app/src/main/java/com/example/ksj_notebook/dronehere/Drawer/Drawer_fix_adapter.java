@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneDB;
@@ -21,6 +20,10 @@ import java.util.Set;
  * Created by ksj_notebook on 2016-06-14.
  */
 public class Drawer_fix_adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    /** 소유 드론과 삭제 체크 된 드론을 비교하여 소유 드론을 모두 지우지못하게끔 하는 카운트 **/
+    int check_cnt=0;
+    int drone_cnt=0;
 
     Member mem;
     Context context;
@@ -41,9 +44,9 @@ public class Drawer_fix_adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         View view1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.fix_lay, parent, false);
         return new Fix_Viewholder(view1);
     }
-
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        drone_cnt = mem.getMem_drone().size();
         if (position==0) {
             lastChecked = ((Fix_Viewholder) holder).radioButton;
             mCheckedPostion=position;
@@ -52,7 +55,6 @@ public class Drawer_fix_adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ((Fix_Viewholder) holder).radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
                 if(lastChecked !=null){
                     lastChecked.setChecked(false);
                     lastChecked = ((Fix_Viewholder) holder).radioButton;
@@ -63,26 +65,24 @@ public class Drawer_fix_adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             }
         });
-
-
+        ((Fix_Viewholder)holder).checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isChecked() == true) {
+                    check_cnt++;
+                    mapp.add(position);
+                } else if(buttonView.isChecked() == false) {
+                    check_cnt--;
+                    mapp.remove(position);
+                }
+            }
+        });/*
         ((Fix_Viewholder) holder).checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( ((Fix_Viewholder) holder).checkBox.isChecked()==true){
-                    if(mem.getMem_drone().size() != 1) {
-                        mapp.add(position);
-                    } else {
-                        Toast.makeText(context, "소유 드론이 1개는 있어야합니다.",Toast.LENGTH_SHORT).show();
-                        ((Fix_Viewholder) holder).checkBox.setChecked(false);
-                    }
-                }else{
-                    mapp.remove(position);
-                }
 
             }
-        });
-
-
+        });*/
 //        if (isChecked==true){
 //            mapp.remove(position);
 //        }else{
@@ -106,7 +106,6 @@ public class Drawer_fix_adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-
 //        if(mem.getMem_drone()==null){
 //            return 0;
 //        }else(mem.getMem_drone().get(0)==""){

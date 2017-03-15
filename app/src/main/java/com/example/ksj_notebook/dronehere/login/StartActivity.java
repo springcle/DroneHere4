@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.ksj_notebook.dronehere.BaseActivity;
@@ -38,9 +39,9 @@ public class StartActivity extends BaseActivity {
     String pw = "none";
     Button emailbtn;
     Button facebookbtn;
-    Button joinbtn;
+    LinearLayout joinbtn;
     Button naverbtn;
-    Button not_user;
+    LinearLayout not_user;
     Handler mHandler = new Handler(Looper.getMainLooper());
     /**  네이버 로그인 모듈 **/
     private final String OAUTH_CLIENT_ID = "xw392fTm7F61rSmsEBbH";
@@ -71,8 +72,8 @@ public class StartActivity extends BaseActivity {
         naverbtn=(Button)findViewById(R.id.naverbtn);
         emailbtn=(Button)findViewById(R.id.emailbtn);
         facebookbtn=(Button)findViewById(R.id.facebookbtn);
-        joinbtn=(Button)findViewById(R.id.joinbtn);
-        not_user = (Button) findViewById(R.id.member_pass);
+        joinbtn=(LinearLayout)findViewById(R.id.joinbtn);
+        not_user = (LinearLayout) findViewById(R.id.member_pass);
 
         naverbtn.setOnClickListener(new View.OnClickListener() {
             @Override

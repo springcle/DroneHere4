@@ -4,10 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.text.InputType;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.ksj_notebook.dronehere.BaseActivity;
@@ -27,7 +28,7 @@ public class LoginEmail extends BaseActivity {
     EditText email_edit;
     EditText pass_edit;
     ImageButton loginn;
-    Button button3;
+    LinearLayout button3;
     String mem_email;
     String mem_pw;
     EditTextEventHandler editTextEventHandler;
@@ -37,14 +38,13 @@ public class LoginEmail extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_login);
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
         email_edit=(EditText)findViewById(R.id.email_edit);
         pass_edit=(EditText)findViewById(R.id.pass_edit);
-
+        pass_edit.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         editTextEventHandler = new EditTextEventHandler(email_edit, pass_edit);
 
         loginn=(ImageButton)findViewById(R.id.loginn);
-        button3=(Button)findViewById(R.id.button3);
+        button3=(LinearLayout)findViewById(R.id.button3);
 
         button3.setOnClickListener(new View.OnClickListener() {
             @Override

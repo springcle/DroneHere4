@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,7 +44,8 @@ public class JoinEmail extends BaseActivity {
         email_text.setHint(R.string.edit_text_email);
         pass1.setHint(R.string.edit_text_pass1);
         pass2.setHint(R.string.edit_text_pass2);
-
+        pass1.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        pass2.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         editTextEventHandler = new EditTextEventHandler(email_text, pass1, pass2);
         email_text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
