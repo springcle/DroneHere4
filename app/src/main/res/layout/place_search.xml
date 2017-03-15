@@ -7,12 +7,12 @@
         android:layout_width="252dp"
         android:layout_height="35dp"
         android:id="@+id/place_text"
-        android:background="#70999999"
+        android:background="#aab6b3b3"
         android:hint="장소를 입력하세요."
-        android:textColorHint="@color/rell"
+        android:textColorHint="#ddffffff"
         android:layout_marginTop="35dp"
         android:singleLine="true"
         android:textSize="18dp"
-        android:textColor="@color/rell"
+        android:textColor="#ddffffff"
         android:paddingLeft="10dp" />
 </LinearLayout>

@@ -1,2 +1,2 @@
-include ':app', ':SlidingUpPanel'
+include ':app', ':SlidingUpPanel', ':SearchBarAnim'
 project(':SlidingUpPanel').projectDir = new File('library')

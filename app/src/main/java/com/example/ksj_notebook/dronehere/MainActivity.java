@@ -1,5 +1,4 @@
 package com.example.ksj_notebook.dronehere;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
