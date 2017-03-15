@@ -45,6 +45,7 @@ public class DrawerFragment extends Fragment {
     Context context;
 
     /** Hamberger Header (닉네임, 주력드론명, 에디트버튼 등)**/
+    LinearLayout hamberger_header_background;
     TextView drawer_nick;
     TextView drone_name;
     ImageView drawer_image;
@@ -56,7 +57,9 @@ public class DrawerFragment extends Fragment {
     LinearLayout flying_guide_btn;
     LinearLayout setting_btn;
 
+
     /** Hamberger Footer (회원약관, 프로그램정보)**/
+    LinearLayout empty_layout;
     Button member_stipulation_btn;
     Button program_info_btn;
 
@@ -80,12 +83,10 @@ public class DrawerFragment extends Fragment {
                 setMem(result.getResult(), getContext());
                 init_event();
             }
-
             @Override
             public void onFail(Request request, IOException exception) {
             }
         });
-
     }
 
     @Override
@@ -104,6 +105,7 @@ public class DrawerFragment extends Fragment {
         **/
         View view= inflater.inflate(R.layout.hamberger_bar, container, false);
         /** 햄버거 헤더 **/
+        hamberger_header_background = (LinearLayout)view.findViewById(R.id.hamberger_header_background);
         drawer_nick=(TextView) view.findViewById(R.id.nickname);
         drone_name=(TextView) view.findViewById(R.id.drone_name);
         drawer_image=(ImageView) view.findViewById(R.id.circle_image);
@@ -113,6 +115,7 @@ public class DrawerFragment extends Fragment {
         flying_guide_btn = (LinearLayout) view.findViewById(R.id.flying_guide_btn);
         setting_btn = (LinearLayout) view.findViewById(R.id.setting_btn);
         /** 햄버거 푸터 **/
+        empty_layout = (LinearLayout) view.findViewById(R.id.empty_layout);
         member_stipulation_btn = (Button) view.findViewById(R.id.member_stipulation_btn);
         program_info_btn = (Button) view.findViewById(R.id.program_info_btn);
          /*
@@ -161,6 +164,12 @@ public class DrawerFragment extends Fragment {
             edit.setEnabled(false);
             drawer_nick.setText("비회원");
         }
+        // 빈 레이아웃(햄버거 바 뒤에 지도 스크롤 방지)
+        hamberger_header_background.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
         /** 바디 **/
         // 내 활동내역
         my_activity_btn.setOnClickListener(new View.OnClickListener() {
@@ -192,6 +201,12 @@ public class DrawerFragment extends Fragment {
             }
         });
         /** 푸터 **/
+        // 빈 레이아웃(햄버거 바 뒤에 지도 스크롤 방지)
+        empty_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
         // 회원약관
         member_stipulation_btn.setOnClickListener(new View.OnClickListener() {
             @Override
