@@ -30,8 +30,6 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
 
     ImageView progressBar;
     ImageView progressBar2;
-    ImageView progressBar3;
-    ImageView progressBar4;
 
     ImageView star1, star2, star3, star4, star5;
 
@@ -49,8 +47,6 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
 
     ClipDrawable drawable1;
     ClipDrawable drawable2;
-    ClipDrawable drawable3;
-    ClipDrawable drawable4;
 
     int cnt = 0;
 
@@ -80,8 +76,6 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
 
         progressBar = (ImageView) itemView.findViewById(R.id.progressBar11);
         progressBar2 = (ImageView) itemView.findViewById(R.id.progressBar22);
-        progressBar3 = (ImageView) itemView.findViewById(R.id.progressBar33);
-        progressBar4 = (ImageView) itemView.findViewById(R.id.progressBar44);
 
         dt_flight = (TextView) itemView.findViewById(R.id.dt_flight);
         dt_range = (TextView) itemView.findViewById(R.id.dt_range);
@@ -94,8 +88,6 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
 
         drawable1 = (ClipDrawable) progressBar.getDrawable();
         drawable2 = (ClipDrawable) progressBar2.getDrawable();
-        drawable3 = (ClipDrawable) progressBar3.getDrawable();
-        drawable4 = (ClipDrawable) progressBar4.getDrawable();
 
         imbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,85 +102,12 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
                     imbtn.setText("상세 스펙 더보기");
                 }
                 cnt++;
-
             }
         });
-
     }
 
 
     public void setDt(DroneDB db){
-        /*
-        List<String> dr = db.getDr_photoArr();
-        int dr_ea = dr.size();
-        Log.w("사진갯수",dr_ea+"");
-        if (dr_ea == 1){
-            if(db.getDr_photoArr().get(0) !=""){ //서버에서 ""로 이미지 url 저장해둔것에 대한 예외처리
-            GlideUrl url1 = new GlideUrl((db.getDr_photoArr().get(0)));
-            Glide.with(MyApplication.getContext()).load(url1).into(imageView);
-            }
-        } else if(dr_ea == 2){
-            if(db.getDr_photoArr().get(0) !=""){
-                GlideUrl url1 = new GlideUrl((db.getDr_photoArr().get(0)));
-                Glide.with(MyApplication.getContext()).load(url1).into(imageView);
-            }
-            if(db.getDr_photoArr().get(1) !=""){
-                GlideUrl url2 = new GlideUrl((db.getDr_photoArr().get(1)));
-                Glide.with(MyApplication.getContext()).load(url2).into(imageView2);
-            }
-        } else if(dr_ea == 3){
-            if(db.getDr_photoArr().get(0) !=""){
-                GlideUrl url1 = new GlideUrl((db.getDr_photoArr().get(0)));
-                Glide.with(MyApplication.getContext()).load(url1).into(imageView);
-            }
-            if(db.getDr_photoArr().get(1) !=""){
-                GlideUrl url2 = new GlideUrl((db.getDr_photoArr().get(1)));
-                Glide.with(MyApplication.getContext()).load(url2).into(imageView2);
-            }
-            if(db.getDr_photoArr().get(2) !=""){
-                GlideUrl url3 = new GlideUrl((db.getDr_photoArr().get(2)));
-                Glide.with(MyApplication.getContext()).load(url3).into(imageView3);
-            }
-        } else if(dr_ea == 4){
-            if(db.getDr_photoArr().get(0) !=""){
-                GlideUrl url1 = new GlideUrl((db.getDr_photoArr().get(0)));
-                Glide.with(MyApplication.getContext()).load(url1).into(imageView);
-            }
-            if(db.getDr_photoArr().get(1) !=""){
-                GlideUrl url2 = new GlideUrl((db.getDr_photoArr().get(1)));
-                Glide.with(MyApplication.getContext()).load(url2).into(imageView2);
-            }
-            if(db.getDr_photoArr().get(2) !=""){
-                GlideUrl url3 = new GlideUrl((db.getDr_photoArr().get(2)));
-                Glide.with(MyApplication.getContext()).load(url3).into(imageView3);
-            }
-            if(db.getDr_photoArr().get(3) !=""){
-                GlideUrl url4 = new GlideUrl((db.getDr_photoArr().get(3)));
-                Glide.with(MyApplication.getContext()).load(url4).into(imageView4);
-            }
-        } else if(dr_ea == 5){
-            if(db.getDr_photoArr().get(0) !=""){
-                GlideUrl url1 = new GlideUrl((db.getDr_photoArr().get(0)));
-                Glide.with(MyApplication.getContext()).load(url1).into(imageView);
-            }
-            if(db.getDr_photoArr().get(1) !=""){
-                GlideUrl url2 = new GlideUrl((db.getDr_photoArr().get(1)));
-                Glide.with(MyApplication.getContext()).load(url2).into(imageView2);
-            }
-            if(db.getDr_photoArr().get(2) !=""){
-                GlideUrl url3 = new GlideUrl((db.getDr_photoArr().get(2)));
-                Glide.with(MyApplication.getContext()).load(url3).into(imageView3);
-            }
-            if(db.getDr_photoArr().get(3) !=""){
-                GlideUrl url4 = new GlideUrl((db.getDr_photoArr().get(3)));
-                Glide.with(MyApplication.getContext()).load(url4).into(imageView4);
-            }if(db.getDr_photoArr().get(4) !=""){
-                GlideUrl url5 = new GlideUrl((db.getDr_photoArr().get(4)));
-                Glide.with(MyApplication.getContext()).load(url5).into(imageView5);
-            }
-        }
-*/
-
         mViewPager = (ViewPager) itemView.findViewById(R.id.detail_imageView);
         /*mViewPager.addOnPageChangeListener(this);*/
 
@@ -202,8 +121,6 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
 
         drawable1.setLevel(db.getDr_array()[0]*2000);
         drawable2.setLevel(db.getDr_array()[1]*2000);
-        drawable3.setLevel(db.getDr_array()[2]*2000);
-        drawable4.setLevel(db.getDr_array()[3]*2000);
 
         if (db.getDr_rate() == 0.0) {
             star1.setBackgroundResource(R.drawable.rating_star_empty);

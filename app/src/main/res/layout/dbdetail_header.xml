@@ -205,12 +205,12 @@
             android:layout_height="wrap_content"
             android:text="사진"
             android:id="@+id/textView23"
-            android:layout_below="@+id/textView22"
             android:gravity="right"
             android:textSize="13sp"
             android:textColor="#cc474747"
-            android:layout_toStartOf="@+id/progressBar2"
-            android:layout_marginBottom="18dp" />
+            android:layout_below="@+id/textView22"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:layout_width="70dp"
@@ -287,9 +287,9 @@
             android:layout_height="12dp"
             android:id="@+id/progressBar33"
             android:src="@drawable/clip"
-            android:layout_alignTop="@+id/textView23"
-            android:layout_marginLeft="10dp"
-            android:layout_toEndOf="@+id/textView23" />
+            android:layout_alignTop="@+id/progressBar3"
+            android:layout_alignLeft="@+id/progressBar3"
+            android:layout_alignStart="@+id/progressBar3" />
 
         <ImageView
             android:layout_width="200dp"

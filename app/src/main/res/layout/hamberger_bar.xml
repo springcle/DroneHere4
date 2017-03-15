@@ -1,55 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="270dp"
     android:layout_height="match_parent"
     android:background="#eeeeee"
+    android:orientation="vertical"
     tools:context=".Drawer.DrawerFragment">
 
-<!-- 햄버거 header 부분 -->
+    <!-- 햄버거 header 부분 -->
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/hamberger_header_background"
         android:layout_width="270dp"
         android:layout_height="220dp"
+        android:background="@drawable/hamberger_header_background"
         android:gravity="center_vertical|center"
-        android:background="#2D79C3">
+        android:orientation="vertical">
+
         <FrameLayout
-            android:layout_marginTop="5dp"
             android:layout_width="140dp"
             android:layout_height="140dp"
+            android:layout_marginTop="5dp"
             android:background="#eeeeee"
             android:foreground="@drawable/hamberger_header_circle">
+
             <ImageView
                 android:id="@+id/circle_image"
-                android:layout_gravity="center"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
+                android:layout_gravity="center"
                 android:scaleType="centerCrop" />
+
             <Button
                 android:id="@+id/hamberger_edit_btn"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent" />
         </FrameLayout>
+
         <TextView
             android:id="@+id/nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:textColor="#eeeeee"
-            android:textSize="18dp"
-            android:layout_marginTop="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="18dp" />
+
         <TextView
             android:id="@+id/drone_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:textColor="#eeeeee"
-            android:textSize="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="10dp" />
     </LinearLayout>
 
     <!-- 햄버거 body 부분 -->
@@ -57,39 +63,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/my_activity_btn"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:onClick="/my_activity_btn_clicked"
             android:paddingLeft="20dp">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/hamberger_my_activity_btn"
                 android:gravity="left|center_vertical" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/flying_guide_btn"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:onClick="/flying_guide_btn_clicked"
             android:paddingLeft="20dp">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/hamberger_flying_guide_btn"
                 android:gravity="left|center_vertical" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/setting_btn"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:onClick="/setting_btn_clicked"
             android:paddingLeft="20dp">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -103,38 +112,58 @@
             android:layout_height="match_parent"
             android:gravity="bottom"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/empty_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/hamberger_footer_empty_background"
+                android:orientation="vertical"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_gravity="bottom"
-                android:background="#44919191"
-                android:orientation="vertical" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/member_stipulation_btn"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:orientation="vertical">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="1dp"
                     android:layout_gravity="bottom"
-                    android:layout_weight="1"
-                    android:background="#00000000"
-                    android:text="회원약관"
-                    android:textColor="#ee919191"
-                    android:textSize="10dp" />
-                <Button
-                    android:id="@+id/program_info_btn"
+                    android:background="#44919191"
+                    android:orientation="vertical" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="bottom"
-                    android:layout_weight="1"
-                    android:background="#00000000"
-                    android:text="프로그램정보"
-                    android:textColor="#ee919191"
-                    android:textSize="10dp" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/member_stipulation_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="1"
+                        android:background="#00000000"
+                        android:text="회원약관"
+                        android:textColor="#ee919191"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/program_info_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="1"
+                        android:background="#00000000"
+                        android:text="프로그램정보"
+                        android:textColor="#ee919191"
+                        android:textSize="10dp" />
+                </LinearLayout>
             </LinearLayout>
+
+
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>
