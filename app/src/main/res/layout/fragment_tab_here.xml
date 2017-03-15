@@ -6,11 +6,11 @@
         android:layout_height="match_parent"
         android:gravity="bottom"
         sothree:umanoDragView="@+id/drag_view"
-        sothree:umanoFadeColor="#4e515e"
+        sothree:umanoFadeColor="#7f757578"
         sothree:umanoOverlay="true"
-        sothree:umanoPanelHeight="0dp"
-        sothree:umanoParallaxOffset="100dp"
-        sothree:umanoShadowHeight="0dp">
+        sothree:umanoPanelHeight="1dp"
+        sothree:umanoParallaxOffset="0dp"
+        sothree:umanoShadowHeight="100dp">
         <!--      sothree:umanoScrollableView="@+id/sliding_viewpager"-->
 
         <!-- <LinearLayout
@@ -28,7 +28,7 @@
                 android:id="@+id/main_toolbar"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                sothree:theme="@style/ActionBar"
+
                 android:layout_width="match_parent"/>
 
             <FrameLayout
@@ -145,9 +145,9 @@
                       android:layout_height="wrap_content">-->
             <android.support.v4.view.ViewPager
                 android:id="@+id/sliding_viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_width="fill_parent" />
 
             <!--
                     </android.support.v4.widget.NestedScrollView>

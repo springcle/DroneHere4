@@ -1,6 +1,9 @@
 package com.example.ksj_notebook.dronehere.Dronedb;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,12 +12,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cjj.sva.JJSearchView;
+import com.cjj.sva.anim.controller.JJBarWithErrorIconController;
+import com.cjj.sva.anim.controller.JJChangeArrowController;
 import com.example.ksj_notebook.dronehere.R;
 
 /**
@@ -27,11 +35,12 @@ public class TabDrone extends Fragment {
     MySpinner spinner;
     TabDroneAdapter db2;
     EditText editText;
-    Button button;
-    TextView gone_text;
-    int cnt=0;
+
+    int cnt = 0;
     LinearLayoutManager layoutManager;
-    ImageView logo;
+
+   // JJSearchView mJJSearchView;
+    Boolean mSearchBarAnimBool = true;
 
     public TabDrone() {
         // Required empty public constructor
@@ -40,15 +49,16 @@ public class TabDrone extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        db2=new TabDroneAdapter();
+        db2 = new TabDroneAdapter();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_db, container, false);
+        View view = inflater.inflate(R.layout.fragment_db, container, false);
         spinner = (MySpinner) view.findViewById(R.id.spinner);
-        recyclerView=(RecyclerView)view.findViewById(R.id.ryview);
-        editText=(EditText)view.findViewById(R.id.drone_search);
+        recyclerView = (RecyclerView) view.findViewById(R.id.ryview);
+        editText = (EditText) view.findViewById(R.id.drone_search);
         //button=(Button)view.findViewById(R.id.drone_search_btn);
         //gone_text=(TextView)view.findViewById(R.id.gone_text);
         //logo=(ImageView)view.findViewById(R.id.imageView6);
@@ -63,8 +73,26 @@ public class TabDrone extends Fragment {
         layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
+
+        //mJJSearchView = (JJSearchView) view.findViewById(R.id.jjsv);
+        //mJJSearchView.setController(new JJBarWithErrorIconController());
+
+       /* editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(mSearchBarAnimBool==true) {
+                    mJJSearchView.startAnim();
+                    mSearchBarAnimBool = false;
+                }
+                else {
+                    mJJSearchView.resetAnim();
+                    mSearchBarAnimBool = true;
+                }
+            }
+        });*/
         editText.setHint(R.string.drone_pick);
-        selectCategory =  new SelectCategory(getContext(), spinner, editText, db2, layoutManager, recyclerView);
+        selectCategory = new SelectCategory(getContext(), spinner, editText, db2, layoutManager, recyclerView);
 
         /** 텍스트 변화 감지 **/
         selectCategory.text_listener();
@@ -81,7 +109,12 @@ public class TabDrone extends Fragment {
             }
         });
 
+
+
+
+
         return view;  //
+
     }
 
     @Override

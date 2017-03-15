@@ -5,6 +5,8 @@ android {
     buildToolsVersion '25.0.0'
 
     defaultConfig {
+        generatedDensities = []
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.example.ksj_notebook.dronehere"
         minSdkVersion 16
         targetSdkVersion 23
@@ -42,4 +44,5 @@ dependencies {
     compile 'com.google.maps.android:android-maps-utils:0.4.4'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile project(':SlidingUpPanel')
+    compile project(':SearchBarAnim')
 }

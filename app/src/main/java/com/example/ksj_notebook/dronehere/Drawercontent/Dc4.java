@@ -18,8 +18,6 @@ public class Dc4 extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dc4);
-
-
         Toast.makeText(Dc4.this, "오른쪽으로 넘기세요.", Toast.LENGTH_SHORT).show();
         pager3=(ViewPager)findViewById(R.id.pager3);
         adp=new Dc4Adapter();
