@@ -100,6 +100,7 @@ public class Drawer_fix extends BaseActivity {
             @Override
             public void onClick(View v) {
                 CustomDialog7 dialog=new CustomDialog7(Drawer_fix.this);
+
                 dialog.show();
 
             }
@@ -153,8 +154,10 @@ public class Drawer_fix extends BaseActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
+          //  this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
             WindowManager.LayoutParams lpWindow = new WindowManager.LayoutParams();
-            lpWindow.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+            lpWindow.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;/*|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;*/
             lpWindow.dimAmount = 0.8f;
             lpWindow.gravity= Gravity.CENTER;
             lpWindow.width=WindowManager.LayoutParams.MATCH_PARENT;
@@ -169,6 +172,18 @@ public class Drawer_fix extends BaseActivity {
             recy=(RecyclerView)findViewById(R.id.drpick_recy);
             //nonono=(Button)findViewById(R.id.nonono);
             //nonono.setVisibility(View.GONE);
+
+
+            /** 다이얼로그 키보드 올라가면 안올라가게 설정!**/
+            editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                    }
+                }
+            });
+
 
             recy.setAdapter(adap);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);

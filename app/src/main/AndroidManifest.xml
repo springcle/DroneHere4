@@ -68,7 +68,7 @@
         <activity
             android:name=".Drawer.Drawer_fix"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".Gathering.TabGatherWriteReview"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"

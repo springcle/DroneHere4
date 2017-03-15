@@ -1,14 +1,16 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/Transparency</item>
         <item name="colorPrimaryDark">@color/Transparency</item>
         <item name="colorAccent">@color/Transparency</item>
+        <item name="windowActionBar">false</item>
     </style>
 
-    <style name="AppTheme_setting" parent="Theme.AppCompat.Light.DarkActionBar">
+
+    <style name="AppTheme_setting" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#2c78c3</item>
         <item name="colorPrimaryDark">#2c78c3</item>
@@ -37,7 +39,11 @@
         <item name="android:textSize">21sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
-    <style name="ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
+<!--    <style name="ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:displayOptions">homeAsUp</item>
+    </style>-->
+
+    <style name="DialogStyle" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+        <item name="android:windowFullscreen">false</item>
     </style>
 </resources>
