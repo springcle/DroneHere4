@@ -71,6 +71,7 @@ public class TabDrone extends Fragment {
         recyclerView.setAdapter(db2);
         recyclerView.setNestedScrollingEnabled(false);
         layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
 
 
         //mJJSearchView = (JJSearchView) view.findViewById(R.id.jjsv);
@@ -122,8 +123,8 @@ public class TabDrone extends Fragment {
         //cnt=0;
         //logo.setVisibility(View.VISIBLE);
         //gone_text.setVisibility(View.VISIBLE);
-        layoutManager.setStackFromEnd(false);
-        recyclerView.setLayoutManager(layoutManager);
+        //layoutManager.setStackFromEnd(false);
+
         /** 스피너 아이템 선택 리스너 **/
         selectCategory.select_spinner();
     }

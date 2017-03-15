@@ -1,45 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    android:id="@+id/drrr"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/drrr">
+    android:orientation="horizontal">
 
 
     <android.support.v7.widget.CardView
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="108dp"
-        android:layout_marginBottom="13dp"
-        app:cardCornerRadius="5dp"
-        card_view:cardElevation="@dimen/cardview_default_elevation"
-        card_view:cardUseCompatPadding="true">
+        android:layout_marginBottom="10dp"
+        card_view:cardCornerRadius="5dp"
+        card_view:cardElevation="2dp"
+        card_view:contentPadding="5dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#ffffffff"
             android:orientation="horizontal">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/drone_image"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
-                android:src="@drawable/_a_001_splash"
-                app:civ_border_color="#8e8282"
-                app:civ_border_width="2dp" />
+            <LinearLayout
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:id="@+id/linearLayout3">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/drone_image"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:src="@drawable/_a_001_splash"
+                    app:civ_border_color="#6c6767"
+                    app:civ_border_width="2dp" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
                 android:gravity="center|left"
-                android:orientation="vertical">
-                >
+                android:orientation="vertical"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/linearLayout3"
+                android:layout_toEndOf="@+id/linearLayout3">
 
                 <TextView
                     android:id="@+id/drone_name"
@@ -71,48 +78,38 @@
                     android:textSize="12dp"
                     android:textStyle="bold" />
 
-                <RatingBar
-                    android:id="@+id/drone_rating"
-                    style="@style/StarRatingBar"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|bottom"
-                    android:layout_marginRight="36dp"
-                    android:max="5"
-                    android:numStars="5"
-                    android:stepSize="0.5" />
+                    android:layout_marginRight="15dp">
 
+                    <ImageView
+                        android:id="@+id/star1"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp" />
+
+                    <ImageView
+                        android:id="@+id/star2"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp" />
+
+                    <ImageView
+                        android:id="@+id/star3"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp" />
+
+                    <ImageView
+                        android:id="@+id/star4"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp" />
+
+                    <ImageView
+                        android:id="@+id/star5"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp" />
+                </LinearLayout>
             </LinearLayout>
-
-            <!--
-                        <TextView
-                            android:id="@+id/drone_rating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignEnd="@+id/linearLayout3"
-                            android:layout_alignRight="@+id/linearLayout3"
-                            android:layout_alignTop="@+id/drone_name"
-                            android:text="New Text"
-                            android:textColor="#e43b89dd"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />-->
-
-            <!--   <LinearLayout
-                   android:id="@+id/linearLayout3"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_below="@+id/linearLayout"
-                   android:layout_marginBottom="16dp"
-                   android:layout_toRightOf="@+id/drone_image"
-                   android:orientation="vertical">
-
-                   <TextView
-                       android:id="@+id/drone_use2"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textColor="#80474747"
-                       android:textSize="14sp" />
-               </LinearLayout>-->
-        </LinearLayout>
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

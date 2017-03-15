@@ -106,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
-                android:background="#ccffffff"
+                android:background="#cc2f2f2f"
                 android:gravity="center"
                 android:orientation="vertical">
                 <LinearLayout
@@ -116,8 +116,8 @@
                     <ImageView
                         android:background="@drawable/sliding_panel_drag_image"
                         android:layout_gravity="center"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content" />
+                        android:layout_height="12dp"
+                        android:layout_width="26dp" />
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/sliding_panel_btn_selector"

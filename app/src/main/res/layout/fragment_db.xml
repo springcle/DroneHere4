@@ -1,58 +1,67 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dt_dd"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2f2f2f"
     tools:context=".Dronedb.TabDrone">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/relativeLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:gravity="center_vertical"
         android:paddingTop="16dp">
-
 
         <EditText
             android:id="@+id/drone_search"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:background="@drawable/search_bar"
-            android:paddingBottom="20dp"
             android:paddingLeft="20dp"
-            android:textColor="#ffffff"
-            android:textColorHint="#80d7d7d7"
+            android:textColor="#ffe4e4e4"
+            android:textColorHint="#ffe4e4e4"
             android:textSize="12dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="match_parent"
-
-        android:orientation="vertical">
 
         <com.example.ksj_notebook.dronehere.Dronedb.MySpinner
             android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/ryview"
-            android:layout_alignParentTop="true"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_alignEnd="@+id/drone_search"
+            android:layout_alignRight="@+id/drone_search"
+            android:layout_below="@+id/drone_search"
             android:layout_gravity="right|center_vertical|center_horizontal"
-            android:layout_marginBottom="8dp"
-            android:layout_toEndOf="@+id/gone_text"
-            android:layout_toRightOf="@+id/gone_text"
             android:prompt="@string/sort1" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="9" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ryview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="9" />
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

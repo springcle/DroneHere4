@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.test.mock.MockPackageManager;
 import android.util.Log;
@@ -23,7 +22,7 @@ import android.widget.TextView;
 import com.example.ksj_notebook.dronehere.Here.TabHere;
 import com.example.ksj_notebook.dronehere.manager.NetworkCheckManager;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends BaseActivity{
 
     private static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_PERMISSION = 2;

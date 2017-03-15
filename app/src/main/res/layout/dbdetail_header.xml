@@ -116,27 +116,41 @@
             android:textColor="#b2474747"
             android:textSize="14sp" />
 
-        <RatingBar
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:id="@+id/dt_ratingbar"
-            android:isIndicator="true"
-            style="@style/StarRatingBar3"
-            android:layout_marginRight="15dp"
-            android:layout_alignTop="@+id/dt_manu"
-            android:layout_alignParentEnd="true" />
-
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/dt_rate"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="16dp"
-            android:textSize="12sp"
-            android:textIsSelectable="false"
-            android:textColor="#e63b89dd" />
+            android:layout_gravity="right|bottom"
+            android:layout_alignBottom="@+id/dt_manu"
+            android:layout_marginRight="18dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <ImageView
+                android:id="@+id/detail_star1"
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+
+            <ImageView
+                android:id="@+id/detail_star2"
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+
+            <ImageView
+                android:id="@+id/detail_star3"
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+
+            <ImageView
+                android:id="@+id/detail_star4"
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+
+            <ImageView
+                android:id="@+id/detail_star5"
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+        </LinearLayout>
+
     </RelativeLayout>
 
 

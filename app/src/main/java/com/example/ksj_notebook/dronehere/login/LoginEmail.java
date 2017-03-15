@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.ksj_notebook.dronehere.BaseActivity;
 import com.example.ksj_notebook.dronehere.MainActivity;
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
@@ -22,7 +22,7 @@ import java.io.IOException;
 
 import okhttp3.Request;
 
-public class LoginEmail extends AppCompatActivity {
+public class LoginEmail extends BaseActivity {
     Vibrator vibrator;
     EditText email_edit;
     EditText pass_edit;
