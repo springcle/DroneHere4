@@ -20,7 +20,7 @@ public class Dc4Adapter extends PagerAdapter {
     }
     @Override
     public int getCount() {
-        return 9;
+        return 10;
     }
 
     @Override
@@ -41,49 +41,59 @@ public class Dc4Adapter extends PagerAdapter {
         if(position==0){
             Glide.with(MyApplication.getContext())
                     .load(R.drawable.a0)
+                    .fitCenter()
                     .into(view);
         }else if(position==1){
             Glide.with(MyApplication.getContext())
                     .load(R.drawable.a1)
+                    .fitCenter()
                     .into(view);
         }else if(position==2){
             Glide.with(MyApplication.getContext())
                     .load(R.drawable.a2)
+                    .fitCenter()
                     .into(view);
         }
         else if(position==3){
             Glide.with(MyApplication.getContext())
                     .load(R.drawable.a3)
+                    .fitCenter()
                     .into(view);
         }
         else if(position==4){
             Glide.with(MyApplication.getContext())
                     .load(R.drawable.a4)
+                    .fitCenter()
                     .into(view);
         }
         else if(position==5){
             Glide.with(MyApplication.getContext())
                     .load(R.drawable.a5)
+                    .fitCenter()
                     .into(view);
         }
         else if(position==6){
             Glide.with(MyApplication.getContext())
                     .load(R.drawable.a6)
+                    .fitCenter()
                     .into(view);
         }
         else if(position==7){
             Glide.with(MyApplication.getContext())
                     .load(R.drawable.a7)
+                    .fitCenter()
                     .into(view);
         }
         else if(position==8){
             Glide.with(MyApplication.getContext())
                     .load(R.drawable.a8)
+                    .fitCenter()
                     .into(view);
         }
         else if(position==9){
             Glide.with(MyApplication.getContext())
                     .load(R.drawable.a9)
+                    .fitCenter()
                     .into(view);
         }
 
