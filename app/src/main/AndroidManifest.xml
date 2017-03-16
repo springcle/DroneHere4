@@ -38,6 +38,7 @@
         <activity android:name="com.nhn.android.naverlogin.ui.OAuthLoginInAppBrowserActivity"
             android:label="OAuth2.0 In-app"/>
         <!-- -->
+
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
@@ -104,11 +105,24 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity android:name=".Drawer.Drawer_etc"
             android:theme="@style/AppTheme_setting"></activity>
+
+
         <receiver android:name = ".manager.NetworkCheckManager">
             <intent-filter>
                 <action android:name="android.net.conn.BACKGROUND_DATA_SETTING_CHANGED"/>
             </intent-filter>
         </receiver>
+        <application
+            android:theme="@android:style/Theme.Holo"/>
+
+        <application
+            android:theme="@android:style/Theme.Holo.Light"/>
+
+        <application
+            android:theme="@android:style/Theme.Black"/>
+
+        <application
+            android:theme="@android:style/Theme.DeviceDefault"/>
     </application>
 
 </manifest>

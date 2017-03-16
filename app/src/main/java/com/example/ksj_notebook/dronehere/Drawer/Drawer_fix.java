@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -48,10 +49,11 @@ public class Drawer_fix extends BaseActivity {
     EditText editText2;
     ImageView im;
     Vibrator vibrator;
-    Button adddrone;
+    LinearLayout adddrone;
     Button okokok;
     RecyclerView re;
     Drawer_fix_adapter adap1;
+    Toolbar mToolbar;
 
     private String mem_id = PropertyManager.getInstance().getId();
 
@@ -63,11 +65,30 @@ public class Drawer_fix extends BaseActivity {
         editText2=(EditText)findViewById(R.id.editText2);
         im=(ImageView)findViewById(R.id.droneimage);
 
-        adddrone=(Button)findViewById(R.id.adddrone);
+        adddrone=(LinearLayout) findViewById(R.id.adddrone);
         okokok=(Button)findViewById(R.id.okokok);
         re=(RecyclerView)findViewById(R.id.re);
 
         adap1=new Drawer_fix_adapter();
+
+
+
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.setting_toolbar);
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);//title hidden
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //back icon
+        mToolbar.setTitle("설정");
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
+
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() { //뒤로가기
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         NetworkManager.getInstance().getFix(MyApplication.getContext(), mem_id,new NetworkManager.OnResultListener<MemberResult>() {
 
             @Override
@@ -84,7 +105,7 @@ public class Drawer_fix extends BaseActivity {
                         .into(im);
                 re.setAdapter(adap1);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-                re.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                re.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 re.setLayoutManager(layoutManager);
 
             }
