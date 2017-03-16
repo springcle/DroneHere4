@@ -20,13 +20,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
+        android:layout_height="200dp"
+
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
 
-        android:paddingTop="10dp">
+
+>
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -34,8 +34,8 @@
             android:layout_width="176dp"
             android:layout_height="176dp"
             android:src="@drawable/logo_blue"
-            app:civ_border_color="#000000"
-            app:civ_border_overlay="true"
+            app:civ_border_color="#dd2f2f2f"
+            app:civ_border_width="2dp"
 
             />
 
@@ -45,14 +45,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="3"
+        android:layout_weight="3.5"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="10dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="280dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
 
 
@@ -60,7 +59,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -75,6 +74,7 @@
                         android:id="@+id/editText2"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
                         android:textColor="#85858c"
                         android:textSize="12dp" />
 
@@ -123,8 +123,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/re"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center" />
+                    android:layout_height="wrap_content" />
 
 
             </LinearLayout>
@@ -136,11 +135,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:layout_weight="4"
-        android:gravity="right"
-        android:paddingRight="20dp"
+        android:layout_weight="6.5"
+        android:gravity="center|right"
+        android:layout_marginRight="20dp"
 
-        android:paddingTop="20dp">
+       >
+        <!--
+        android:layout_marginBottom="20dp"-->
 
 
         <Button

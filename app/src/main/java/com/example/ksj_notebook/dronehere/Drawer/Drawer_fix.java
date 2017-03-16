@@ -78,7 +78,7 @@ public class Drawer_fix extends BaseActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);//title hidden
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //back icon
-        mToolbar.setTitle("설정");
+        mToolbar.setTitle("프로필 수정");
         mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
 
