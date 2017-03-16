@@ -154,7 +154,7 @@ public class AddDrone extends Dialog{
     }
 
     public AddDrone(Context context,Activity activity) {
-        super(context, android.R.style.Theme_Translucent_NoTitleBar);
+        super(context);
         this.activity = activity;
     }
 }

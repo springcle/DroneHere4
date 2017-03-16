@@ -8,29 +8,25 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.example.ksj_notebook.dronehere.Drawer.Drawer_fix"
+    android:weightSum="10"
+    tools:context="com.example.ksj_notebook.dronehere.Drawer.Drawer_fix">
 
-    >
-    <!--android:weightSum="6"-->
 
     <include
-        android:layout_height="wrap_content"
         layout="@layout/toolbar_toolbar"
-        android:layout_width="match_parent"></include>
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></include>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp"
 
-
-        >
-        <!--        android:layout_weight="2"-->
+        android:paddingTop="10dp">
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -48,13 +44,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
         android:paddingTop="10dp">
-        <!--        android:layout_weight="3"
-        -->
+
         <LinearLayout
             android:layout_width="280dp"
             android:layout_height="wrap_content"
@@ -72,20 +67,23 @@
                 <LinearLayout
                     android:id="@+id/update_nickname"
                     android:layout_width="wrap_content"
-                    android:layout_height="15dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
                     <EditText
                         android:id="@+id/editText2"
-                        android:layout_width="76dp"
-                        android:layout_height="15dp"
-                        android:textColor="#85858c" />
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#85858c"
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:layout_width="13dp"
                         android:layout_height="15dp"
+                        android:layout_gravity="center"
                         android:layout_marginLeft="6dp"
+                        android:layout_marginStart="20dp"
                         android:src="@drawable/editbutton" />
 
                 </LinearLayout>
@@ -95,6 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -124,23 +123,25 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/re"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center" />
 
 
             </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:gravity="bottom|right"
-        android:paddingBottom="20dp"
-        android:paddingRight="20dp">
-        <!--        android:layout_weight="1"
-        -->
+        android:layout_weight="4"
+        android:gravity="right"
+        android:paddingRight="20dp"
+
+        android:paddingTop="20dp">
+
 
         <Button
             android:id="@+id/okokok"

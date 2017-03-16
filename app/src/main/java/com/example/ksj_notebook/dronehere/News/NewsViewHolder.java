@@ -1,5 +1,6 @@
 package com.example.ksj_notebook.dronehere.News;
 
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -43,7 +44,10 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
     }
     public void setArticle(News news){
         address=news.getNews_url();
-        titleView.setText(news.getNews_title());
+        /** &quot; 이라는 문자열 공백으로 리플레이스 해줬음 **/
+        titleView.setText(news.getNews_title().replace("&quot;",""));
+        titleView.setTypeface(Typeface.DEFAULT);
+
         dateView.setText(news.getNews_date());
         providerView.setText(news.getNews_press());
     }

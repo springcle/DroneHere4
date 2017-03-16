@@ -37,7 +37,6 @@ public class Dc4Adapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
 
-
         ImageView view = new ImageView(MyApplication.getContext());
         if(position==0){
             view.setBackgroundResource(R.drawable.a0);
@@ -67,6 +66,7 @@ public class Dc4Adapter extends PagerAdapter {
         else if(position==9){
             view.setBackgroundResource(R.drawable.a9);
         }
+
         
         container.addView(view);
         return view;

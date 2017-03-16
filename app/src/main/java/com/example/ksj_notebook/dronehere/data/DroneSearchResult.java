@@ -1,6 +1,6 @@
 package com.example.ksj_notebook.dronehere.data;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by ksj_notebook on 2016-05-29.
@@ -8,7 +8,7 @@ import java.util.List;
 public class DroneSearchResult {
     int succes;
     String message;
-    List<DroneDB> result;
+    ArrayList<DroneDB> result;
 
     public String getMessage() {
         return message;
@@ -18,11 +18,11 @@ public class DroneSearchResult {
         this.message = message;
     }
 
-    public List<DroneDB> getResult() {
+    public ArrayList<DroneDB> getResult() {
         return result;
     }
 
-    public void setResult(List<DroneDB> result) {
+    public void setResult(ArrayList<DroneDB> result) {
         this.result = result;
     }
 

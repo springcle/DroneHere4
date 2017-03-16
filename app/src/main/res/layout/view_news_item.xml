@@ -5,87 +5,94 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
-<!--
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="9"/>
--->
+    <!--
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="9"/>
+    -->
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="108dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="15dp"
         card_view:cardCornerRadius="5dp"
-        card_view:cardElevation="2dp"
-        card_view:contentPadding="5dp"
-        android:layout_marginTop="10dp">
+        card_view:cardElevation="2dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/linear"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffffffff">
+            android:background="@drawable/news_paper"
+            android:orientation="vertical">
 
-            <FrameLayout
-                android:id="@+id/frameLayout2"
-                android:layout_width="92dp"
-                android:layout_height="match_parent"
-                android:gravity="center">
-
-                <LinearLayout
-                    android:id="@+id/imageView8"
-                    android:layout_width="64dp"
-                    android:layout_height="68dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/news_border"
-                    android:orientation="horizontal" />
-
-                <TextView
-                    android:id="@+id/newsDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="New Text"
-                    android:textColor="#ffffffff"
-                    android:textSize="12dp" />
-            </FrameLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/frameLayout2"
-                android:layout_toRightOf="@+id/frameLayout2">
-
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="55dp"
+                android:gravity="center|top"
+                android:orientation="horizontal">
+<!--
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="20dp"
+                    android:layout_height="10dp"
+                    android:layout_toLeftOf="@+id/newsTitle"
+                    android:layout_toStartOf="@+id/newsTitle"
+                    android:src="@drawable/news_paper_img2" />
+-->
                 <TextView
                     android:id="@+id/newsTitle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_alignBaseline="@+id/newsProvider"
+                    android:layout_alignBottom="@+id/newsProvider"
+                    android:layout_centerHorizontal="true"
                     android:ellipsize="marquee"
                     android:singleLine="true"
                     android:text="New Text"
-                    android:textColor="#2f2f2f"
-                    android:textSize="14dp" />
+                    android:textAlignment="center"
+                    android:textColor="#ffeeeeee"
+                    android:textSize="16dp" />
+<!--
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="10dp"
+                    android:layout_alignBottom="@+id/newsTitle"
+                    android:layout_toEndOf="@+id/newsTitle"
+                    android:layout_toRightOf="@+id/newsTitle"
+                    android:src="@drawable/news_paper_img1" />
+                    -->
+            </LinearLayout>
 
-                <TextView
-                    android:id="@+id/newsProvider"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/newsTitle"
-                    android:layout_alignStart="@+id/newsTitle"
-                    android:layout_centerVertical="true"
-                    android:ellipsize="marquee"
-                    android:singleLine="true"
-                    android:text="New Text"
-                    android:textColor="#2f2f2f"
-                    android:textSize="12dp"
-                    android:visibility="invisible" />
-            </RelativeLayout>
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/newsDate"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:text="New Text"
+                android:textColor="#000000"
+                android:textSize="11dp" />
+
+            <TextView
+                android:id="@+id/newsProvider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/newsTitle"
+                android:layout_alignRight="@+id/newsTitle"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/imageView7"
+                android:layout_toRightOf="@+id/imageView7"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:text="New Text"
+                android:textColor="#2f2f2f"
+                android:textSize="12dp"
+                android:visibility="invisible" />
+        </LinearLayout>
 
 
         <!--    <RelativeLayout
@@ -95,14 +102,12 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:background="#eaeaea"></RelativeLayout>-->
-    </android.support.v7.widget.CardView>
-    <!--
+    </android.support.v7.widget.CardView><!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="9"/>
--->
-    <!--
+--><!--
                 <ImageView
                     android:id="@+id/imageView8"
                     android:layout_width="64dp"

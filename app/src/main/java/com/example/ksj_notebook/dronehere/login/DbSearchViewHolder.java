@@ -1,6 +1,5 @@
 package com.example.ksj_notebook.dronehere.login;
 
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;

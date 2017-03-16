@@ -87,7 +87,6 @@ public class SelectCategory {
                 db2.setDb2(result.getResult());
                 layoutManager.scrollToPositionWithOffset(0, 0);
             }
-
             @Override
             public void onFail(Request request, IOException exception) {
             }

@@ -1071,6 +1071,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                     else if (liesInside[1][3] == true) clickMarker_option.title("비행위험구역");
                     else clickMarker_option.title("일반공역");
 
+                    clickMarker_option.icon(BitmapDescriptorFactory.fromResource(R.drawable.click_marker));
                     clickMarker_option.snippet("풍속 : " + wind_click + "m/s");
                     clickMarker = mMap.addMarker(clickMarker_option);
                     clickMarker.showInfoWindow();
@@ -1090,7 +1091,6 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             }
         }, 800);
     }
-
     /**
      * 4대 비행공식 계산(내 위치)
      **/
@@ -1108,6 +1108,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             // [1]: 제한구역
             // [2]: 관제권
             // [3]: 위험구역
+
             /** 비행 구역 확인 **/
             List<KmlPolygon> polygonsInLayer0 = getPolygons(prohibit_layer.getContainers());
             liesInside[0][0] = liesOnPolygon(polygonsInLayer0, latlng);
