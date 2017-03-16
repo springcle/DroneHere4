@@ -20,9 +20,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cjj.sva.JJSearchView;
-import com.cjj.sva.anim.controller.JJBarWithErrorIconController;
-import com.cjj.sva.anim.controller.JJChangeArrowController;
 import com.example.ksj_notebook.dronehere.R;
 
 /**
