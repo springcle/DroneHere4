@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneDB;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by ksj_notebook on 2016-06-09.
@@ -25,9 +25,9 @@ public class DronePickDialogAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         mListener = listener;
     }
 
-    List<DroneDB> db;
+    ArrayList<DroneDB> db;
 
-    public void setDb3(List<DroneDB> db){
+    public void setDb3(ArrayList<DroneDB> db){
         this.db=db;
         notifyDataSetChanged();
     }
@@ -39,9 +39,10 @@ public class DronePickDialogAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         ((DbSearchViewHolder) holder).setList(db.get(position));
         ((DbSearchViewHolder) holder).setOnItemClickListener(mListener);
+
     }
 
     @Override

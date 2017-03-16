@@ -2,9 +2,13 @@ package com.example.ksj_notebook.dronehere.login;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneDB;
 
@@ -15,6 +19,7 @@ public class DbSearchViewHolder extends RecyclerView.ViewHolder {
 
     TextView drname;
     TextView drmanu;
+    ImageView drimage;
     LinearLayout linn;
     DroneDB data;
 
@@ -22,6 +27,7 @@ public class DbSearchViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         drname=(TextView)itemView.findViewById(R.id.search_drname);
         drmanu=(TextView)itemView.findViewById(R.id.search_manu);
+        drimage=(ImageView)itemView.findViewById(R.id.circle_drname);
         linn=(LinearLayout)itemView.findViewById(R.id.item_linn);
         linn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,6 +43,12 @@ public class DbSearchViewHolder extends RecyclerView.ViewHolder {
         data=db;
         drname.setText(db.getDr_name());
         drmanu.setText(db.getDr_manufacture());
+
+        GlideUrl url = new GlideUrl(db.getDr_photo());
+        Glide.with(MyApplication.getContext())
+                .load(url)
+                .centerCrop()
+                .into(drimage);
     }
 
     DronePickDialogAdapter.OnItemClickListener mItemClickListener;
