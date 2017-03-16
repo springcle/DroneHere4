@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back_01"
+    android:background="@drawable/splash_bottom"
     tools:context="com.example.ksj_notebook.dronehere.SplashActivity">
 
 <LinearLayout
@@ -11,12 +11,6 @@
     android:layout_height="match_parent"
     android:gravity="center">
 
-    <ImageView
-
-        android:layout_width="112dp"
-        android:layout_height="186dp"
-        android:src="@drawable/splash_icon"
-        />
 </LinearLayout>
     
 </RelativeLayout>
