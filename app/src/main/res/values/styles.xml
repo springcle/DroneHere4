@@ -16,10 +16,6 @@
         <item name="colorPrimaryDark">#2c78c3</item>
         <item name="colorAccent">#2c78c3</item>
     </style>
-<!--    <style name="MyActionBarButton" parent="Theme.AppCompat.NoActionBar">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-    </style>-->
 
     <style name="StarRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/star_rating</item>

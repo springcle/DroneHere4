@@ -36,67 +36,37 @@ public class Dc4Adapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        ImageView view = new ImageView(MyApplication.getContext());
 
+
+        ImageView view = new ImageView(MyApplication.getContext());
         if(position==0){
-            Glide.with(MyApplication.getContext())
-                    .load(R.drawable.a0)
-                    .fitCenter()
-                    .into(view);
+            view.setBackgroundResource(R.drawable.a0);
         }else if(position==1){
-            Glide.with(MyApplication.getContext())
-                    .load(R.drawable.a1)
-                    .fitCenter()
-                    .into(view);
+            view.setBackgroundResource(R.drawable.a1);
         }else if(position==2){
-            Glide.with(MyApplication.getContext())
-                    .load(R.drawable.a2)
-                    .fitCenter()
-                    .into(view);
+            view.setBackgroundResource(R.drawable.a2);
         }
         else if(position==3){
-            Glide.with(MyApplication.getContext())
-                    .load(R.drawable.a3)
-                    .fitCenter()
-                    .into(view);
+            view.setBackgroundResource(R.drawable.a3);
         }
         else if(position==4){
-            Glide.with(MyApplication.getContext())
-                    .load(R.drawable.a4)
-                    .fitCenter()
-                    .into(view);
+            view.setBackgroundResource(R.drawable.a4);
         }
         else if(position==5){
-            Glide.with(MyApplication.getContext())
-                    .load(R.drawable.a5)
-                    .fitCenter()
-                    .into(view);
+            view.setBackgroundResource(R.drawable.a5);
         }
         else if(position==6){
-            Glide.with(MyApplication.getContext())
-                    .load(R.drawable.a6)
-                    .fitCenter()
-                    .into(view);
+            view.setBackgroundResource(R.drawable.a6);
         }
         else if(position==7){
-            Glide.with(MyApplication.getContext())
-                    .load(R.drawable.a7)
-                    .fitCenter()
-                    .into(view);
+            view.setBackgroundResource(R.drawable.a7);
         }
         else if(position==8){
-            Glide.with(MyApplication.getContext())
-                    .load(R.drawable.a8)
-                    .fitCenter()
-                    .into(view);
+            view.setBackgroundResource(R.drawable.a8);
         }
         else if(position==9){
-            Glide.with(MyApplication.getContext())
-                    .load(R.drawable.a9)
-                    .fitCenter()
-                    .into(view);
+            view.setBackgroundResource(R.drawable.a9);
         }
-
         
         container.addView(view);
         return view;

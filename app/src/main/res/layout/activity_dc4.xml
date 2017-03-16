@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ksj_notebook.dronehere.Drawercontent.Dc4Adapter">
+    tools:context="com.example.ksj_notebook.dronehere.Drawercontent.Dc4">
+
 
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/pager3">
+        android:id="@+id/pager3"
+        android:background="#2D79C3">
 
     </android.support.v4.view.ViewPager>
-</LinearLayout>
+</RelativeLayout>

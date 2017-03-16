@@ -225,13 +225,13 @@ public class DrawerFragment extends Fragment {
 
     public void set_hamburger_Info(Member member){
         drawer_nick.setText(member.getMem_name());
-        GlideUrl url = new GlideUrl(member.getDr_photo());
-        Glide.with(MyApplication.getContext())
-                .load(url)
-                //.override(drawer_image.getMaxWidth(),drawer_image.getMaxHeight())
-                .into(drawer_image);
-        user_drone = new DroneDB();
         if(member.getMem_drone() != null) {
+            GlideUrl url = new GlideUrl(member.getDr_photo());
+            Glide.with(MyApplication.getContext())
+                    .load(url)
+                    //.override(drawer_image.getMaxWidth(),drawer_image.getMaxHeight())
+                    .into(drawer_image);
+            user_drone = new DroneDB();
             user_drone = member.getMem_drone().get(0);
             drone_name.setText(user_drone.getDr_name());
         }

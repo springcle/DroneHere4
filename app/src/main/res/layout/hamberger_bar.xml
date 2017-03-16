@@ -149,7 +149,6 @@
                         android:text="회원약관"
                         android:textColor="#ee919191"
                         android:textSize="10dp" />
-
                     <Button
                         android:id="@+id/program_info_btn"
                         android:layout_width="match_parent"

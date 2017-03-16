@@ -29,12 +29,13 @@
                 android:id="@+id/linearLayout3">
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/drone_image"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:src="@drawable/_a_001_splash"
-                    app:civ_border_color="#6c6767"
-                    app:civ_border_width="2dp" />
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="#dd2f2f2f" />
 
             </LinearLayout>
 
