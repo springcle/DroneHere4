@@ -6,82 +6,71 @@
     android:background="#eaeaea"
     tools:context=".Dronedb.DroneDetailReviewWrite"
     android:orientation="vertical">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="New Text"
-        android:id="@+id/drrv_name"
-        android:background="#2c78c3"
-        android:autoText="false"
-        android:textColor="#ffffff"
-        android:textSize="21sp"
-        android:gravity="center_vertical"
-        android:paddingLeft="15dp" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView9"
-        android:text="드론에 관해 댓글을 남겨주세요."
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="11dp"
-        android:textSize="14sp"
-        android:textColor="#078e2a" />
 
     <TextView
+        android:id="@+id/drrv_name"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:autoText="false"
+        android:background="#2c78c3"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="New Text"
+        android:textColor="#ffffff"
+        android:textSize="21sp" />
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="11dp"
         android:text="별점을 남겨주세요"
-        android:id="@+id/textView10"
-        android:textColor="#3b89dd"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="11dp" />
+        android:textColor="#3b89dd" />
 
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="33dp"
         android:id="@+id/drrv_ratingbar"
-        android:layout_marginLeft="72dp"
+        android:layout_gravity="center"
         style="@style/StarRatingBar2"
         android:layout_marginBottom="22dp"
         android:stepSize="1" />
 
     <LinearLayout
         android:orientation="horizontal"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="한줄 리뷰를 남겨주세요."
+            android:text="드론에 관해 후기를 남겨주세요. (선택)"
             android:id="@+id/textView11"
             android:layout_marginLeft="16dp"
             android:textSize="14sp"
             android:textColor="#3b89dd"
             android:layout_marginBottom="11dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="(선택)"
-            android:id="@+id/textView12"
-            android:textSize="12sp" />
+
     </LinearLayout>
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
         android:id="@+id/drrv_edit"
-        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginBottom="22dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:background="#ffffff"
+        android:gravity="top"
+        android:hint="내용을 입력해주세요 (200자 내외)"
         android:padding="9dp"
-        android:textColorHint="#7f7f7f"
-        android:layout_marginBottom="22dp"
         android:textColor="#078e2a"
-        android:textSize="15sp"
-        android:gravity="top" />
+        android:textColorHint="#7f7f7f"
+        android:textSize="15sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -93,8 +82,8 @@
             android:id="@+id/drrv_btn"
             android:text="확인"
             android:textSize="12dp"
-            android:textColor="#ffffff"
-            android:background="@drawable/b_1"
+            android:background="@drawable/button_style"
+            android:textColor="@color/white"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="16dp" />

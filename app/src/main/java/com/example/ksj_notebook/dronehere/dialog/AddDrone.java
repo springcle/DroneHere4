@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -34,6 +36,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import okhttp3.Request;
+
+import static com.example.ksj_notebook.dronehere.R.id.window;
 
 /**
  * Created by NAKNAK on 2017-01-15.
@@ -70,6 +74,11 @@ public class AddDrone extends Dialog {
         lpWindow.flags = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
         lpWindow.width = WindowManager.LayoutParams.MATCH_PARENT;
         lpWindow.height = WindowManager.LayoutParams.MATCH_PARENT;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.setStatusBarColor(activity.getResources().getColor(R.color.status2));
+        }
         getWindow().setAttributes(lpWindow);
 
         setContentView(R.layout.dronepick_dialog);

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#ffffff"
     android:layout_height="wrap_content"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <!--android:paddingStart="16dp" 위에 있던거 아랫버전에서 쓰는거라 필요없음-->
@@ -60,25 +60,37 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/detail_imageView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_gravity="center"
-            android:background="#ffffff"
-            android:scaleType="fitXY" />
+            android:layout_height="180dp">
+
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/detail_imageView"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginBottom="20dp"
+                android:background="#ffffff"
+                android:scaleType="fitXY">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="293dp"
+                    android:layout_height="147dp">
+
+                </android.support.v7.widget.CardView>
+
+            </android.support.v4.view.ViewPager>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/drdb_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="New Text"
             android:textColor="#2f2f2f"
-            android:layout_marginBottom="5dp"
             android:textSize="25dp" />
 
         <LinearLayout
@@ -120,39 +132,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/dt_price"
+            android:layout_marginBottom="10dp"
             android:text="New Text"
             android:textColor="#e6474747"
+            android:textSize="15dp" />
+
+
+        <TextView
+            android:id="@+id/dt_manu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="New Text"
+            android:textColor="#b2474747"
             android:textSize="15dp"
-            android:layout_marginBottom="10dp"/>
+            android:textStyle="bold" />
 
-
-
-            <TextView
-                android:id="@+id/dt_manu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:textColor="#b2474747"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                android:layout_marginBottom="10dp"/>
-            <TextView
-                android:id="@+id/dt_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/dt_manu"
-                android:layout_below="@+id/dt_manu"
-                android:text="New Text"
-                android:textColor="#b2474747"
-                android:textSize="13dp"
-                android:layout_marginBottom="10dp"/>
+        <TextView
+            android:id="@+id/dt_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/dt_manu"
+            android:layout_below="@+id/dt_manu"
+            android:layout_marginBottom="10dp"
+            android:text="New Text"
+            android:textColor="#b2474747"
+            android:textSize="13dp" />
     </LinearLayout>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:background="#eaeaea"/>
+        android:background="#eaeaea" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -388,8 +400,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:background="#eaeaea"/>
-
+        android:background="#eaeaea" />
 
 
 </LinearLayout>

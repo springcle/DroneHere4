@@ -1,32 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp">
+    android:layout_height="40dp"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
 
 
-    <RadioButton
-        android:layout_width="60dp"
-        android:layout_height="18dp"
-        android:id="@+id/radioButton"
-        android:layout_centerVertical="true"
-        android:button="@drawable/selss2"
-        android:layout_alignParentEnd="true" />
+                <CheckBox
+                    android:id="@+id/checkBox"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:button="@drawable/selss" />
+            </LinearLayout>
 
-    <CheckBox
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:id="@+id/checkBox"
-        android:button="@drawable/selss"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Your Selected Drone Name"
-        android:id="@+id/drdr_fix"
-        android:textSize="14dp"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/checkBox"
-        android:layout_marginLeft="10dp" />
-</RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/drdr_fix"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@+id/checkBox"
+                    android:text="Your Selected Drone Name"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+
+                <RadioButton
+                    android:id="@+id/radioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_weight="8"
+                    android:button="@drawable/selss2" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
