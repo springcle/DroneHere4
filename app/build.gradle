@@ -7,7 +7,7 @@ android {
     defaultConfig {
         generatedDensities = []
         vectorDrawables.useSupportLibrary = true
-        applicationId "com.example.ksj_notebook.dronehere10"
+        applicationId "com.example.ksj_notebook.dronehere"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
@@ -22,7 +22,6 @@ android {
         }
     }
 }
-
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'

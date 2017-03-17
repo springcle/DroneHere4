@@ -83,7 +83,6 @@ public class DroneDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
                 }else{
                     ((DroneDetailViewHolderReview) holder).setDt_rv2(item2.get(position - 1));
                 }
-
                 break;
             case TYPE_DRONE_ADD:
                 ((DroneDetailViewHolderAdd)holder).setAdd_btn("한줄평 더보기 ("+item2.size()+"/"+db.getDr_re_num()+")");

@@ -1,7 +1,6 @@
 package com.example.ksj_notebook.dronehere.Dronedb;
 
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,6 @@ public class DetailPagerAdapter  extends PagerAdapter{
 
         Glide.with(getContext())
                 .load(ImageList.get(position))
-                .centerCrop()
               /*   .thumbnail(0.1f)*/
                 .into(itemImg);
         container.addView(view);

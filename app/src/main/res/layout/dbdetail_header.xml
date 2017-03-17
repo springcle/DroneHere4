@@ -54,6 +54,17 @@
 
      </HorizontalScrollView>-->
 
+    <TextView
+        android:id="@+id/droneName"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:autoText="false"
+        android:gravity="center_vertical"
+        android:textSize="20dp"
+        android:paddingLeft="15dp"
+        android:textColor="#ffffff"
+        android:background="#2C78C3"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,36 +73,24 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp">
+            android:layout_height="180dp"
+            android:layout_marginBottom="10dp"
+            >
 
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/detail_imageView"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:layout_marginBottom="20dp"
-                android:background="#ffffff"
-                android:scaleType="fitXY">
-
+                android:background="#ffffff">
+<!--
                 <android.support.v7.widget.CardView
-                    android:layout_width="293dp"
-                    android:layout_height="147dp">
-
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
                 </android.support.v7.widget.CardView>
-
+-->
             </android.support.v4.view.ViewPager>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/drdb_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:text="New Text"
-            android:textColor="#2f2f2f"
-            android:textSize="25dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -249,24 +248,6 @@
             android:layout_toEndOf="@+id/textView22"
             android:background="#eaeaea" />
 
-        <ImageView
-            android:id="@+id/progressBar3"
-            android:layout_width="200dp"
-            android:layout_height="12dp"
-            android:layout_alignTop="@+id/textView23"
-            android:layout_marginLeft="10dp"
-            android:layout_toEndOf="@+id/textView23"
-            android:background="#eaeaea" />
-
-        <ImageView
-            android:id="@+id/progressBar4"
-            android:layout_width="200dp"
-            android:layout_height="12dp"
-            android:layout_below="@+id/textView23"
-            android:layout_marginLeft="10dp"
-            android:layout_toEndOf="@+id/textView24"
-            android:background="#eaeaea" />
-
 
         <ImageView
             android:id="@+id/progressBar11"
@@ -284,25 +265,6 @@
             android:layout_alignTop="@+id/textView22"
             android:layout_marginLeft="10dp"
             android:layout_toEndOf="@+id/textView22"
-            android:src="@drawable/clip" />
-
-        <ImageView
-            android:id="@+id/progressBar33"
-            android:layout_width="200dp"
-            android:layout_height="12dp"
-            android:layout_alignLeft="@+id/progressBar3"
-            android:layout_alignStart="@+id/progressBar3"
-            android:layout_alignTop="@+id/progressBar3"
-            android:src="@drawable/clip" />
-
-        <ImageView
-            android:id="@+id/progressBar44"
-            android:layout_width="200dp"
-            android:layout_height="12dp"
-            android:layout_below="@+id/textView23"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="10dp"
-            android:layout_toEndOf="@+id/textView24"
             android:src="@drawable/clip" />
 
         <TextView
@@ -331,47 +293,35 @@
             android:id="@+id/dt_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/progressBar3"
-            android:layout_marginLeft="10dp"
-            android:layout_toEndOf="@+id/progressBar3"
             android:text="New Text"
             android:textColor="#cc474747"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:layout_alignBaseline="@+id/textView23"
+            android:layout_alignBottom="@+id/textView23"
+            android:layout_alignLeft="@+id/dt_pk"
+            android:layout_alignStart="@+id/dt_pk" />
 
         <TextView
             android:id="@+id/dt_pk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/progressBar4"
-            android:layout_marginLeft="10dp"
-            android:layout_toEndOf="@+id/progressBar4"
             android:text="New Text"
             android:textColor="#cc474747"
-            android:textSize="13dp" />
-
-        <Button
-            android:id="@+id/imbtn"
-            android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:layout_below="@+id/viss"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp"
-            android:background="@drawable/box_1"
-            android:gravity="center"
-            android:text="상세스펙 더보기"
-            android:textColor="#cc474747"
-            android:textSize="14dp" />
+            android:textSize="13dp"
+            android:layout_alignBaseline="@+id/textView24"
+            android:layout_alignBottom="@+id/textView24"
+            android:layout_alignLeft="@+id/progressBar2"
+            android:layout_alignStart="@+id/progressBar2" />
 
         <LinearLayout
             android:id="@+id/viss"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/progressBar44"
-            android:layout_marginBottom="26dp"
-            android:layout_marginTop="10dp"
             android:orientation="vertical"
+            android:layout_marginTop="25dp"
+            android:layout_below="@+id/textView24"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:visibility="gone">
 
             <TextView
@@ -396,6 +346,22 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/imbtn"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:layout_below="@+id/textView24"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/box_1"
+        android:gravity="center"
+        android:text="상세스펙 더보기"
+        android:textColor="#cc474747"
+        android:textSize="14dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"

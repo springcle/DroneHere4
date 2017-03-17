@@ -2,6 +2,7 @@ package com.example.ksj_notebook.dronehere.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -16,9 +17,15 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.ksj_notebook.dronehere.BaseActivity;
+import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
+import com.example.ksj_notebook.dronehere.data.EmailResult;
+import com.example.ksj_notebook.dronehere.manager.NetworkManager;
 
+import java.io.IOException;
 import java.util.regex.Pattern;
+
+import okhttp3.Request;
 
 public class JoinEmail extends BaseActivity {
 
@@ -53,10 +60,14 @@ public class JoinEmail extends BaseActivity {
         email_text.setHint(R.string.edit_text_email);
         pass1.setHint(R.string.edit_text_pass1);
         pass2.setHint(R.string.edit_text_pass2);
+
+        /** 에디트텍스트와 비밀번호 포맷은 폰트 미적용 **/
+        email_text.setTypeface(Typeface.DEFAULT);
         pass1.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         pass2.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         pass1.setTransformationMethod(new PasswordTransformationMethod());
         pass2.setTransformationMethod(new PasswordTransformationMethod());
+
         editTextEventHandler = new EditTextEventHandler(email_text, pass1, pass2);
         email_text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -130,27 +141,42 @@ public class JoinEmail extends BaseActivity {
                    Toast.makeText(JoinEmail.this, "email이 맞지 않는 형식입니다.", Toast.LENGTH_SHORT).show();
                }
 */
-                em = "" + email_text.getText();
+                em = email_text.getText().toString();
                 if (isEmail(em)) {
                     String email;
                     String pw, pw1;
-                    email = email_text.getText().toString();
                     pw = pass1.getText().toString();
                     pw1 = pass2.getText().toString();
 
-                    if (email.isEmpty() == true || pw.isEmpty() == true || pw1.isEmpty() == true || email.contains("@") == false) {
+                    if (em.isEmpty() == true || pw.isEmpty() == true || pw1.isEmpty() == true || em.contains("@") == false) {
                         Toast.makeText(getApplicationContext(), "형식에 맞게 입력해주세요", Toast.LENGTH_SHORT).show();
                         vibrator.vibrate(100);
                     }
                     if (pw.equals(pw1) == false) {
                         Toast.makeText(getApplicationContext(), "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
                         vibrator.vibrate(100);
-                    } else if (email.isEmpty() != true) {
-                        Intent intent = new Intent(getApplicationContext(), JoinDronePick.class);
-                        intent.putExtra("email", em);
-                        intent.putExtra("pass", pass1.getText().toString());
-                        startActivity(intent);
-                        finish();
+                    } else if (em.isEmpty() != true) {
+                        /** 이메일 중복 검사**/
+                        NetworkManager.getInstance().getEmail(MyApplication.getContext(),em, new NetworkManager.OnResultListener<EmailResult>() {
+                            @Override
+                            public void onSuccess(Request request, EmailResult result) {
+
+                                if(result.getResult()==1){
+                                    Intent intent = new Intent(getApplicationContext(), JoinDronePick.class);
+                                    intent.putExtra("email",em);
+                                    intent.putExtra("pass",pass1.getText().toString());
+                                    startActivity(intent);
+                                    finish();
+                                }else{
+                                    Toast.makeText(JoinEmail.this, "이미 등록되어 있는 메일입니다.", Toast.LENGTH_SHORT).show();
+                                    vibrator.vibrate(100);
+                                }
+                            }
+                            @Override
+                            public void onFail(Request request, IOException exception) {
+
+                            }
+                        });
                     }
                 }
                 else {

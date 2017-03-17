@@ -22,8 +22,6 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
     ViewPager mViewPager;
     DetailPagerAdapter detailPagerAdapter;
 
-
-
     TextView dt_manu;
     TextView dt_price;
     TextView dt_use;
@@ -43,10 +41,11 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
 
     LinearLayout viss;
 
-    TextView drdb_title;
 
     ClipDrawable drawable1;
     ClipDrawable drawable2;
+
+    TextView drName;
 
     int cnt = 0;
 
@@ -54,6 +53,7 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
     public DroneDetailViewHolderHeader(View itemView) {
         super(itemView);
 
+        drName = (TextView)itemView.findViewById(R.id.droneName);
         star1 = (ImageView)itemView.findViewById(R.id.detail_star1);
         star2 = (ImageView)itemView.findViewById(R.id.detail_star2);
         star3 = (ImageView)itemView.findViewById(R.id.detail_star3);
@@ -61,7 +61,6 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
         star5 = (ImageView)itemView.findViewById(R.id.detail_star5);
 
 
-        drdb_title = (TextView) itemView.findViewById(R.id.drdb_title);
        /* imageView=(ImageView)itemView.findViewById(R.id.detail_imageView);
         imageView2=(ImageView)itemView.findViewById(R.id.detail_imageView2);
         imageView3=(ImageView)itemView.findViewById(R.id.detail_imageView3);
@@ -114,7 +113,7 @@ public class DroneDetailViewHolderHeader extends RecyclerView.ViewHolder {
         detailPagerAdapter = new DetailPagerAdapter();
         mViewPager.setAdapter(detailPagerAdapter);
 
-        drdb_title.setText(db.getDr_name());
+        drName.setText(db.getDr_name());
         dt_manu.setText(db.getDr_manufacture());
         dt_price.setText(db.getDr_price());
         dt_use.setText(db.getDr_use());

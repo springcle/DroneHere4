@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -55,7 +56,7 @@ public class Drawer_fix extends BaseActivity {
     RecyclerView re;
     Drawer_fix_adapter adap1;
     Toolbar mToolbar;
-
+    InputMethodManager inputMethodManager;
     private String mem_id = PropertyManager.getInstance().getId();
 
     @Override
@@ -68,6 +69,7 @@ public class Drawer_fix extends BaseActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(getResources().getColor(R.color.status2));
         }
+        inputMethodManager = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         editText2 = (EditText) findViewById(R.id.editText2);
@@ -225,7 +227,7 @@ public class Drawer_fix extends BaseActivity {
 
             adap.setOnItemClickListener(new DronePickDialogAdapter.OnItemClickListener() {
                 @Override
-                public void onItemClicked(DbSearchViewHolder holder, View view, DroneDB s, int position) {
+                public void onItemClicked(DbSearchViewHolder holder, final View view, DroneDB s, int position) {
                     for (int i = 0; i < member.getMem_drone().size(); i++) {
                         if (member.getMem_drone().get(i).getDr_name().equals(s.getDr_name())) {
                             Toast.makeText(MyApplication.getContext(), "이미 등록된 드론입니다.", Toast.LENGTH_SHORT).show();
@@ -241,6 +243,7 @@ public class Drawer_fix extends BaseActivity {
                                     member = result.getResult();
                                     adap1.setMem(member, getApplicationContext());
                                     adap1.drone_cnt++;
+                                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                                     dismiss();
                                 }
 

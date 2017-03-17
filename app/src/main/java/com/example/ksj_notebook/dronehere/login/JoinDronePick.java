@@ -3,6 +3,7 @@ package com.example.ksj_notebook.dronehere.login;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -73,6 +74,9 @@ public class JoinDronePick extends BaseActivity {
         mem_pass=getIntent().getStringExtra("pass");
 
         nick.setHint(R.string.edit_text_nick);
+        /** 에디트 텍스트 폰트 미적용 **/
+        nick.setTypeface(Typeface.DEFAULT);
+
         nick.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

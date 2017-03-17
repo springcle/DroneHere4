@@ -45,7 +45,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="3.5"
+        android:layout_weight="4"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -83,8 +83,7 @@
                         android:layout_width="13dp"
                         android:layout_height="15dp"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="6dp"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="5dp"
                         android:src="@drawable/editbutton" />
 
                 </LinearLayout>
@@ -101,10 +100,10 @@
                         android:layout_width="255dp"
                         android:layout_height="21dp"
                         android:layout_marginRight="5dp"
-                        android:text="드론을 추가해주세요"
+                        android:background="@drawable/button_style_graycolor"
                         android:gravity="center"
-                        android:textSize="12dp"
-                        android:background="@drawable/button_style_graycolor" />
+                        android:text="드론을 추가해주세요"
+                        android:textSize="12dp" />
 
 
                     <ImageView
@@ -112,7 +111,6 @@
                         android:layout_width="21dp"
                         android:layout_height="21dp"
                         android:background="@drawable/b_add"
-
                         android:gravity="right" />
 
 
@@ -132,9 +130,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:layout_marginRight="20dp"
-        android:layout_weight="6.5"
+        android:layout_weight="6"
         android:gravity="center|right"
 
         >
@@ -144,12 +141,12 @@
 
         <Button
             android:id="@+id/okokok"
-            android:layout_width="86dp"
-            android:layout_height="42dp"
+            android:layout_width="85dp"
+            android:layout_height="40dp"
             android:background="@drawable/button_style"
             android:text="저장"
+            android:textSize="13dp"
             android:textColor="@color/white"
-
             />
     </LinearLayout>
 </LinearLayout>

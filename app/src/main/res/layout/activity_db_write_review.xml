@@ -10,14 +10,14 @@
     <TextView
         android:id="@+id/drrv_name"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="55dp"
         android:autoText="false"
         android:background="#2c78c3"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
         android:text="New Text"
         android:textColor="#ffffff"
-        android:textSize="21sp" />
+        android:textSize="20dp" />
 
     <TextView
         android:layout_marginTop="50dp"

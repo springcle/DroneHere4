@@ -21,7 +21,7 @@
     <string name="setactionbar_title_text_setting"><font size="13">설정</font></string>
 
 
-    <string name="edit_text_hint5"><font size="12">내용을 입력해 주세요 (47자 제한)</font></string>
+    <string name="edit_text_hint5"><font size="12">내용을 입력해 주세요 (40자 제한)</font></string>
 
     <string name="path_search">
        M141,17 A9,9 0 1,1 142,16 L149,23

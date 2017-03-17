@@ -12,14 +12,10 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/box_0"
         android:textColor="#cc474747"
-        android:layout_marginBottom="16dp"
+        android:textSize="14dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="15dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="22dp"
-        android:layout_gravity="center_horizontal"
-        android:background="#eaeaea"></RelativeLayout>
 </LinearLayout>

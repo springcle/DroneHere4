@@ -2,6 +2,7 @@ package com.example.ksj_notebook.dronehere.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -56,6 +57,9 @@ public class LoginEmail extends BaseActivity {
 
         loginn=(ImageButton)findViewById(R.id.loginn);
         button3=(LinearLayout)findViewById(R.id.button3);
+
+        /** 에디트 텍스트 폰트 미적용 **/
+        email_edit.setTypeface(Typeface.DEFAULT);
 
         button3.setOnClickListener(new View.OnClickListener() {
             @Override

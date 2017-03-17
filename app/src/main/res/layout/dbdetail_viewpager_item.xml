@@ -7,10 +7,10 @@
         android:layout_gravity="center"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/detail_viewpager_item_img"
-        android:layout_width="180dp"
+        android:layout_width="match_parent"
         android:layout_height="180dp"
         android:src="@drawable/logo_blue"
-    />
+        android:scaleType="fitXY"/>
 <!--    app:civ_border_color="#2f2f2f"
         app:civ_border_width="4dp" -->
 </LinearLayout>
