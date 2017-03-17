@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -50,6 +51,7 @@ public class LoginEmail extends BaseActivity {
         email_edit=(EditText)findViewById(R.id.email_edit);
         pass_edit=(EditText)findViewById(R.id.pass_edit);
         pass_edit.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        pass_edit.setTransformationMethod(new PasswordTransformationMethod());
         editTextEventHandler = new EditTextEventHandler(email_edit, pass_edit);
 
         loginn=(ImageButton)findViewById(R.id.loginn);

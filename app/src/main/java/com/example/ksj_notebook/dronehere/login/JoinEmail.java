@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -54,6 +55,8 @@ public class JoinEmail extends BaseActivity {
         pass2.setHint(R.string.edit_text_pass2);
         pass1.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         pass2.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        pass1.setTransformationMethod(new PasswordTransformationMethod());
+        pass2.setTransformationMethod(new PasswordTransformationMethod());
         editTextEventHandler = new EditTextEventHandler(email_text, pass1, pass2);
         email_text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
