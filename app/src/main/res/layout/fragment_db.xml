@@ -38,6 +38,7 @@
                 android:id="@+id/spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
+                android:gravity="center"
                 android:layout_alignEnd="@+id/drone_search"
                 android:layout_alignRight="@+id/drone_search"
                 android:layout_below="@+id/drone_search"
