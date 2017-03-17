@@ -6,8 +6,9 @@
     <color name="multiple_image_select_imageSelectBackground">#000000</color>
     <color name="marker">#057522</color>
     <color name="edithint">#7f7f7f</color>
-    <color name="status">#133a71</color>
-    <color name="white">#ccfcfcfc</color>
+    <color name="status">#2f2f2f</color>
+    <color name="status2">#2C78C3</color>
+    <color name="white">#eefdfdfd</color>
     <color name="rell">#eaeaea</color>
     <color name="blue">#1b52ac</color>
     <color name="drgreen">#84FF126E</color>

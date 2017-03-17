@@ -75,7 +75,7 @@
                         android:id="@+id/editText2"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
+                        android:paddingLeft="20dp"
                         android:textColor="#85858c"
                         android:textSize="12dp" />
 

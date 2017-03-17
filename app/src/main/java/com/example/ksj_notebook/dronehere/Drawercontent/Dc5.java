@@ -1,6 +1,9 @@
 package com.example.ksj_notebook.dronehere.Drawercontent;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.ksj_notebook.dronehere.BaseActivity;
@@ -18,6 +21,13 @@ public class Dc5 extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dc5);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.status2));
+        }
         zzz=(TextView)findViewById(R.id.dc5text);
         zzz.setText(readTxt());
     }
