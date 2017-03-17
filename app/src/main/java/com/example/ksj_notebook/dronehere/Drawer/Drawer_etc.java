@@ -2,12 +2,15 @@ package com.example.ksj_notebook.dronehere.Drawer;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -45,7 +48,8 @@ public class Drawer_etc extends BaseActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);//title hidden
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //back icon
-
+        mToolbar.setTitle("설정");
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() { //뒤로가기
             @Override
@@ -53,7 +57,6 @@ public class Drawer_etc extends BaseActivity {
                 onBackPressed();
             }
         });
-        setTitle("설정");                        //타이틀입니다.
 
 
         adapter = new ArrayAdapter<String>(this, R.layout.setting_list_view);

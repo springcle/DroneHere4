@@ -14,5 +14,5 @@
     <color name="drgreen">#84FF126E</color>
     <color name="drondd">#078e2a</color>
     <color name="sliding">#2f2f2f</color>
-    <color name="Transparency">#00000000</color>
+    <color name="colorControlNormal">#ffffff</color>
 </resources>

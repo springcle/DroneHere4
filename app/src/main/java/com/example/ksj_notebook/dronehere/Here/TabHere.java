@@ -304,7 +304,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 //sliding.setScrollableView(fragmentList.get(1).getView().findViewById(R.id.ryview));
                 // 위아래 스크롤이 뻑뻑하여 setNestedScrollingEnabled(false)로 설정해주었다.
                 Log.e("선택한 뷰페이저",""+fragmentList.get(position));
-                sliding.setScrollableView(fragmentList.get(position).getView().findViewById(R.id.sliding_viewpager));
+                sliding.setScrollableView((fragmentList.get(position).getView().findViewById(R.id.nested22)));
+                sliding.setScrollableView(fragmentList.get(position).getView().findViewById(R.id.ryview));
                 /** 페이지 스와이프 시 상단의 메뉴 버튼 활성화된 이미지로 변경**/
                 if(position == 0){
                     sliding_panel_btn_selector.setBackgroundResource(R.drawable.on_dronenews);

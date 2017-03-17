@@ -5,17 +5,10 @@
     android:background="#eaeaea"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#2c78c3"
-        android:id="@+id/setting_toolbar"
-
-        >
-
-
-
-    </android.support.v7.widget.Toolbar>
+   <include
+       android:layout_height="wrap_content"
+       layout="@layout/toolbar_toolbar"
+       android:layout_width="match_parent"></include>
 
     <ListView
         android:id="@+id/listView"

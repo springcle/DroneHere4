@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DroneHere4.iml" filepath="$PROJECT_DIR$/DroneHere4.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SearchBarAnim/SearchBarAnim.iml" filepath="$PROJECT_DIR$/SearchBarAnim/SearchBarAnim.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/SlidingUpPanel.iml" filepath="$PROJECT_DIR$/library/SlidingUpPanel.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
