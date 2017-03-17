@@ -50,7 +50,7 @@ public class Drawer_etc extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //back icon
         mToolbar.setTitle("설정");
         mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
-
+        mToolbar.setNavigationIcon(R.drawable.edit_back_btn);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() { //뒤로가기
             @Override
             public void onClick(View view) {

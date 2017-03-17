@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -62,15 +61,14 @@ public class Drawer_fix extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer_fix);
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        editText2=(EditText)findViewById(R.id.editText2);
-        im=(ImageView)findViewById(R.id.droneimage);
+        editText2 = (EditText) findViewById(R.id.editText2);
+        im = (ImageView) findViewById(R.id.droneimage);
 
-        adddrone=(LinearLayout) findViewById(R.id.adddrone);
-        okokok=(Button)findViewById(R.id.okokok);
-        re=(RecyclerView)findViewById(R.id.re);
+        adddrone = (LinearLayout) findViewById(R.id.adddrone);
+        okokok = (Button) findViewById(R.id.okokok);
+        re = (RecyclerView) findViewById(R.id.re);
 
-        adap1=new Drawer_fix_adapter();
-
+        adap1 = new Drawer_fix_adapter();
 
 
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.setting_toolbar);
@@ -78,9 +76,9 @@ public class Drawer_fix extends BaseActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);//title hidden
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //back icon
-        mToolbar.setTitle("설정");
+        mToolbar.setTitle("내 정보 수정");
         mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
-
+        mToolbar.setNavigationIcon(R.drawable.edit_back_btn);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() { //뒤로가기
             @Override
@@ -89,15 +87,15 @@ public class Drawer_fix extends BaseActivity {
             }
         });
 
-        NetworkManager.getInstance().getFix(MyApplication.getContext(), mem_id,new NetworkManager.OnResultListener<MemberResult>() {
+        NetworkManager.getInstance().getFix(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<MemberResult>() {
 
             @Override
             public void onSuccess(Request request, MemberResult result) {
 
-                member=result.getResult();
+                member = result.getResult();
 
                 editText2.setText(member.getMem_name());
-                adap1.setMem(member,getApplicationContext());
+                adap1.setMem(member, getApplicationContext());
 
                 GlideUrl url = new GlideUrl(member.getDr_photo());
                 Glide.with(MyApplication.getContext())
@@ -120,7 +118,7 @@ public class Drawer_fix extends BaseActivity {
         adddrone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomDialog7 dialog=new CustomDialog7(Drawer_fix.this);
+                CustomDialog7 dialog = new CustomDialog7(Drawer_fix.this);
                 dialog.show();
 
             }
@@ -129,38 +127,38 @@ public class Drawer_fix extends BaseActivity {
         okokok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("okbutton 후 드론개수", adap1.drone_cnt+"");
-                Log.e("okbutton 후 드론 카운트", adap1.check_cnt+"");
-                if(editText2.getText().toString()=="") {
+                Log.e("okbutton 후 드론개수", adap1.drone_cnt + "");
+                Log.e("okbutton 후 드론 카운트", adap1.check_cnt + "");
+                if (editText2.getText().toString() == "") {
                     Toast.makeText(Drawer_fix.this, "닉네임을 입력하세요", Toast.LENGTH_SHORT).show();
-                }
-                else if(editText2.getText().toString().getBytes().length < 2 || editText2.getText().toString().getBytes().length > 5){
+                } else if (editText2.getText().toString().getBytes().length < 2 || editText2.getText().toString().getBytes().length > 5) {
                     Toast.makeText(getApplicationContext(), "닉네임(2-5자)형식에 맞게 입력해주세요", Toast.LENGTH_SHORT).show();
                     vibrator.vibrate(100);
-                } else if(adap1.drone_cnt - adap1.check_cnt == 0){
-                    Toast.makeText(getApplicationContext(), "소유 드론이 1개는 있어야합니다.",Toast.LENGTH_SHORT).show();
+                } else if (adap1.drone_cnt - adap1.check_cnt == 0) {
+                    Toast.makeText(getApplicationContext(), "소유 드론이 1개는 있어야합니다.", Toast.LENGTH_SHORT).show();
                     vibrator.vibrate(100);
                 } else {
                     String dr_select;
-                    List<String> dr_delete2=new ArrayList();
-                    List<Integer> dr_delete1=new ArrayList(adap1.mapp);
+                    List<String> dr_delete2 = new ArrayList();
+                    List<Integer> dr_delete1 = new ArrayList(adap1.mapp);
 
-                    for(int i=0;i<dr_delete1.size();i++){
+                    for (int i = 0; i < dr_delete1.size(); i++) {
                         dr_delete2.add(member.getMem_drone().get(dr_delete1.get(i)).getDr_name());
                     }
-                    if(member.getMem_drone().isEmpty() != true) {
+                    if (member.getMem_drone().isEmpty() != true) {
                         dr_select = member.getMem_drone().get(adap1.mCheckedPostion).getDr_name();
                     } else {
                         dr_select = null;
                     }
-                    NetworkManager.getInstance().getFix2(MyApplication.getContext(), mem_id,editText2.getText().toString(),dr_delete2,dr_select,new NetworkManager.OnResultListener() {
-                    //member.getMem_name()
+                    NetworkManager.getInstance().getFix2(MyApplication.getContext(), mem_id, editText2.getText().toString(), dr_delete2, dr_select, new NetworkManager.OnResultListener() {
+                        //member.getMem_name()
                         @Override
                         public void onSuccess(Request request, Object result) {
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
                             finish();
                         }
+
                         @Override
                         public void onFail(Request request, IOException exception) {
                         }
@@ -169,6 +167,7 @@ public class Drawer_fix extends BaseActivity {
             }
         });
     }
+
     class CustomDialog7 extends Dialog {
 
         EditText editText;
@@ -179,22 +178,22 @@ public class Drawer_fix extends BaseActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-          //  this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+            //  this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
             WindowManager.LayoutParams lpWindow = new WindowManager.LayoutParams();
             lpWindow.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;/*|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;*/
             lpWindow.dimAmount = 0.8f;
-            lpWindow.gravity= Gravity.CENTER;
-            lpWindow.width=WindowManager.LayoutParams.MATCH_PARENT;
-            lpWindow.height=WindowManager.LayoutParams.MATCH_PARENT;
+            lpWindow.gravity = Gravity.CENTER;
+            lpWindow.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lpWindow.height = WindowManager.LayoutParams.MATCH_PARENT;
             getWindow().setAttributes(lpWindow);
 
             setContentView(R.layout.dronepick_dialog);
 
-            final DronePickDialogAdapter adap=new DronePickDialogAdapter();
+            final DronePickDialogAdapter adap = new DronePickDialogAdapter();
 
-            editText=(EditText)findViewById(R.id.droneseaa);
-            recy=(RecyclerView)findViewById(R.id.drpick_recy);
+            editText = (EditText) findViewById(R.id.droneseaa);
+            recy = (RecyclerView) findViewById(R.id.drpick_recy);
             //nonono=(Button)findViewById(R.id.nonono);
             //nonono.setVisibility(View.GONE);
 
@@ -218,28 +217,30 @@ public class Drawer_fix extends BaseActivity {
             adap.setOnItemClickListener(new DronePickDialogAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClicked(DbSearchViewHolder holder, View view, DroneDB s, int position) {
-                    for(int i=0;i<member.getMem_drone().size();i++){
-                        if(member.getMem_drone().get(i).getDr_name().equals(s.getDr_name())){
+                    for (int i = 0; i < member.getMem_drone().size(); i++) {
+                        if (member.getMem_drone().get(i).getDr_name().equals(s.getDr_name())) {
                             Toast.makeText(MyApplication.getContext(), "이미 등록된 드론입니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
-                    NetworkManager.getInstance().getDadd(MyApplication.getContext(),mem_id,s.get_id() ,new NetworkManager.OnResultListener<DroneSearchResult>() {
+                    NetworkManager.getInstance().getDadd(MyApplication.getContext(), mem_id, s.get_id(), new NetworkManager.OnResultListener<DroneSearchResult>() {
                         @Override
                         public void onSuccess(Request request, DroneSearchResult result) {
-                            NetworkManager.getInstance().getFix(MyApplication.getContext(), mem_id,new NetworkManager.OnResultListener<MemberResult>() {
+                            NetworkManager.getInstance().getFix(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<MemberResult>() {
                                 @Override
                                 public void onSuccess(Request request, MemberResult result) {
-                                    member=result.getResult();
-                                    adap1.setMem(member,getApplicationContext());
+                                    member = result.getResult();
+                                    adap1.setMem(member, getApplicationContext());
                                     adap1.drone_cnt++;
                                     dismiss();
                                 }
+
                                 @Override
                                 public void onFail(Request request, IOException exception) {
                                 }
                             });
                         }
+
                         @Override
                         public void onFail(Request request, IOException exception) {
                         }
@@ -260,11 +261,11 @@ public class Drawer_fix extends BaseActivity {
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    String get=""+editText.getText();
-                    if(get.equals("")){
+                    String get = "" + editText.getText();
+                    if (get.equals("")) {
                         adap.setDb3(new ArrayList<DroneDB>());
-                    }else{
-                        NetworkManager.getInstance().getDroneSearch(MyApplication.getContext(),get ,new NetworkManager.OnResultListener<DroneSearchResult>() {
+                    } else {
+                        NetworkManager.getInstance().getDroneSearch(MyApplication.getContext(), get, new NetworkManager.OnResultListener<DroneSearchResult>() {
 
                             @Override
                             public void onSuccess(Request request, DroneSearchResult result) {

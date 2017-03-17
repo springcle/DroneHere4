@@ -8,7 +8,6 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    android:weightSum="10"
     tools:context="com.example.ksj_notebook.dronehere.Drawer.Drawer_fix">
 
 
@@ -22,22 +21,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="3"
-        android:gravity="center"
+        android:gravity="center|bottom"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="5dp">
 
-        android:paddingTop="10dp">
 
-
-        <de.hdodenhof.circleimageview.CircleImageView
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/droneimage"
-            android:layout_width="176dp"
-            android:layout_height="176dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:src="@drawable/logo_blue"
-            app:civ_border_color="#000000"
-            app:civ_border_overlay="true"
-
-            />
+            app:civ_border_color="#cc2D79C3"
+            app:civ_border_width="4dp" />
 
 
     </LinearLayout>
@@ -47,15 +43,12 @@
         android:layout_height="match_parent"
         android:layout_weight="3"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="10dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-
-
             >
 
             <LinearLayout
@@ -75,8 +68,8 @@
                         android:id="@+id/editText2"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:textColor="#85858c"
-                        android:textSize="12dp" />
+                        android:textColor="#838384"
+                        android:textSize="14dp" />
 
                     <ImageView
                         android:layout_width="13dp"
@@ -92,7 +85,7 @@
                     android:id="@+id/adddrone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -135,19 +128,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:layout_weight="4"
-        android:gravity="right"
-        android:paddingRight="20dp"
-
-        android:paddingTop="20dp">
+        android:gravity="right|center_vertical"
+        android:paddingRight="20dp">
 
 
         <Button
             android:id="@+id/okokok"
-            android:layout_width="86dp"
-            android:layout_height="42dp"
+            android:layout_width="85dp"
+            android:layout_height="38dp"
             android:background="@drawable/b_1"
+            android:textSize="12dp"
             android:elevation="10dp"
             android:text="저장"
             android:textColor="@color/white"
