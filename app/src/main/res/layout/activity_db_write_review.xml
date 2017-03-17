@@ -11,12 +11,12 @@
         android:layout_height="56dp"
         android:text="New Text"
         android:id="@+id/drrv_name"
-        android:background="#1b52ac"
+        android:background="#2c78c3"
         android:autoText="false"
         android:textColor="#ffffff"
         android:textSize="21sp"
         android:gravity="center_vertical"
-        android:paddingLeft="16dp" />
+        android:paddingLeft="15dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -91,6 +91,9 @@
             android:layout_width="78dp"
             android:layout_height="34dp"
             android:id="@+id/drrv_btn"
+            android:text="확인"
+            android:textSize="12dp"
+            android:textColor="#ffffff"
             android:background="@drawable/b_1"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
