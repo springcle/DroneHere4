@@ -402,11 +402,11 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             @Override
             public void onClick(View v) {
                 if (mem_id == "") {
-                    Toast.makeText(context, "회원가입 시 사용가능합니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "로그인 시 사용가능합니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (drone_exist == false) {
-                    Toast.makeText(context, "드론 선택 후 사용가능합니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "드론 선택 후 사용가능합니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (placedialog == null) {
@@ -546,6 +546,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 myLocation.setEnabled(false);
             }
         }, 1500);
+
     }
     /**
      * 장소검색용 가로 형태 다이얼로그
@@ -683,9 +684,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         }
         if (mem_id != "" && drone_exist == true) {
             if (fly == false) {
-                options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1));
+                options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_11));
             } else {
-                options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_pos1_1));
+                options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_pos1_11));
             }
         } else if (mem_id != "" && drone_exist == false) { // drone_exist : false면 터치 시 커스텀 다이얼로그 비활성화
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_not_drone));
