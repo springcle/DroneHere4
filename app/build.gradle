@@ -7,7 +7,7 @@ android {
     defaultConfig {
         generatedDensities = []
         vectorDrawables.useSupportLibrary = true
-        applicationId "com.example.ksj_notebook.dronehere"
+        applicationId "com.example.ksj_notebook.dronehere10"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1

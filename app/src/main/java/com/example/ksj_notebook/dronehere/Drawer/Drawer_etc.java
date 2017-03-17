@@ -1,22 +1,12 @@
 package com.example.ksj_notebook.dronehere.Drawer;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toolbar;
 
 import com.example.ksj_notebook.dronehere.BaseActivity;
 import com.example.ksj_notebook.dronehere.Drawercontent.Dc5;
@@ -25,8 +15,6 @@ import com.example.ksj_notebook.dronehere.MainActivity;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.login.StartActivity;
 import com.example.ksj_notebook.dronehere.manager.PropertyManager;
-
-import static com.example.ksj_notebook.dronehere.R.styleable.MenuItem;
 
 /**
  * Created by NAKNAK on 2017-01-23.
@@ -42,9 +30,7 @@ public class Drawer_etc extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_etc);
 
-
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.setting_toolbar);
-
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);//title hidden
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //back icon
