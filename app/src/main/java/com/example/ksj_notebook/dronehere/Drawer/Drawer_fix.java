@@ -3,6 +3,7 @@ package com.example.ksj_notebook.dronehere.Drawer;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,6 +62,13 @@ public class Drawer_fix extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer_fix);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.status2));
+        }
+
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         editText2 = (EditText) findViewById(R.id.editText2);
         im = (ImageView) findViewById(R.id.droneimage);
@@ -131,7 +140,7 @@ public class Drawer_fix extends BaseActivity {
                 Log.e("okbutton 후 드론 카운트", adap1.check_cnt + "");
                 if (editText2.getText().toString() == "") {
                     Toast.makeText(Drawer_fix.this, "닉네임을 입력하세요", Toast.LENGTH_SHORT).show();
-                } else if (editText2.getText().toString().getBytes().length < 2 || editText2.getText().toString().getBytes().length > 5) {
+                } else if (editText2.getText().toString().length() < 2 || editText2.getText().toString().length() > 5) {
                     Toast.makeText(getApplicationContext(), "닉네임(2-5자)형식에 맞게 입력해주세요", Toast.LENGTH_SHORT).show();
                     vibrator.vibrate(100);
                 } else if (adap1.drone_cnt - adap1.check_cnt == 0) {

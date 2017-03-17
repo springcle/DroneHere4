@@ -129,13 +129,13 @@ public class JoinDronePick extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                byte[] test;
-                test = nick.getText().toString().getBytes();
+                String text;
+                text = nick.getText().toString();
                 if (("" + nick.getText()).equals("")) {
                     Toast.makeText(getApplicationContext(), "닉네임을 입력해주세요", Toast.LENGTH_SHORT).show();
                     vibrator.vibrate(100);
                 }
-                else if(test.length < 2  || test.length > 5){
+                else if(text.length() < 2  || text.length() > 5){
                     Toast.makeText(getApplicationContext(), "닉네임(2-5자)형식에 맞게 입력해주세요", Toast.LENGTH_SHORT).show();
                     vibrator.vibrate(100);
                 }

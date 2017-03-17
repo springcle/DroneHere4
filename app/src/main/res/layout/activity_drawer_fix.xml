@@ -8,6 +8,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
+    android:weightSum="10"
     tools:context="com.example.ksj_notebook.dronehere.Drawer.Drawer_fix">
 
 
@@ -19,21 +20,24 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:gravity="center|bottom"
+        android:layout_height="200dp"
+
+        android:gravity="center"
         android:orientation="vertical"
-        android:paddingBottom="15dp"
-        android:paddingTop="5dp">
 
 
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        >
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/droneimage"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="176dp"
+            android:layout_height="176dp"
             android:src="@drawable/logo_blue"
-            app:civ_border_color="#cc2D79C3"
-            app:civ_border_width="4dp" />
+            app:civ_border_color="#dd2f2f2f"
+            app:civ_border_width="2dp"
+
+            />
 
 
     </LinearLayout>
@@ -41,19 +45,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="3"
+        android:layout_weight="3.5"
         android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="280dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
+
+
             >
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -62,14 +68,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <EditText
                         android:id="@+id/editText2"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:textColor="#838384"
-                        android:textSize="14dp" />
+                        android:gravity="center"
+                        android:textColor="#85858c"
+                        android:textSize="13dp" />
 
                     <ImageView
                         android:layout_width="13dp"
@@ -85,39 +93,35 @@
                     android:id="@+id/adddrone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="198dp"
-                        android:layout_height="27dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/add_drone_textview" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                    <TextView
+                        android:layout_width="255dp"
+                        android:layout_height="21dp"
+                        android:layout_marginRight="5dp"
+                        android:text="드론을 추가해주세요"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:textSize="12dp"
+                        android:background="@drawable/button_style_graycolor" />
 
-                        <ImageView
-                            android:layout_width="21dp"
-                            android:layout_height="21dp"
-                            android:background="@drawable/b_add"
-                            android:gravity="right"
 
-                            />
+                    <ImageView
+                        android:id="@+id/imageView8"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:background="@drawable/b_add"
 
-                    </LinearLayout>
+                        android:gravity="right" />
+
 
                 </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/re"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center" />
+                    android:layout_height="match_parent" />
 
 
             </LinearLayout>
@@ -128,18 +132,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="4"
-        android:gravity="right|center_vertical"
-        android:paddingRight="20dp">
+
+        android:layout_marginRight="20dp"
+        android:layout_weight="6.5"
+        android:gravity="center|right"
+
+        >
+        <!--
+        android:layout_marginBottom="20dp"-->
 
 
         <Button
             android:id="@+id/okokok"
-            android:layout_width="85dp"
-            android:layout_height="38dp"
-            android:background="@drawable/b_1"
-            android:textSize="12dp"
-            android:elevation="10dp"
+            android:layout_width="86dp"
+            android:layout_height="42dp"
+            android:background="@drawable/button_style"
             android:text="저장"
             android:textColor="@color/white"
 
