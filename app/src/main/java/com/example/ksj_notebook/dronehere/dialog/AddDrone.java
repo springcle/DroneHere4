@@ -133,7 +133,22 @@ public class AddDrone extends Dialog {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+/* 데이터를 담을 어레이 생성 */
+                adap.setDb3(new ArrayList<DroneDB>());
 
+/* 검색창 값이 공백이면 추천별 드론을 모두 가져옴 */
+                NetworkManager.getInstance().getDroneRecommendName(MyApplication.getContext(), new NetworkManager.OnResultListener<DroneRecommendResult>() {
+                    @Override
+                    public void onSuccess(Request request, DroneRecommendResult result) {
+                        adap.setDb3(result.getResult());
+
+                    }
+
+                    @Override
+                    public void onFail(Request request, IOException exception) {
+
+                    }
+                });
             }
 
             @Override
@@ -141,21 +156,8 @@ public class AddDrone extends Dialog {
                 String get = "" + editText.getText();
 
                 if (get.equals("")) {
-                    /* 데이터를 담을 어레이 생성 */
                     adap.setDb3(new ArrayList<DroneDB>());
 
-/* 검색창 값이 공백이면 추천별 드론을 모두 가져옴 */
-                    NetworkManager.getInstance().getDbRecommend(MyApplication.getContext(),  new NetworkManager.OnResultListener<DroneRecommendResult>() {
-                        @Override
-                        public void onSuccess(Request request, DroneRecommendResult result) {
-                            adap.setDb3(result.getResult());
-                        }
-
-                        @Override
-                        public void onFail(Request request, IOException exception) {
-
-                        }
-                    });
                 } else {
                     /*검색창 값이 공백이 아니면 검색창안에 입력한 값으로 드론을 가져옴 */
                     NetworkManager.getInstance().getDroneSearch(MyApplication.getContext(), get, new NetworkManager.OnResultListener<DroneSearchResult>() {

@@ -75,9 +75,9 @@
                         android:id="@+id/editText2"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="20dp"
+                        android:gravity="center"
                         android:textColor="#85858c"
-                        android:textSize="12dp" />
+                        android:textSize="13dp" />
 
                     <ImageView
                         android:layout_width="13dp"
@@ -98,7 +98,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="198dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="27dp"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/add_drone_textview" />
