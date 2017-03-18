@@ -1,8 +1,12 @@
 package com.example.ksj_notebook.dronehere.Dronedb;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -29,6 +33,7 @@ public class DroneDetailReviewWrite extends BaseActivity {
     EditText drrv_edit;
     Button drrv_btn;
     String dr_id;
+    Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,7 @@ public class DroneDetailReviewWrite extends BaseActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(getResources().getColor(R.color.status2));
         }
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         drrv_name = (TextView) findViewById(R.id.drrv_name);
         drrv_ratingbar = (RatingBar) findViewById(R.id.drrv_ratingbar);
         drrv_btn = (Button) findViewById(R.id.drrv_btn);
@@ -50,7 +56,25 @@ public class DroneDetailReviewWrite extends BaseActivity {
 
         drrv_name.setText(getIntent().getStringExtra("dr_name"));
         dr_id = getIntent().getStringExtra("dr_id");
+        drrv_edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (drrv_edit.getText().toString().length() > 40 && (drrv_edit.getText().toString().isEmpty()) != true) {
+                    Toast.makeText(getApplicationContext(), "40자 이하로 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    vibrator.vibrate(100);
+                }
+            }
+        });
         drrv_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +93,7 @@ public class DroneDetailReviewWrite extends BaseActivity {
                     });
                 } else if (drrv_edit.getText().toString().length() > 40 && (drrv_edit.getText().toString().isEmpty()) != true) {
                     Toast.makeText(getApplicationContext(), "40자 이하로 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    vibrator.vibrate(100);
                 } else {
                     Toast.makeText(getApplicationContext(), "내용을 입력해 주세요.", Toast.LENGTH_SHORT).show();
                 }

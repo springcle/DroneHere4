@@ -24,7 +24,6 @@ public class DronePickDialogAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
-
     ArrayList<DroneDB> db;
 
     public void setDb3(ArrayList<DroneDB> db){

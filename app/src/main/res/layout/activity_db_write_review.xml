@@ -68,6 +68,7 @@
         android:layout_marginRight="16dp"
         android:background="#ffffff"
         android:gravity="top"
+        android:maxLength="40"
         android:hint="Text"
         android:padding="9dp"
         android:textColor="#078e2a"

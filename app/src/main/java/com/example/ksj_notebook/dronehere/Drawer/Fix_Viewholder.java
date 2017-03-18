@@ -20,15 +20,14 @@ public class Fix_Viewholder extends RecyclerView.ViewHolder {
 
     public Fix_Viewholder(View itemView) {
         super(itemView);
-        checkBox=(CheckBox)itemView.findViewById(R.id.checkBox);
-        radioButton=(RadioButton)itemView.findViewById(R.id.radioButton);
-        drdr_fix=(TextView)itemView.findViewById(R.id.drdr_fix);
+        checkBox = (CheckBox) itemView.findViewById(R.id.checkBox);
+        radioButton = (RadioButton) itemView.findViewById(R.id.radioButton);
+        drdr_fix = (TextView) itemView.findViewById(R.id.drdr_fix);
     }
 
-
-    public void setDrone1(DroneDB db){
+    public void setDrone1(DroneDB db) {
         drdr_fix.setText(db.getDr_name());
-        if (getAdapterPosition()==0){
+        if (getAdapterPosition() == 0) {
             radioButton.setChecked(true);
         }
         // drawer_drcheck.setImageResource();

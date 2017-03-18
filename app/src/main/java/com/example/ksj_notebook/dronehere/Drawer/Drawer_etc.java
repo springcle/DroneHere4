@@ -44,6 +44,7 @@ public class Drawer_etc extends BaseActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+                finish();
             }
         });
 
