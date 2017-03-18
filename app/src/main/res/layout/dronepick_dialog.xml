@@ -9,6 +9,8 @@
     android:orientation="vertical"
     tools:context="com.example.ksj_notebook.dronehere.Drawer.Drawer_fix">
 
+    <!-- 드론 추가, 선택 다이얼로그 -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

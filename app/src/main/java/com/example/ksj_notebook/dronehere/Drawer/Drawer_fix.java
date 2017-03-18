@@ -31,6 +31,7 @@ import com.example.ksj_notebook.dronehere.MainActivity;
 import com.example.ksj_notebook.dronehere.MyApplication;
 import com.example.ksj_notebook.dronehere.R;
 import com.example.ksj_notebook.dronehere.data.DroneDB;
+import com.example.ksj_notebook.dronehere.data.DroneRecommendResult;
 import com.example.ksj_notebook.dronehere.data.DroneSearchResult;
 import com.example.ksj_notebook.dronehere.data.Member;
 import com.example.ksj_notebook.dronehere.data.MemberResult;
@@ -45,10 +46,12 @@ import java.util.List;
 
 import okhttp3.Request;
 
+/** (내 정보) 프로필 수정 페이지 **/
+
 public class Drawer_fix extends BaseActivity {
 
     Member member;
-    EditText editText2;
+    EditText nickname;
     ImageView im;
     Vibrator vibrator;
     LinearLayout adddrone;
@@ -72,7 +75,7 @@ public class Drawer_fix extends BaseActivity {
         inputMethodManager = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        editText2 = (EditText) findViewById(R.id.editText2);
+        nickname = (EditText) findViewById(R.id.nickname);
         im = (ImageView) findViewById(R.id.droneimage);
 
         adddrone = (LinearLayout) findViewById(R.id.adddrone);
@@ -105,7 +108,7 @@ public class Drawer_fix extends BaseActivity {
 
                 member = result.getResult();
 
-                editText2.setText(member.getMem_name());
+                nickname.setText(member.getMem_name());
                 adap1.setMem(member, getApplicationContext());
 
                 GlideUrl url = new GlideUrl(member.getDr_photo());
@@ -140,9 +143,9 @@ public class Drawer_fix extends BaseActivity {
             public void onClick(View v) {
                 Log.e("okbutton 후 드론개수", adap1.drone_cnt + "");
                 Log.e("okbutton 후 드론 카운트", adap1.check_cnt + "");
-                if (editText2.getText().toString() == "") {
+                if (nickname.getText().toString() == "") {
                     Toast.makeText(Drawer_fix.this, "닉네임을 입력하세요", Toast.LENGTH_SHORT).show();
-                } else if (editText2.getText().toString().length() < 2 || editText2.getText().toString().length() > 5) {
+                } else if (nickname.getText().toString().length() < 2 || nickname.getText().toString().length() > 5) {
                     Toast.makeText(getApplicationContext(), "닉네임(2-5자)형식에 맞게 입력해주세요", Toast.LENGTH_SHORT).show();
                     vibrator.vibrate(100);
                 } else if (adap1.drone_cnt - adap1.check_cnt == 0) {
@@ -161,7 +164,8 @@ public class Drawer_fix extends BaseActivity {
                     } else {
                         dr_select = null;
                     }
-                    NetworkManager.getInstance().getFix2(MyApplication.getContext(), mem_id, editText2.getText().toString(), dr_delete2, dr_select, new NetworkManager.OnResultListener() {
+                    /** 입력한 값으로 수정! **/
+                    NetworkManager.getInstance().getFix2(MyApplication.getContext(), mem_id, nickname.getText().toString(), dr_delete2, dr_select, new NetworkManager.OnResultListener() {
                         //member.getMem_name()
                         @Override
                         public void onSuccess(Request request, Object result) {
@@ -178,7 +182,7 @@ public class Drawer_fix extends BaseActivity {
             }
         });
     }
-
+/** 드론 추가용 목록(검색) 다이얼로그 **/
     class CustomDialog7 extends Dialog {
 
         EditText editText;
@@ -234,16 +238,18 @@ public class Drawer_fix extends BaseActivity {
                             return;
                         }
                     }
+                    /** 아이템 클릭하면 해당 아이템 id값(드론 id)을 해당 유저에 추가함. **/
                     NetworkManager.getInstance().getDadd(MyApplication.getContext(), mem_id, s.get_id(), new NetworkManager.OnResultListener<DroneSearchResult>() {
                         @Override
                         public void onSuccess(Request request, DroneSearchResult result) {
+                            /** 유저 아이디 보내서 Member 정보 받아옴 **/
                             NetworkManager.getInstance().getFix(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<MemberResult>() {
                                 @Override
                                 public void onSuccess(Request request, MemberResult result) {
                                     member = result.getResult();
                                     adap1.setMem(member, getApplicationContext());
-                                    adap1.drone_cnt++;
-                                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                    adap1.drone_cnt++; // 드론 목록의 드론갯수 +1
+                                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0); // 키보드 내리기
                                     dismiss();
                                 }
                                 @Override
@@ -258,6 +264,22 @@ public class Drawer_fix extends BaseActivity {
                     });
                 }
             });
+
+            /** 다이얼로그 시작되면 바로 추천순으로 드론 출력 **/
+            NetworkManager.getInstance().getDroneRecommendRate(MyApplication.getContext(), new NetworkManager.OnResultListener<DroneRecommendResult>() {
+                @Override
+                public void onSuccess(Request request, DroneRecommendResult result) {
+                    adap.setDb3(result.getResult());
+                }
+
+                @Override
+                public void onFail(Request request, IOException exception) {
+
+                }
+            });
+
+
+            /** 드론 검색바 부분 **/
             editText.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -271,9 +293,21 @@ public class Drawer_fix extends BaseActivity {
 
                 @Override
                 public void afterTextChanged(Editable s) {
+
+                    /**  **/
                     String get = "" + editText.getText();
-                    if (get.equals("")) {
-                        adap.setDb3(new ArrayList<DroneDB>());
+                    if (editText.getText().length() == 0) {
+                        NetworkManager.getInstance().getDroneRecommendRate(MyApplication.getContext(), new NetworkManager.OnResultListener<DroneRecommendResult>() {
+                            @Override
+                            public void onSuccess(Request request, DroneRecommendResult result) {
+                                adap.setDb3(result.getResult());
+                            }
+
+                            @Override
+                            public void onFail(Request request, IOException exception) {
+
+                            }
+                        });
                     } else {
                         NetworkManager.getInstance().getDroneSearch(MyApplication.getContext(), get, new NetworkManager.OnResultListener<DroneSearchResult>() {
 

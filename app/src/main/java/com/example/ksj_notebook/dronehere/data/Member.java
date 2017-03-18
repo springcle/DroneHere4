@@ -6,6 +6,7 @@ import java.util.List;
  * Created by ksj_notebook on 2016-05-18.
  */
 public class Member {
+    /** 유저 아이디, 유저 비번, 유저 이름, 유저 이메일, 등록한 드론 사진, 등록한 드론리스트**/
     String mem_id;
     String mem_pw;
     String mem_name;
