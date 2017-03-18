@@ -246,13 +246,11 @@ public class Drawer_fix extends BaseActivity {
                                     inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                                     dismiss();
                                 }
-
                                 @Override
                                 public void onFail(Request request, IOException exception) {
                                 }
                             });
                         }
-
                         @Override
                         public void onFail(Request request, IOException exception) {
                         }
