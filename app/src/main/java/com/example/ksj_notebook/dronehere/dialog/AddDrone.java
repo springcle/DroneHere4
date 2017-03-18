@@ -42,6 +42,9 @@ import static com.example.ksj_notebook.dronehere.R.id.window;
 /**
  * Created by NAKNAK on 2017-01-15.
  */
+
+
+/** 드론 추가,선택 다이얼로그 **/
 public class AddDrone extends Dialog {
     Member member;
     EditText editText;

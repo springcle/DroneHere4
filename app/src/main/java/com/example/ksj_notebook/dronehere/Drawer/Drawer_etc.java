@@ -19,6 +19,9 @@ import com.example.ksj_notebook.dronehere.manager.PropertyManager;
 /**
  * Created by NAKNAK on 2017-01-23.
  */
+
+
+/** 설정 페이지 **/
 public class Drawer_etc extends BaseActivity {
     private ListView listview;
     private ArrayAdapter<String> adapter;

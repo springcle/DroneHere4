@@ -4,6 +4,8 @@
     android:layout_height="40dp"
     android:orientation="horizontal">
 
+    <!-- 내 드론 목록 (주력드론 선택, 내 드론 삭제)-->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 
 import okhttp3.Request;
 
-//TODO ImageList가 adapter -> holderHeader로 이동시켜야 되는데 안되는듯? 확인 필요.
+
 
 public class DroneDetail extends BaseActivity implements ViewPager.OnPageChangeListener {
 
@@ -33,7 +34,7 @@ public class DroneDetail extends BaseActivity implements ViewPager.OnPageChangeL
     ImageButton dt_float;
     String _id;
     DroneDB db;
-    TextView dbtitle;
+    Toolbar mToolbar;
 
     public static ArrayList<String> imageList = new ArrayList<>();
 
@@ -52,10 +53,26 @@ public class DroneDetail extends BaseActivity implements ViewPager.OnPageChangeL
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(getResources().getColor(R.color.status2));
         }
+
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.setting_toolbar);
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);//title hidden
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //back icon
+        /*mToolbar.setTitle("");*/
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        mToolbar.setNavigationIcon(R.drawable.edit_back_btn);
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() { //뒤로가기
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         dtAdapter=new DroneDetailAdapter();
         recyclerView=(RecyclerView)findViewById(R.id.dbdetailrecy);
         dt_float=(ImageButton)findViewById(R.id.dtdt);
-        dbtitle=(TextView)findViewById(R.id.dbtitle);
 
 
 
@@ -90,8 +107,7 @@ public class DroneDetail extends BaseActivity implements ViewPager.OnPageChangeL
             @Override
             public void onSuccess(Request request, DroneDetailResult result) {
                 db=result.getResult();
-                dbtitle.setText(db.getDr_name());
-                setTitle(db.getDr_name());
+                mToolbar.setTitle(db.getDr_name());
                 dtAdapter.setDb(db);
 
                 setImageList(db.getDr_photoArr());

@@ -358,7 +358,7 @@ public class NetworkManager {
     }
 
 
-    //수정화면
+    // 24. 햄버거메뉴 -> 개인 정보 수정화면 조회
     private static final String DRONE_FIX = DRONE_HERE + "/hambuger/user/view";
     public Request getFix(Object tag,String mem_id, OnResultListener<MemberResult> listener) {
 
