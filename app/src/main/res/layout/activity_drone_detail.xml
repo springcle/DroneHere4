@@ -19,14 +19,13 @@
     <ImageButton
         android:layout_width="57dp"
         android:layout_height="57dp"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
         android:background="@drawable/button_ripple"
         android:stateListAnimator="@anim/anim"
         android:src="@drawable/flo_2"
         android:elevation="4dp"
-
-        android:id="@+id/dtdt"/>
+        android:id="@+id/dtdt"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp" />
 </RelativeLayout>
