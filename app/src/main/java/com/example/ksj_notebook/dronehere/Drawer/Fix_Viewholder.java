@@ -27,8 +27,23 @@ public class Fix_Viewholder extends RecyclerView.ViewHolder {
 
     public void setDrone1(DroneDB db) {
         drdr_fix.setText(db.getDr_name());
-        if (getAdapterPosition() == 0) {
+        if (getAdapterPosition() == 0 && Drawer_fix.first_init == true) {
             radioButton.setChecked(true);
+            Drawer_fix.lastChecked = radioButton;
+            Drawer_fix.mCheckedPostion = 0;
+            Drawer_fix.first_init = false;
+        }
+        if (getAdapterPosition() ==0 && Drawer_fix.back_btn == true){
+            radioButton.setChecked(true);
+            Drawer_fix.lastChecked = radioButton;
+            Drawer_fix.mCheckedPostion = 0;
+            Drawer_fix.back_btn = false;
+        }
+        if( getAdapterPosition() == 0 && Drawer_fix.ok_btn == true){
+            radioButton.setChecked(true);
+            Drawer_fix.lastChecked = radioButton;
+            Drawer_fix.mCheckedPostion = 0;
+            Drawer_fix.ok_btn = false;
         }
         // drawer_drcheck.setImageResource();
     }

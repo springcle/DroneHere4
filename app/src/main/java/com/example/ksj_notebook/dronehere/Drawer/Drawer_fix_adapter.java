@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
@@ -25,6 +24,8 @@ import java.util.Set;
 
 import okhttp3.Request;
 
+import static com.example.ksj_notebook.dronehere.Drawer.Drawer_fix.lastChecked;
+
 /**
  * Created by ksj_notebook on 2016-06-14.
  */
@@ -40,9 +41,7 @@ public class Drawer_fix_adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     Context context;
     List<DroneDB> drlist;
     int CheckedPostion;
-    static int mCheckedPostion;
     Set<Integer> mapp = new HashSet<>();
-    static RadioButton lastChecked = null;
 
     public Drawer_fix_adapter(ImageView imageView) {
         this.imageView = imageView;
@@ -51,8 +50,15 @@ public class Drawer_fix_adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void setMem(Member mem, Context context) {
         this.mem = mem;
         this.context = context;
+        drone_cnt = mem.getMem_drone().size();
         drlist = mem.getMem_drone();
+        /*
+        if( drone_cnt != Drawer_fix.previous_drone_cnt){
+            Log.e("선택새로고침previouscount", Drawer_fix.previous_drone_cnt+"");
+            Log.e("선택새로고침dronecount", drone_cnt+"");
+        } else  {*/
         notifyDataSetChanged();
+
     }
 
     @Override
@@ -63,22 +69,17 @@ public class Drawer_fix_adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        drone_cnt = mem.getMem_drone().size();
-        if (position==0) {
-            lastChecked = ((Fix_Viewholder) holder).radioButton;
-            mCheckedPostion=position;
-        }
         ((Fix_Viewholder) holder).setDrone1(drlist.get(position));
         ((Fix_Viewholder) holder).radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(lastChecked !=null){
-                    lastChecked.setChecked(false);
-                    lastChecked = ((Fix_Viewholder) holder).radioButton;
-                    mCheckedPostion=position;
-                }else {
+                if (lastChecked != null) {
+                    Drawer_fix.lastChecked.setChecked(false);
+                    Drawer_fix.lastChecked = ((Fix_Viewholder) holder).radioButton;
+                    Drawer_fix.mCheckedPostion = position;
+                } else {
                     ((Fix_Viewholder) holder).radioButton.setChecked(true);
-                    lastChecked = ((Fix_Viewholder) holder).radioButton;
+                    Drawer_fix.lastChecked = ((Fix_Viewholder) holder).radioButton;
                 }
             }
         });
@@ -86,6 +87,7 @@ public class Drawer_fix_adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ((Fix_Viewholder) holder).radioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 /** 클릭 한 드론의 이름으로 서버에서 해당드론의 대표 이미지를 가져옴 **/
                 NetworkManager.getInstance().getDroneSearch(MyApplication.getContext(), mem.getMem_drone().get(position).getDr_name(), new NetworkManager.OnResultListener<DroneSearchResult>() {
                     @Override
@@ -95,7 +97,6 @@ public class Drawer_fix_adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                 .load(url)
                                 .into(imageView);
                     }
-
                     @Override
                     public void onFail(Request request, IOException exception) {
                     }
@@ -117,7 +118,6 @@ public class Drawer_fix_adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ((Fix_Viewholder) holder).checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });*/
 //        if (isChecked==true){

@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -50,8 +50,12 @@ import okhttp3.Request;
 
 public class Drawer_fix extends BaseActivity {
 
-    int previous_drone_cnt;
+    static int previous_drone_cnt;
     int current_drone_cnt;
+    static boolean ok_btn = false;
+    static boolean back_btn = false;
+    static boolean first_init = true;
+    static RadioButton lastChecked = null;
     Member member;
     EditText nickname;
     ImageView im;
@@ -62,11 +66,12 @@ public class Drawer_fix extends BaseActivity {
     Drawer_fix_adapter adap1;
     Toolbar mToolbar;
     InputMethodManager inputMethodManager;
+    static int mCheckedPostion;
     private String mem_id = PropertyManager.getInstance().getId();
-    static int init=0;
 
     @Override
     public void onBackPressed() {
+            back_btn = true;
         if ( previous_drone_cnt != current_drone_cnt){
             String dr_select;
             List<String> dr_delete2 = new ArrayList();
@@ -83,7 +88,7 @@ public class Drawer_fix extends BaseActivity {
                 //member.getMem_name()
                 @Override
                 public void onSuccess(Request request, Object result) {
-                  finish();
+                    finish();
                 }
 
                 @Override
@@ -128,6 +133,7 @@ public class Drawer_fix extends BaseActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() { //뒤로가기
             @Override
             public void onClick(View view) {
+                back_btn = true;
                 if ( previous_drone_cnt != current_drone_cnt){
                     String dr_select;
                     List<String> dr_delete2 = new ArrayList();
@@ -189,11 +195,11 @@ public class Drawer_fix extends BaseActivity {
         adddrone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(member.getMem_drone().size() < 5) {
+                if(member.getMem_drone().size() < 4) {
                     CustomDialog7 dialog = new CustomDialog7(Drawer_fix.this);
                     dialog.show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "드론은 5개 이하만 소유 가능합니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "드론은 4개 이하만 소유 가능합니다.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -201,8 +207,6 @@ public class Drawer_fix extends BaseActivity {
         okokok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("okbutton 후 드론개수", adap1.drone_cnt + "");
-                Log.e("okbutton 후 드론 카운트", adap1.check_cnt + "");
                 if (nickname.getText().toString() == "") {
                     Toast.makeText(Drawer_fix.this, "닉네임을 입력하세요", Toast.LENGTH_SHORT).show();
                 } else if (nickname.getText().toString().length() < 2 || nickname.getText().toString().length() > 5) {
@@ -220,7 +224,7 @@ public class Drawer_fix extends BaseActivity {
                         dr_delete2.add(member.getMem_drone().get(dr_delete1.get(i)).getDr_name());
                     }
                     if (member.getMem_drone().isEmpty() != true) {
-                        dr_select = member.getMem_drone().get(adap1.mCheckedPostion).getDr_name();
+                        dr_select = member.getMem_drone().get(mCheckedPostion).getDr_name();
                     } else {
                         dr_select = null;
                     }
@@ -229,6 +233,7 @@ public class Drawer_fix extends BaseActivity {
                         //member.getMem_name()
                         @Override
                         public void onSuccess(Request request, Object result) {
+                            ok_btn = true;
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
                             finish();
@@ -242,7 +247,7 @@ public class Drawer_fix extends BaseActivity {
             }
         });
     }
-/** 드론 추가용 목록(검색) 다이얼로그 **/
+    /** 드론 추가용 목록(검색) 다이얼로그 **/
     class CustomDialog7 extends Dialog {
 
         EditText editText;
@@ -272,7 +277,6 @@ public class Drawer_fix extends BaseActivity {
             //nonono=(Button)findViewById(R.id.nonono);
             //nonono.setVisibility(View.GONE);
 
-
             /** 다이얼로그 키보드 올라가면 안올라가게 설정!**/
 /*
             editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -289,7 +293,7 @@ public class Drawer_fix extends BaseActivity {
             recy.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             recy.setLayoutManager(layoutManager);
 
-           // inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            // inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
             inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0); // 키보드 내리기
             adap.setOnItemClickListener(new DronePickDialogAdapter.OnItemClickListener() {
                 @Override
@@ -309,9 +313,9 @@ public class Drawer_fix extends BaseActivity {
                                 @Override
                                 public void onSuccess(Request request, MemberResult result) {
                                     member = result.getResult();
-                                    adap1.setMem(member, getApplicationContext());
                                     adap1.drone_cnt++; // 드론 목록의 드론갯수 +1
                                     current_drone_cnt++;
+                                    adap1.setMem(member, getApplicationContext());
                                     inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0); // 키보드 내리기
                                     dismiss();
                                 }

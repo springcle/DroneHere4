@@ -1334,6 +1334,9 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                                     dr_wind = Double.parseDouble(wind_click);
                                     l_sunrise = Long.parseLong(sunrise_click);
                                     l_sunset = Long.parseLong(sunset_click);
+                                    Log.e("일출",l_sunrise+"");
+                                    Log.e("일몰",l_sunset+"");
+                                    Log.e("현탐",now+"");
 
                                     if (liesInside[1][0] == false && liesInside[1][1] == false && liesInside[1][2] == false)
                                         bool1[0] = 1;

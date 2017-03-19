@@ -8,13 +8,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="15dp">
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="New Text"
+            android:textSize="10dp"
             android:id="@+id/dc6text" />
     </ScrollView>
 

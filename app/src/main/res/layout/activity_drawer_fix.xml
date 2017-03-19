@@ -10,7 +10,7 @@
     android:orientation="vertical"
     android:weightSum="10"
     tools:context="com.example.ksj_notebook.dronehere.Drawer.Drawer_fix">
-<!-- 프로필 수정 페이지 (xml) -->
+    <!-- 프로필 수정 페이지 (xml) -->
 
     <include
         layout="@layout/toolbar_toolbar"
@@ -69,6 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
+                    android:layout_marginLeft="5dp"
                     android:orientation="horizontal">
 
                     <EditText
