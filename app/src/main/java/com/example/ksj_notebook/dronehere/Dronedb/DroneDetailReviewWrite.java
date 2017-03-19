@@ -96,6 +96,7 @@ public class DroneDetailReviewWrite extends BaseActivity {
                     vibrator.vibrate(100);
                 } else {
                     Toast.makeText(getApplicationContext(), "내용을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    vibrator.vibrate(100);
                 }
 
 

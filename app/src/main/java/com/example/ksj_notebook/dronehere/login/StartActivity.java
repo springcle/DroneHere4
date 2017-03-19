@@ -223,11 +223,8 @@ public class StartActivity extends BaseActivity {
                 //startActivity(intent);
                 //finish();
             } else {
-                Log.w("완전실패","완전");
                 String errorCode = mOAuthLoginModule.getLastErrorCode(StartActivity.this).getCode();
                 String errorDesc = mOAuthLoginModule.getLastErrorDesc(StartActivity.this);
-                Toast.makeText(StartActivity.this, "errorCode:" + errorCode
-                        + ", errorDesc:" + errorDesc, Toast.LENGTH_SHORT).show();
             }
         };
     };
