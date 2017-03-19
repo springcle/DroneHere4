@@ -6,5 +6,8 @@
     <dimen name="navigation_icon_size">24dp</dimen>
     <integer name="duration_bar">800</integer>
     <integer name="duration_search">800</integer>
+    <dimen name="fab_size">56dp</dimen>
 
+    <dimen name="button_elevation">2dp</dimen>
+    <dimen name="button_press_elevation">4dp</dimen>
 </resources>

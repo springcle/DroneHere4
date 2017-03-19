@@ -19,6 +19,8 @@ import static com.example.ksj_notebook.dronehere.MyApplication.getContext;
 
 public class DetailPagerAdapter  extends PagerAdapter{
 
+    /** 드론 상세 (디테일) 뷰페이저의 이미지 부분 **/
+
 
     private ArrayList<String> ImageList = DroneDetail.getImageList();
 
