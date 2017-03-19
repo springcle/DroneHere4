@@ -8,6 +8,6 @@
     <integer name="duration_search">800</integer>
     <dimen name="fab_size">56dp</dimen>
 
-    <dimen name="button_elevation">2dp</dimen>
-    <dimen name="button_press_elevation">4dp</dimen>
+    <dimen name="button_elevation">5dp</dimen>
+    <dimen name="button_press_elevation">30dp</dimen>
 </resources>
