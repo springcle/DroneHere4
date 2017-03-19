@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
-
+<!--드론백과 리싸이클러뷰 안의 아이템 (xml)-->
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"

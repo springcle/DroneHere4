@@ -1,6 +1,7 @@
 package com.example.ksj_notebook.dronehere.Dronedb;
 
 import android.content.Intent;
+import android.graphics.Outline;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -54,7 +56,7 @@ public class DroneDetail extends BaseActivity implements ViewPager.OnPageChangeL
             window.setStatusBarColor(getResources().getColor(R.color.status2));
         }
 
-        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.setting_toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.setting_toolbar);
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);//title hidden
@@ -83,6 +85,30 @@ public class DroneDetail extends BaseActivity implements ViewPager.OnPageChangeL
 
 
 
+      /*  if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            int size = getResources().getDimensionPixelSize(R.dimen.fab_size);
+            Outline outline = null;
+            outline = new Outline();
+            outline.setOval(0, 0, size, size);
+            findViewById(R.id.dtdt).setOutline(outline);
+        }
+*/
+        ViewOutlineProvider viewOutlineProvider = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            viewOutlineProvider = new ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    // Or read size directly from the view's width/height
+                    int size = getResources().getDimensionPixelSize(R.dimen.fab_size);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        outline.setOval(0, 0, size, size);
+                    }
+                }
+            };
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dt_float.setOutlineProvider(viewOutlineProvider);
+        }
 
         dt_float.setOnClickListener(new View.OnClickListener() {
             @Override
