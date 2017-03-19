@@ -34,7 +34,7 @@
                 android:textColor="#ffe4e4e4"
                 android:textColorHint="#ffe4e4e4"
                 android:textSize="12dp" />
-            <com.example.ksj_notebook.dronehere.Dronedb.MySpinner
+            <com.santamaria.dronehere.Dronedb.MySpinner
                 android:id="@+id/spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"

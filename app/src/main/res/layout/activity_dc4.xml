@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2D79C3"
-    tools:context="com.example.ksj_notebook.dronehere.Drawercontent.Dc4">
+    tools:context="com.santamaria.dronehere.Drawercontent.Dc4">
 
 
     <android.support.v4.view.ViewPager

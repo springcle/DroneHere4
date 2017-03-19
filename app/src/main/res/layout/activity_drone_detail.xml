@@ -3,19 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ksj_notebook.dronehere.Dronedb.DroneDetail">
+    tools:context="com.santamaria.dronehere.Dronedb.DroneDetail">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- 드론 상세 페이지 부분 (xml)인데, 여길왜 리싸이클러뷰로 만든거지? ㅡㅡ -->
+
 
     <include
         layout="@layout/toolbar_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></include>
+        android:layout_height="wrap_content"
 
+        android:id="@+id/include"></include>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/dbdetailrecy" />
+        android:id="@+id/dbdetailrecy"
+        android:layout_below="@+id/include"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <ImageButton
         android:layout_width="57dp"
         android:layout_height="57dp"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eaeaea"
-    tools:context="com.example.ksj_notebook.dronehere.Drawercontent.Dc1">
+    tools:context="com.santamaria.dronehere.Drawercontent.Dc1">
 
 
     <TextView

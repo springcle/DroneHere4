@@ -9,7 +9,7 @@
 
 
     <!-- 드론 별점 남기기 (xml) -->
-    <TextView
+    <!--<TextView
         android:id="@+id/drrv_name"
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -19,7 +19,15 @@
         android:paddingLeft="15dp"
         android:text="New Text"
         android:textColor="#ffffff"
-        android:textSize="20dp" />
+        android:textSize="20dp" />-->
+
+
+    <include
+        layout="@layout/toolbar_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/include"></include>
 
     <TextView
         android:layout_marginTop="50dp"

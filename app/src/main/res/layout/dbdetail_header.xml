@@ -55,7 +55,12 @@
          </LinearLayout>
 
      </HorizontalScrollView>-->
+  <!--  <include
+        layout="@layout/toolbar_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
+        ></include>--><!--
     <TextView
         android:id="@+id/droneName"
         android:layout_width="match_parent"
@@ -64,9 +69,8 @@
         android:background="#2C78C3"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
-        android:textColor="#ffffff"
-        android:textSize="20dp" />
-
+        />
+-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
