@@ -38,6 +38,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.UiSettings;
 import com.santamaria.dronehere.Dronedb.TabDrone;
 import com.santamaria.dronehere.MainActivity;
 import com.santamaria.dronehere.MyApplication;
@@ -526,6 +527,8 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
         myLocation.setEnabled(false);
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        UiSettings mUiSettings = mMap.getUiSettings();
+        mUiSettings.setCompassEnabled(false);
         try {
             prohibit_layer = new KmlLayer(mMap, R.raw.prohibit, context);
             prohibit_layer.addLayerToMap();
