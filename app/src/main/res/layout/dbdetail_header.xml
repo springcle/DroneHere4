@@ -198,7 +198,8 @@
             android:layout_marginTop="18dp"
             android:text="기본 스펙"
             android:textColor="#3b89dd"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/textView21"
@@ -210,7 +211,8 @@
             android:gravity="right"
             android:text="비행시간"
             android:textColor="#cc474747"
-            android:textSize="13dp" />
+            android:textSize="13dp"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/textView22"
@@ -222,7 +224,8 @@
             android:gravity="right"
             android:text="조종거리"
             android:textColor="#cc474747"
-            android:textSize="13dp" />
+            android:textSize="13dp"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/textView23"
@@ -246,7 +249,8 @@
             android:gravity="right"
             android:text="영상"
             android:textColor="#cc474747"
-            android:textSize="13dp" />
+            android:textSize="13dp"
+            android:layout_alignLeft="@+id/textView23" />
 
         <ImageView
             android:id="@+id/progressBar1"
@@ -255,7 +259,8 @@
             android:layout_alignTop="@+id/textView21"
             android:layout_marginLeft="10dp"
             android:layout_toEndOf="@+id/textView21"
-            android:background="#eaeaea" />
+            android:background="#eaeaea"
+            android:layout_toRightOf="@+id/textView21" />
 
 
         <ImageView
@@ -265,7 +270,8 @@
             android:layout_alignTop="@+id/textView22"
             android:layout_marginLeft="10dp"
             android:layout_toEndOf="@+id/textView22"
-            android:background="#eaeaea" />
+            android:background="#eaeaea"
+            android:layout_toRightOf="@+id/textView22" />
 
 
         <ImageView
@@ -275,7 +281,8 @@
             android:layout_alignTop="@+id/textView21"
             android:layout_marginLeft="10dp"
             android:layout_toEndOf="@+id/textView21"
-            android:src="@drawable/clip" />
+            android:src="@drawable/clip"
+            android:layout_toRightOf="@+id/textView21" />
 
         <ImageView
             android:id="@+id/progressBar22"
@@ -284,7 +291,8 @@
             android:layout_alignTop="@+id/textView22"
             android:layout_marginLeft="10dp"
             android:layout_toEndOf="@+id/textView22"
-            android:src="@drawable/clip" />
+            android:src="@drawable/clip"
+            android:layout_toRightOf="@+id/textView22" />
 
         <TextView
             android:id="@+id/dt_flight"
@@ -295,7 +303,8 @@
             android:layout_toEndOf="@+id/progressBar1"
             android:text="New Text"
             android:textColor="#cc474747"
-            android:textSize="13dp" />
+            android:textSize="13dp"
+            android:layout_toRightOf="@+id/progressBar1" />
 
         <TextView
             android:id="@+id/dt_range"
@@ -306,7 +315,8 @@
             android:layout_toEndOf="@+id/progressBar2"
             android:text="New Text"
             android:textColor="#cc474747"
-            android:textSize="13dp" />
+            android:textSize="13dp"
+            android:layout_toRightOf="@+id/progressBar2" />
 
         <TextView
             android:id="@+id/dt_pic"
@@ -331,7 +341,8 @@
             android:layout_toEndOf="@+id/textView24"
             android:text="New Text"
             android:textColor="#cc474747"
-            android:textSize="13dp" />
+            android:textSize="13dp"
+            android:layout_toRightOf="@+id/textView24" />
         <Button
             android:id="@+id/imbtn"
             android:layout_width="match_parent"
