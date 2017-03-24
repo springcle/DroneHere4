@@ -161,7 +161,15 @@ public class DrawerFragment extends Fragment {
                 }
             });
         } else {
-            edit.setEnabled(false);
+           // edit.setEnabled(false);
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "로그인 후 이용해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "비회원은 팬텀4 기종으로 비행 가능 여부 확인합니다", Toast.LENGTH_LONG).show();
+                }
+            });
+
             drawer_nick.setText("비회원");
         }
         // 빈 레이아웃(햄버거 바 뒤에 지도 스크롤 방지)

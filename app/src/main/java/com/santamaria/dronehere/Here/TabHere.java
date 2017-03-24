@@ -102,8 +102,10 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     final static int RESULT_OK = -1;
     final static int RESULT_CANCELED = 0;
 
-    /** 내 위치 버튼 애니매이션 **/
-    int animation_cnt=0;
+    /**
+     * 내 위치 버튼 애니매이션
+     **/
+    int animation_cnt = 0;
     Animation animation;
     Animation animation2;
 
@@ -196,8 +198,8 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     /**
      * 4대 비행가능 공식(자기장, 풍속제한, 일출일몰, 비행구역) 중 1개라도 부합하지 않을경우, 비행 불가능 표시를 하기위한 변수
      **/
-    int[] bool = new int[4];
-    int[] bool1 = new int[4];
+    int[] bool = new int[4]; // 내 위치에 해당하는 지역의 4대비행 가능유무를 표시하기 위한 변수
+    int[] bool1 = new int[4]; // 롱클릭할때 해당 지역의 4대비행 가능유무를 표시하기 위한 변수
 
     /**
      * 유저의 드론 유/무 판단
@@ -266,7 +268,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
         /** 슬라이딩 패널**/
         tab_pager = (ViewPager) view.findViewById(R.id.sliding_viewpager);
           /*  tab_pager.setEnabled(false);*/
-        sliding_panel_btn_selector = (LinearLayout)view.findViewById(R.id.sliding_panel_btn_selector);
+        sliding_panel_btn_selector = (LinearLayout) view.findViewById(R.id.sliding_panel_btn_selector);
         sliding = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanel_layout);
         sliding.setAnchorPoint(1.0f);
         sliding.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
@@ -289,13 +291,14 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
+
             @Override
             public void onPageSelected(int position) {
                  /* 슬라이드 패널 올린뒤 스와이프하면 선택되는 페이지
                 *  슬라이딩패널 RecyclerView 대응된 버전 사용함. (setScrollableView)
                 *  0번,1번 페이지를 선택하면 위아래로 스크롤이 되도록 설정.
                 * */
-               // sliding.setScrollableView(fragmentList.get(0).getView().findViewById(R.id.newslist));
+                // sliding.setScrollableView(fragmentList.get(0).getView().findViewById(R.id.newslist));
                 /*
                 if (position != 0) {
                     sliding.setScrollableView(fragmentList.get(0).getView().findViewById(R.id.nested22));
@@ -304,13 +307,13 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
                 }*/
                 //sliding.setScrollableView(fragmentList.get(1).getView().findViewById(R.id.ryview));
                 // 위아래 스크롤이 뻑뻑하여 setNestedScrollingEnabled(false)로 설정해주었다.
-           //     Log.e("선택한 뷰페이저",""+fragmentList.get(position));
+                //     Log.e("선택한 뷰페이저",""+fragmentList.get(position));
                 sliding.setScrollableView((fragmentList.get(position).getView().findViewById(R.id.nested22)));
                 sliding.setScrollableView(fragmentList.get(position).getView().findViewById(R.id.ryview));
                 /** 페이지 스와이프 시 상단의 메뉴 버튼 활성화된 이미지로 변경**/
-                if(position == 0){
+                if (position == 0) {
                     sliding_panel_btn_selector.setBackgroundResource(R.drawable.on_dronenews);
-                } else if(position == 1){
+                } else if (position == 1) {
                     sliding_panel_btn_selector.setBackgroundResource(R.drawable.on_dronedb);
                 }
             }
@@ -329,7 +332,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
 
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-       // TODO 슬라이딩패널 랩 가동시 사용! 펼쳐지면 내려가지 않도록 수정하거나 드론뉴스 스크롤 고치기! sliding패널 예제로 진행
+                // TODO 슬라이딩패널 랩 가동시 사용! 펼쳐지면 내려가지 않도록 수정하거나 드론뉴스 스크롤 고치기! sliding패널 예제로 진행
 
 
         /*        if (previousState != SlidingUpPanelLayout.PanelState.EXPANDED && previousState != SlidingUpPanelLayout.PanelState.ANCHORED){
@@ -364,8 +367,6 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
 
             }
         });
-
-
 
 
         tab_pager.setCurrentItem(0);
@@ -518,6 +519,7 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
             backPressCloseHandler.onBackPressed();
         }
     }
+
     /**
      * 구글맵이 준비되면 4대 공역 레이어 형성, 마커 이벤트리스너 생성 및 대한민국으로 카메라 이동
      **/
@@ -551,7 +553,7 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
         mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
             @Override
             public void onCameraMoveStarted(int i) {
-                if(animation_cnt == 0) {
+                if (animation_cnt == 0) {
                     animation.cancel();
                     animation.reset();
                     animation = AnimationUtils.loadAnimation(context, R.anim.mylocation);
@@ -586,6 +588,7 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
         }, 1500);
 
     }
+
     /**
      * 장소검색용 가로 형태 다이얼로그
      **/
@@ -685,7 +688,6 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
     }
 
 
-
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
 //            GroundOverlayOptions overlayOptions1 = new GroundOverlayOptions().
@@ -728,7 +730,7 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
             }
         } else if (mem_id != "" && drone_exist == false) { // drone_exist : false면 터치 시 커스텀 다이얼로그 비활성화
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_not_drone));
-        } else {
+        } else { // 비회원이면,
             drone_exist = true; // 드론 유/무 확인 후 창 비활성화 용도 인데, 비회원 일때도 커스텀다이얼로그를 활성화 시킨 후 로그인 시켜야하므로 true값을 넣어줌
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1_unable));
         }
@@ -742,6 +744,8 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
     public boolean onMarkerClick(Marker marker) {
         flying_state_Dialog my_marker_dialog;
         flying_state_Dialog click_marker_dialog;
+
+
         if (drone_exist == true && marker.equals(clickMarker)) { /** 클릭 마커 클릭 시 **/
             click_marker_dialog = new flying_state_Dialog(context, bool1);
             click_marker_dialog.setCanceledOnTouchOutside(true);
@@ -846,7 +850,13 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
                 t1.setImageResource(R.drawable.no_fly_place_text);
             }
 
-            if (mem_id != "") {
+        /*    if (mem_id != "") {
+        *
+        * 2017-03-24
+        * 회원/비회원 구분 없이 4대비행 팝업창 노출! */
+
+
+
                 /* 4대 비행가능요소를 Detail하게 표시하는 코드
                 t1.setText("공역표시");
                 if(sunrise != null && sunset != null) {
@@ -869,34 +879,40 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
                 btn.setEnabled(true);
                 btn.setClickable(true);
                 */
-                if (bool[1] == 1) {
-                    i2.setImageResource(R.drawable.fly_enable_time_image);
-                    t2.setImageResource(R.drawable.fly_enable_time_text);
-                } else {
-                    i2.setImageResource(R.drawable.no_fly_time_image);
-                    t2.setImageResource(R.drawable.no_fly_time_text);
-                }
-                if (bool[2] == 1) {
-                    i3.setImageResource(R.drawable.fly_enable_wind_image);
-                    t3.setImageResource(R.drawable.fly_enable_wind_text);
-                } else {
-                    i3.setImageResource(R.drawable.no_fly_wind_image);
-                    t3.setImageResource(R.drawable.no_fly_wind_text);
-                }
-                if (bool[3] == 1) {
-                    i4.setImageResource(R.drawable.fly_enable_magnetic_image);
-                    t4.setImageResource(R.drawable.fly_enable_magnetic_text);
-                }
-                else {
-                    i4.setImageResource(R.drawable.no_fly_magnetic_image);
-                    t4.setImageResource(R.drawable.no_fly_magnetic_text);
-                }
-                for (int j = 0; j < 4; j++) {
-                    if (bool[j] == 0) {
-                        btn.setBackgroundResource(R.drawable.not_here);
-                        return;
-                    } else btn.setBackgroundResource(R.drawable.fly_enable);
-                }
+
+
+            if (bool[1] == 1) {
+                i2.setImageResource(R.drawable.fly_enable_time_image);
+                t2.setImageResource(R.drawable.fly_enable_time_text);
+            } else {
+                i2.setImageResource(R.drawable.no_fly_time_image);
+                t2.setImageResource(R.drawable.no_fly_time_text);
+            }
+            if (bool[2] == 1) {
+                i3.setImageResource(R.drawable.fly_enable_wind_image);
+                t3.setImageResource(R.drawable.fly_enable_wind_text);
+            } else {
+                i3.setImageResource(R.drawable.no_fly_wind_image);
+                t3.setImageResource(R.drawable.no_fly_wind_text);
+            }
+            if (bool[3] == 1) {
+                i4.setImageResource(R.drawable.fly_enable_magnetic_image);
+                t4.setImageResource(R.drawable.fly_enable_magnetic_text);
+            } else {
+                i4.setImageResource(R.drawable.no_fly_magnetic_image);
+                t4.setImageResource(R.drawable.no_fly_magnetic_text);
+            }
+            for (int j = 0; j < 4; j++) {
+                if (bool[j] == 0) {
+                    btn.setBackgroundResource(R.drawable.not_here);
+                    return;
+                } else btn.setBackgroundResource(R.drawable.fly_enable);
+            }
+            /* 비회원일때 안보여주는 기능!
+
+            2017-03-24 기획자 요청으로 해당 기능 주석.
+
+
             } else {
                 i1.setImageResource(R.drawable.not_user_place_image);
                 t1.setImageResource(R.drawable.not_user_login_plz);
@@ -907,7 +923,7 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
                 i4.setImageResource(R.drawable.not_user_magnetic_image);
                 t4.setImageResource(R.drawable.not_user_login_plz);
                 btn.setBackgroundResource(R.drawable.not_user);
-            }
+            }*/
         }
 
         public flying_state_Dialog(Context context, int[] bool) {
@@ -1129,6 +1145,7 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
             }
         }, 800);
     }
+
     /**
      * 4대 비행공식 계산(내 위치)
      **/
@@ -1299,6 +1316,8 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
             }
         } else { // 비회원 일때
 
+
+/*
             drone_exist = false;
             for (int i = 0; i < 4; i++) {
                 bool[i] = 0;
@@ -1306,14 +1325,137 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
             }
             if (location != null) {
                 add_marker(location, bool);
+            }*/
+
+/**
+ 2017-03-24
+ 기획 변경으로
+ 비회원도 '드론 유(디폴트:팬텀4의 resistance)', 4대비행팝업 확인 가능하도록 수정.
+ **/
+
+            drone_exist = true;
+
+            LatLng latlng;
+            try {
+                latlng = new LatLng(location.getLatitude(), location.getLongitude());
+            } catch (NullPointerException e) {
+                e.getMessage();
+                return;
+            }
+            // liesInside[] index is..
+            // [0]: 금지구역
+            // [1]: 제한구역
+            // [2]: 관제권
+            // [3]: 위험구역
+
+            /** 비행 구역 확인 **/
+            List<KmlPolygon> polygonsInLayer0 = getPolygons(prohibit_layer.getContainers());
+            liesInside[0][0] = liesOnPolygon(polygonsInLayer0, latlng);
+            List<KmlPolygon> polygonsInLayer1 = getPolygons(restrict_layer.getContainers());
+            liesInside[0][1] = liesOnPolygon(polygonsInLayer1, latlng);
+            List<KmlPolygon> polygonsInLayer2 = getPolygons(airControlZone_layer.getContainers());
+            liesInside[0][2] = liesOnPolygon(polygonsInLayer2, latlng);
+            List<KmlPolygon> polygonsInLayer3 = getPolygons(danger_layer.getContainers());
+            liesInside[0][3] = liesOnPolygon(polygonsInLayer3, latlng);
+
+            /** 자기장 **/
+            NetworkManager.getInstance().getMag(MyApplication.getContext(), new NetworkManager.OnResultListener<MagneticResult>() {
+                @Override
+                public void onSuccess(Request request, MagneticResult result) {
+                    magnetic = result.getKindex().getCurrentK();
+                }
+
+                @Override
+                public void onFail(Request request, IOException exception) {
+                    Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            if (openWeather_count == 0) {
+                /** 풍속,일출,일몰 값 받아오기 **/
+                NetworkManager.getInstance().getWind(MyApplication.getContext(), "" + latlng.latitude, "" + latlng.longitude, new NetworkManager.OnResultListener<WeatherResult>() {
+                    @Override
+                    public void onSuccess(Request request, WeatherResult result) {
+                        wind = result.getWind().getSpeed();
+                        sunrise = result.getSun().getSunrise();
+                        sunset = result.getSun().getSunset();
+                        /** 4대 비행 공식 계산 **/
+                        if ((wind != null && sunrise != null && sunset != null)) {
+                            dr_resistance = 10.0; // 비회원은 디폴트로 팬텀4의 바람저항을 갖고 있다고 하고 4대비행팝업 보여줌.
+
+
+                            long now = System.currentTimeMillis() / 1000;
+                            double dr_wind;
+                            long l_sunrise;
+                            long l_sunset;
+                            dr_wind = Double.parseDouble(wind);
+                            l_sunrise = Long.parseLong(sunrise);
+                            l_sunset = Long.parseLong(sunset);
+                            if (liesInside[0][0] == false && liesInside[0][1] == false && liesInside[0][2] == false)
+                                bool[0] = 1;
+                            else bool[0] = 0;
+                            if (l_sunrise < now && now < l_sunset) bool[1] = 1;
+                            else bool[1] = 0;
+                            if (dr_wind < dr_resistance) bool[2] = 1;
+                            else bool[2] = 0;
+                            if (magnetic < 5) bool[3] = 1;
+                            else bool[3] = 0;
+                            // 비행 가능, 불가능 표시 마커
+                            if ((bool != null) && location != null) {
+                                add_marker(location, bool);
+                            }
+                        }
+
+
+                    }
+
+                    // 풍속,일출,일물쪽 네트워크 통신
+                    @Override
+                    public void onFail(Request request, IOException exception) {
+                        Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                openWeather_count++;
+
+            } else { // 팝업창 누르면 3번 중 한번만 openWeather API 호출함. //
+
+                /** 4대 비행 공식 계산 **/
+                if ((wind != null && sunrise != null && sunset != null)) {
+                    long now = System.currentTimeMillis() / 1000;
+                    double dr_wind;
+                    long l_sunrise;
+                    long l_sunset;
+                    dr_resistance = 10.0; // 비회원은 디폴트로 값을 정해줘서 4대비행팝업 볼 수 있도록 하였음!
+                    dr_wind = Double.parseDouble(wind);
+                    l_sunrise = Long.parseLong(sunrise);
+                    l_sunset = Long.parseLong(sunset);
+                    if (liesInside[0][0] == false && liesInside[0][1] == false && liesInside[0][2] == false)
+                        bool[0] = 1;
+                    else bool[0] = 0;
+                    if (l_sunrise < now && now < l_sunset) bool[1] = 1;
+                    else bool[1] = 0;
+                    if (dr_wind < dr_resistance) bool[2] = 1;
+                    else bool[2] = 0;
+                    if (magnetic < 5) bool[3] = 1;
+                    else bool[3] = 0;
+                    // 비행 가능, 불가능 표시 마커
+                    if ((bool != null) && location != null) {
+                        add_marker(location, bool);
+                    }
+                }
             }
         }
 
+        openWeather_count++;
+        if (openWeather_count == 3) {
+            openWeather_count = 0;
+        }
     }
+
 
     /**
      * 4대 비행공식 계산(마커 위치)
      **/
+
     public void fly_enable_check_marker(LatLng latlng) {
         if (mem_id != "") {
             // liesInside[] index is..
@@ -1371,9 +1513,9 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
                                     dr_wind = Double.parseDouble(wind_click);
                                     l_sunrise = Long.parseLong(sunrise_click);
                                     l_sunset = Long.parseLong(sunset_click);
-                              //      Log.e("일출",l_sunrise+"");
-                               //     Log.e("일몰",l_sunset+"");
-                                //    Log.e("현탐",now+"");
+                                    //      Log.e("일출",l_sunrise+"");
+                                    //     Log.e("일몰",l_sunset+"");
+                                    //    Log.e("현탐",now+"");
 
                                     if (liesInside[1][0] == false && liesInside[1][1] == false && liesInside[1][2] == false)
                                         bool1[0] = 1;
