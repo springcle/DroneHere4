@@ -48,7 +48,7 @@ public class DroneDetailReviewWrite extends BaseActivity {
             window.setStatusBarColor(getResources().getColor(R.color.status2));
         }
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-       // drrv_name = (TextView) findViewById(R.id.drrv_name);
+        // drrv_name = (TextView) findViewById(R.id.drrv_name);
         drrv_ratingbar = (RatingBar) findViewById(R.id.drrv_ratingbar);
         drrv_btn = (Button) findViewById(R.id.drrv_btn);
 
@@ -56,7 +56,7 @@ public class DroneDetailReviewWrite extends BaseActivity {
         drrv_edit.setHint("내용을 입력해 주세요 (40자 제한)");
         drrv_edit.setTypeface(Typeface.DEFAULT);
 
-     //   drrv_name.setText(getIntent().getStringExtra("dr_name"));
+        //   drrv_name.setText(getIntent().getStringExtra("dr_name"));
 
         mToolbar = (Toolbar) findViewById(R.id.setting_toolbar);
 
@@ -74,7 +74,6 @@ public class DroneDetailReviewWrite extends BaseActivity {
                 onBackPressed();
             }
         });
-
 
 
         dr_id = getIntent().getStringExtra("dr_id");
@@ -100,27 +99,32 @@ public class DroneDetailReviewWrite extends BaseActivity {
         drrv_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((drrv_edit.getText().toString().isEmpty()) != true && drrv_edit.getText().toString().length() <= 40) {
-                    String mem_id = PropertyManager.getInstance().getId();
-                    NetworkManager.getInstance().getWriteDbRv(MyApplication.getContext(), dr_id, mem_id, drrv_ratingbar.getRating(), "" + drrv_edit.getText(), new NetworkManager.OnResultListener() {
-                        @Override
-                        public void onSuccess(Request request, Object result) {
-                            Toast.makeText(getApplicationContext(), "리뷰 작성 완료!", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
+                String mem_id = PropertyManager.getInstance().getId();
+                if (mem_id != "") {
+                    if ((drrv_edit.getText().toString().isEmpty()) != true && drrv_edit.getText().toString().length() <= 40) {
 
-                        @Override
-                        public void onFail(Request request, IOException exception) {
-                        }
-                    });
-                } else if (drrv_edit.getText().toString().length() > 40 && (drrv_edit.getText().toString().isEmpty()) != true) {
-                    Toast.makeText(getApplicationContext(), "40자 이하로 입력해 주세요.", Toast.LENGTH_SHORT).show();
-                    vibrator.vibrate(100);
-                } else {
-                    Toast.makeText(getApplicationContext(), "내용을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                        NetworkManager.getInstance().getWriteDbRv(MyApplication.getContext(), dr_id, mem_id, drrv_ratingbar.getRating(), "" + drrv_edit.getText(), new NetworkManager.OnResultListener() {
+                            @Override
+                            public void onSuccess(Request request, Object result) {
+                                Toast.makeText(getApplicationContext(), "리뷰 작성 완료!", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+
+                            @Override
+                            public void onFail(Request request, IOException exception) {
+                            }
+                        });
+                    } else if (drrv_edit.getText().toString().length() > 40 && (drrv_edit.getText().toString().isEmpty()) != true) {
+                        Toast.makeText(getApplicationContext(), "40자 이하로 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                        vibrator.vibrate(100);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "내용을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                        vibrator.vibrate(100);
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "로그인 후 이용이 가능합니다.", Toast.LENGTH_SHORT).show();
                     vibrator.vibrate(100);
                 }
-
 
             }
         });
