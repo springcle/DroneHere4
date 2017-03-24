@@ -27,6 +27,7 @@ import com.santamaria.dronehere.MainActivity;
 import com.santamaria.dronehere.MyApplication;
 import com.santamaria.dronehere.R;
 import com.santamaria.dronehere.data.DroneDB;
+import com.santamaria.dronehere.data.DroneRecommendResult;
 import com.santamaria.dronehere.data.DroneSearchResult;
 import com.santamaria.dronehere.data.LoginResult;
 import com.santamaria.dronehere.manager.NetworkManager;
@@ -225,6 +226,22 @@ public class JoinDronePick extends BaseActivity {
                     dismiss();
                 }
             });
+
+
+            /** 다이얼로그 시작되면 바로 추천순으로 드론 출력 **/
+            NetworkManager.getInstance().getDroneRecommendRate(MyApplication.getContext(), new NetworkManager.OnResultListener<DroneRecommendResult>() {
+                @Override
+                public void onSuccess(Request request, DroneRecommendResult result) {
+                    adap.setDb3(result.getResult());
+                }
+
+                @Override
+                public void onFail(Request request, IOException exception) {
+
+                }
+            });
+
+
 
             editText.addTextChangedListener(new TextWatcher() {
                 @Override
