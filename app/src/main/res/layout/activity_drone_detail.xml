@@ -13,19 +13,28 @@
         android:layout_height="wrap_content"></include>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/dbdetailrecy"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/dbdetailrecy" />
+        android:layout_height="match_parent" />
+
     <ImageButton
+        android:id="@+id/dtdt"
         android:layout_width="57dp"
         android:layout_height="57dp"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/button_ripple"
-        android:stateListAnimator="@anim/anim"
         android:src="@drawable/flo_2"
-        android:elevation="4dp"
-        android:id="@+id/dtdt"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp" />
+        android:stateListAnimator="@animator/anim" />
+
+    <!--android:elevation="5dp"-->
+    <!--android:stateListAnimator="@animator/anim"
+
+    android:layout_alignParentEnd="true"
+    android:layout_marginEnd="16dp"-->
+    <!--android:elevation="5dp"-->
+
+
 </RelativeLayout>
