@@ -9,7 +9,7 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical"
     android:weightSum="10"
-    tools:context="com.example.ksj_notebook.dronehere.Drawer.Drawer_fix">
+    tools:context="com.santamaria.dronehere.Drawer.Drawer_fix">
     <!-- 프로필 수정 페이지 (xml) -->
 
     <include

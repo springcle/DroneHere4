@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.ksj_notebook.dronehere.Dronedb.DroneDetail">
+    android:layout_height="match_parent">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -35,6 +34,5 @@
     android:layout_alignParentEnd="true"
     android:layout_marginEnd="16dp"-->
     <!--android:elevation="5dp"-->
-
 
 </RelativeLayout>

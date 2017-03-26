@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "748517424605",
+    "firebase_url": "https://dronehere-162016.firebaseio.com",
+    "project_id": "dronehere-162016",
+    "storage_bucket": "dronehere-162016.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:748517424605:android:e5734c643b12e86f",
+        "android_client_info": {
+          "package_name": "com.santamaria.dronehere"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "748517424605-d8om02hd8c9k54h17f5iom9eo5n10ike.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.santamaria.dronehere",
+            "certificate_hash": "b1a45d87eedde49af785622b744a9b3a156b5be5"
+          }
+        },
+        {
+          "client_id": "748517424605-j02s2jnjf4abla1u5tujda0553tji10o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.santamaria.dronehere",
+            "certificate_hash": "2c64dc752b9d023eda4897ea50267c39cc2ac5aa"
+          }
+        },
+        {
+          "client_id": "748517424605-n518nbd3dears3gjcmsfknidvmb01h2o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyJmtb6EtWGslMawvljS5LQzyotzI4ph4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "748517424605-n518nbd3dears3gjcmsfknidvmb01h2o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

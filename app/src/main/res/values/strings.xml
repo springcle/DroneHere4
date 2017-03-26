@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Drone Here</string>
 
+    <string name="facebook_id">1025639014202664</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

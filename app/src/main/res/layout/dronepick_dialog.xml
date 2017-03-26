@@ -7,7 +7,7 @@
     android:layout_gravity="center"
     android:background="@color/cardview_light_background"
     android:orientation="vertical"
-    tools:context="com.example.ksj_notebook.dronehere.Drawer.Drawer_fix">
+    tools:context="com.santamaria.dronehere.Drawer.Drawer_fix">
 
     <!-- 드론 추가, 선택 다이얼로그 -->
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ksj_notebook.dronehere.Drawercontent.Dc5">
+    tools:context="com.santamaria.dronehere.Drawercontent.Dc5">
 
     <ScrollView
         android:layout_width="match_parent"
