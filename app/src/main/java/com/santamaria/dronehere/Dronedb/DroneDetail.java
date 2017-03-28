@@ -100,6 +100,8 @@ public class DroneDetail extends BaseActivity implements ViewPager.OnPageChangeL
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),DroneDetailReviewWrite.class);
+
+
                 intent.putExtra("dr_name", db.getDr_name());
                 intent.putExtra("dr_id",db.get_id());
                 startActivity(intent);

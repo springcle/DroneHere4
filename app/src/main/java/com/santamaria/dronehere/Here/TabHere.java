@@ -135,7 +135,7 @@ public class TabHere extends Fragment implements GoogleApiClient.OnConnectionFai
     Button search_place;
 
     /**
-     * 햄버거바, 내위치 버튼(카메라이동)
+     * ㅁ햄버거바, 내위치 버튼(카메라이동)
      **/
     Button myLocation;
     Button hamberger;
@@ -1259,6 +1259,9 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
             } else {
                 /** 4대 비행 공식 계산 **/
                 if ((wind != null && sunrise != null && sunset != null)) {
+
+                    Log.e("내아이디","내놔"+mem_id);
+
                     NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
                         @Override
                         public void onSuccess(Request request, DroneResistanceResult result) {
