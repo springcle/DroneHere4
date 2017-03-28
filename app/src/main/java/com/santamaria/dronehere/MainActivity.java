@@ -1,7 +1,6 @@
 package com.santamaria.dronehere;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
@@ -14,7 +13,6 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.test.mock.MockPackageManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;

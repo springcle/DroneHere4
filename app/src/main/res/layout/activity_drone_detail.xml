@@ -2,38 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.santamaria.dronehere.Dronedb.DroneDetail">
+    android:layout_height="match_parent">
 
-    <!-- 드론 상세 페이지 부분 (xml)인데, 여길왜 리싸이클러뷰로 만든거지? ㅡㅡ -->
-
+    <!-- TODO: Update blank fragment layout -->
 
     <include
-        android:id="@+id/include"
         layout="@layout/toolbar_toolbar"
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"></include>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/dbdetailrecy"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/include" />
+        android:layout_height="match_parent" />
 
     <ImageButton
         android:id="@+id/dtdt"
         android:layout_width="57dp"
         android:layout_height="57dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:background="#00000000"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button_ripple"
         android:src="@drawable/flo_2"
-
-
         android:stateListAnimator="@animator/anim" />
+
+    <!--android:elevation="5dp"-->
+    <!--android:stateListAnimator="@animator/anim"
+
+    android:layout_alignParentEnd="true"
+    android:layout_marginEnd="16dp"-->
+    <!--android:elevation="5dp"-->
+
 </RelativeLayout>

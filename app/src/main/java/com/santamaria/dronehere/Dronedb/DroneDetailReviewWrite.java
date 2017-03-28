@@ -14,7 +14,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.santamaria.dronehere.BaseActivity;
@@ -59,8 +58,6 @@ public class DroneDetailReviewWrite extends BaseActivity {
         //   drrv_name.setText(getIntent().getStringExtra("dr_name"));
 
         mToolbar = (Toolbar) findViewById(R.id.setting_toolbar);
-
-
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);//title hidden
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //back icon
@@ -72,9 +69,9 @@ public class DroneDetailReviewWrite extends BaseActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+                finish();
             }
         });
-
 
         dr_id = getIntent().getStringExtra("dr_id");
         drrv_edit.addTextChangedListener(new TextWatcher() {

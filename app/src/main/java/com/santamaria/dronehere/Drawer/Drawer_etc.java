@@ -3,6 +3,7 @@ package com.santamaria.dronehere.Drawer;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,7 +34,7 @@ public class Drawer_etc extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_etc);
 
-        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.setting_toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.setting_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);//title hidden
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //back icon

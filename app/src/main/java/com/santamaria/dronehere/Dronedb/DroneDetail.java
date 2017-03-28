@@ -13,7 +13,7 @@ import android.view.ViewOutlineProvider;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.santamaria.dronehere.BaseActivity;
 import com.santamaria.dronehere.MyApplication;
@@ -21,6 +21,7 @@ import com.santamaria.dronehere.R;
 import com.santamaria.dronehere.data.DroneDB;
 import com.santamaria.dronehere.data.DroneDetailResult;
 import com.santamaria.dronehere.manager.NetworkManager;
+import com.santamaria.dronehere.manager.PropertyManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class DroneDetail extends BaseActivity implements ViewPager.OnPageChangeL
     String _id;
     DroneDB db;
     Toolbar mToolbar;
-
+    String mem_id;
     public static ArrayList<String> imageList = new ArrayList<>();
 
 
@@ -56,15 +57,14 @@ public class DroneDetail extends BaseActivity implements ViewPager.OnPageChangeL
             window.setStatusBarColor(getResources().getColor(R.color.status2));
         }
 
+        mem_id = PropertyManager.getInstance().getId();
+
+        dtAdapter = new DroneDetailAdapter();
+        recyclerView = (RecyclerView) findViewById(R.id.dbdetailrecy);
+        dt_float = (ImageButton) findViewById(R.id.dtdt);
 
 
-        dtAdapter=new DroneDetailAdapter();
-        recyclerView=(RecyclerView)findViewById(R.id.dbdetailrecy);
-        dt_float=(ImageButton)findViewById(R.id.dtdt);
-
-
-
-        _id=getIntent().getStringExtra("_id");
+        _id = getIntent().getStringExtra("_id");
         recyclerView.setAdapter(dtAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -96,75 +96,73 @@ public class DroneDetail extends BaseActivity implements ViewPager.OnPageChangeL
             dt_float.setOutlineProvider(viewOutlineProvider);
         }
 
-        dt_float.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),DroneDetailReviewWrite.class);
-
-
-                intent.putExtra("dr_name", db.getDr_name());
-                intent.putExtra("dr_id",db.get_id());
-                startActivity(intent);
-            }
-        });
-
-
-
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
         NetworkManager.getInstance().getDroneDetail(MyApplication.getContext(),_id,new NetworkManager.OnResultListener<DroneDetailResult>() {
             @Override
             public void onSuccess(Request request, DroneDetailResult result) {
                 db=result.getResult();
-
                 dtAdapter.setDb(db);
-
                 setImageList(db.getDr_photoArr());
-
                 mToolbar = (Toolbar) findViewById(R.id.setting_toolbar);
-
-
                 setSupportActionBar(mToolbar);
                 getSupportActionBar().setDisplayShowTitleEnabled(false);//title hidden
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true); //back icon
+                mToolbar.setNavigationIcon(R.drawable.edit_back_btn);
                 mToolbar.setTitle(db.getDr_name());
                 mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
-                mToolbar.setNavigationIcon(R.drawable.edit_back_btn);
-
                 mToolbar.setNavigationOnClickListener(new View.OnClickListener() { //뒤로가기
                     @Override
                     public void onClick(View view) {
                         onBackPressed();
+                        finish();
                     }
                 });
+                if(mem_id != ""){
+                    dt_float.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getApplicationContext(), DroneDetailReviewWrite.class);
+                            intent.putExtra("dr_name", db.getDr_name());
+                            intent.putExtra("dr_id", db.get_id());
+                            startActivity(intent);
+                        }
+                    });
+                } else if(mem_id == "") {
+                    dt_float.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getApplicationContext(), "로그인 후 리뷰작성이 가능합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
-
             @Override
             public void onFail(Request request, IOException exception) {
-
+                if(mem_id != ""){
+                    dt_float.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getApplicationContext(), "서버 장애로 데이터를 받아 올 수 없습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else if(mem_id == "") {
+                    dt_float.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getApplicationContext(), "로그인 후 리뷰작성이 가능합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
-
-
         });
-
-
     }
 
-
-
-
-
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
     }
 
     @Override

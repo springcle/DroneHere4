@@ -29,7 +29,7 @@ import com.santamaria.dronehere.R;
 import com.santamaria.dronehere.data.DroneDB;
 import com.santamaria.dronehere.data.DroneRecommendResult;
 import com.santamaria.dronehere.data.DroneSearchResult;
-import com.santamaria.dronehere.data.LoginResult;
+import com.santamaria.dronehere.data.UserLoginResult;
 import com.santamaria.dronehere.manager.NetworkManager;
 import com.santamaria.dronehere.manager.PropertyManager;
 
@@ -155,10 +155,10 @@ public class JoinDronePick extends BaseActivity {
                         @Override
                         public void onSuccess(Request request, Object result) {
 
-                            NetworkManager.getInstance().getLogin(MyApplication.getContext(), mem_email, mem_pass, new NetworkManager.OnResultListener<LoginResult>() {
+                            NetworkManager.getInstance().getLogin(MyApplication.getContext(), mem_email, mem_pass, new NetworkManager.OnResultListener<UserLoginResult>() {
 
                                 @Override
-                                public void onSuccess(Request request, LoginResult result) {
+                                public void onSuccess(Request request, UserLoginResult result) {
 
                                     PropertyManager.getInstance().setId(result.getResult().getMem_id());
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);

@@ -20,7 +20,7 @@ import com.santamaria.dronehere.BaseActivity;
 import com.santamaria.dronehere.MainActivity;
 import com.santamaria.dronehere.MyApplication;
 import com.santamaria.dronehere.R;
-import com.santamaria.dronehere.data.LoginResult;
+import com.santamaria.dronehere.data.UserLoginResult;
 import com.santamaria.dronehere.manager.NetworkManager;
 import com.santamaria.dronehere.manager.PropertyManager;
 
@@ -87,10 +87,10 @@ public class LoginEmail extends BaseActivity {
 
                 mem_email=email_edit.getText().toString();
                 mem_pw=pass_edit.getText().toString();
-                NetworkManager.getInstance().getLogin(MyApplication.getContext(),mem_email,mem_pw, new NetworkManager.OnResultListener<LoginResult>() {
+                NetworkManager.getInstance().getLogin(MyApplication.getContext(),mem_email,mem_pw, new NetworkManager.OnResultListener<UserLoginResult>() {
 
                     @Override
-                    public void onSuccess(Request request, LoginResult result) {
+                    public void onSuccess(Request request, UserLoginResult result) {
 
                            if(result.getMessage().equals("FAIL")){
                                Toast.makeText(LoginEmail.this, "이메일과 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();

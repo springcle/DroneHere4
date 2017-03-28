@@ -22,7 +22,6 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,22 +37,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.UiSettings;
-import com.santamaria.dronehere.Dronedb.TabDrone;
-import com.santamaria.dronehere.MainActivity;
-import com.santamaria.dronehere.MyApplication;
-import com.santamaria.dronehere.News.TabNews;
-import com.santamaria.dronehere.R;
-import com.santamaria.dronehere.data.DroneResistance;
-import com.santamaria.dronehere.data.DroneResistanceResult;
-import com.santamaria.dronehere.data.MagneticResult;
-import com.santamaria.dronehere.data.MemDrone;
-import com.santamaria.dronehere.data.WeatherResult;
-import com.santamaria.dronehere.dialog.AddDrone;
-import com.santamaria.dronehere.login.StartActivity;
-import com.santamaria.dronehere.manager.BackPressCloseHandler;
-import com.santamaria.dronehere.manager.NetworkManager;
-import com.santamaria.dronehere.manager.PropertyManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -69,6 +52,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -80,6 +64,21 @@ import com.google.maps.android.kml.KmlContainer;
 import com.google.maps.android.kml.KmlLayer;
 import com.google.maps.android.kml.KmlPlacemark;
 import com.google.maps.android.kml.KmlPolygon;
+import com.santamaria.dronehere.Dronedb.TabDrone;
+import com.santamaria.dronehere.MainActivity;
+import com.santamaria.dronehere.MyApplication;
+import com.santamaria.dronehere.News.TabNews;
+import com.santamaria.dronehere.R;
+import com.santamaria.dronehere.data.DroneResistance;
+import com.santamaria.dronehere.data.DroneResistanceResult;
+import com.santamaria.dronehere.data.MagneticResult;
+import com.santamaria.dronehere.data.MemDrone;
+import com.santamaria.dronehere.data.WeatherResult;
+import com.santamaria.dronehere.dialog.AddDrone;
+import com.santamaria.dronehere.login.StartActivity;
+import com.santamaria.dronehere.manager.BackPressCloseHandler;
+import com.santamaria.dronehere.manager.NetworkManager;
+import com.santamaria.dronehere.manager.PropertyManager;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -1260,7 +1259,7 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
                 /** 4대 비행 공식 계산 **/
                 if ((wind != null && sunrise != null && sunset != null)) {
 
-                    Log.e("내아이디","내놔"+mem_id);
+                    //Log.e("내아이디","내놔"+mem_id);
 
                     NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
                         @Override
@@ -1333,7 +1332,7 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
 /**
  2017-03-24
  기획 변경으로
- 비회원도 '드론 유(디폴트:팬텀4의 resistance)', 4대비행팝업 확인 가능하도록 수정.
+ 비회원도 '드론 유(디폴트:매빅 프로의 resistance)', 4대비행팝업 확인 가능하도록 수정.
  **/
 
             drone_exist = true;
@@ -1383,7 +1382,7 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
                         sunset = result.getSun().getSunset();
                         /** 4대 비행 공식 계산 **/
                         if ((wind != null && sunrise != null && sunset != null)) {
-                            dr_resistance = 10.0; // 비회원은 디폴트로 팬텀4의 바람저항을 갖고 있다고 하고 4대비행팝업 보여줌.
+                            dr_resistance = 10.0; // 비회원은 디폴트로 매빅 프로의 바람저항을 갖고 있다고 하고 4대비행팝업 보여줌.
 
 
                             long now = System.currentTimeMillis() / 1000;

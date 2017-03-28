@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.santamaria.dronehere.MyApplication;
 import com.santamaria.dronehere.data.AddGatheringResult;
 import com.santamaria.dronehere.data.AddReviewResult;
@@ -20,13 +22,11 @@ import com.santamaria.dronehere.data.GathWriteResult;
 import com.santamaria.dronehere.data.GatherResult;
 import com.santamaria.dronehere.data.LocaContentResult;
 import com.santamaria.dronehere.data.LocaListResult;
-import com.santamaria.dronehere.data.LoginResult;
 import com.santamaria.dronehere.data.MagneticResult;
 import com.santamaria.dronehere.data.MemberResult;
 import com.santamaria.dronehere.data.NewsResult;
+import com.santamaria.dronehere.data.UserLoginResult;
 import com.santamaria.dronehere.data.WeatherResult;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.io.File;
 import java.io.IOException;
@@ -164,7 +164,7 @@ public class NetworkManager {
 
     //로그인
     private static final String DRONE_LOGIN = DRONE_HERE + "/login";
-    public Request getLogin(Object tag, String mem_email,String mem_pw, OnResultListener<LoginResult> listener) {
+    public Request getLogin(Object tag, String mem_email, String mem_pw, OnResultListener<UserLoginResult> listener) {
 
         RequestBody body = new FormBody.Builder()
                 .add("mem_email", mem_email)
@@ -176,7 +176,7 @@ public class NetworkManager {
                 .url(url)
                 .post(body)
                 .build();
-        final NetworkResult<LoginResult> result = new NetworkResult<>();
+        final NetworkResult<UserLoginResult> result = new NetworkResult<>();
         result.request = request;
         result.listener = listener;
         mClient.newCall(request).enqueue(new Callback() {
@@ -189,7 +189,7 @@ public class NetworkManager {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    LoginResult data = gson.fromJson(response.body().charStream(), LoginResult.class);
+                    UserLoginResult data = gson.fromJson(response.body().charStream(), UserLoginResult.class);
                     result.result = data;
                     mHandler.sendMessage(mHandler.obtainMessage(MESSAGE_SUCCESS, result));
                 } else {

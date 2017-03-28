@@ -10,8 +10,8 @@ android {
         applicationId "com.santamaria.dronehere"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.2"
         multiDexEnabled true
     }
     buildTypes {
@@ -20,13 +20,24 @@ android {
             testCoverageEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+
+// 개발용 KEY
+            resValue "string", "google_maps_api_key", "AIzaSyDAY0fn2sVaOik6eQBm4Ao6pfybiLgF4Zk"
+        }
+
+        release {
+// 배포용 KEY
+            resValue "string", "google_maps_api_key", "AIzaSyA7U8uRpwaQ0TIJ-63GgNO7t8IjZoAhPiY"
+        }
+
     }
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.tsengvn:Typekit:1.0.0'
-    compile 'com.android.support:multidex:1.0.0'
+
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.support:support-v13:24.2.0'
     compile 'com.android.support:recyclerview-v7:24.2.0'
@@ -43,4 +54,11 @@ dependencies {
     compile 'com.google.maps.android:android-maps-utils:0.4.4'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile project(':SlidingUpPanel')
+
+    compile 'com.facebook.android:facebook-android-sdk:4.+'
+    compile 'com.google.firebase:firebase-core:10.0.1'
+    compile 'com.google.firebase:firebase-crash:10.0.1'
+    compile  'com.google.firebase:firebase-messaging:10.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'

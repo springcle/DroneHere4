@@ -3,7 +3,7 @@ package com.santamaria.dronehere.data;
 /**
  * Created by ksj_notebook on 2016-06-10.
  */
-public class LoginResult {
+public class UserLoginResult {
     int success;
     String message;
     Member result;

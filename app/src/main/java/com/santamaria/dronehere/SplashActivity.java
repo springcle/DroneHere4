@@ -46,7 +46,7 @@ public class SplashActivity extends BaseActivity {
                 @Override
                 public void run() {
                     if ("" ==PropertyManager.getInstance().getId()){
-                        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                         finish();
                     } else {

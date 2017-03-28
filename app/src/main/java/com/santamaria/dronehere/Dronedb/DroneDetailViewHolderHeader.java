@@ -3,7 +3,6 @@ package com.santamaria.dronehere.Dronedb;
 import android.graphics.drawable.ClipDrawable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 
 import com.santamaria.dronehere.R;
 import com.santamaria.dronehere.data.DroneDB;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by ksj_notebook on 2016-05-29.
