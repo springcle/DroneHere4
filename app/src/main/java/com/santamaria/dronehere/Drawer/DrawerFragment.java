@@ -137,20 +137,7 @@ public class DrawerFragment extends Fragment {
         program_info_btn = (Button) view.findViewById(R.id.program_info_btn);
 
 
-        GlideUrl url = new GlideUrl("http://product1.djicdn.com/uploads/photos/114/medium_4058afad-4331-40ab-9a4e-30b49c72447b.jpg");
-        Glide.with(MyApplication.getContext())
-                .load(url)
-                .asBitmap()
-                .centerCrop()
-                .into(new SimpleTarget<Bitmap>(140, 140) {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        Drawable drawable = new BitmapDrawable(resource);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                            edit.setBackground(drawable);
-                        }
-                    }
-                });
+
         return view;
     }
 
@@ -177,6 +164,22 @@ public class DrawerFragment extends Fragment {
             }
         } else { // 비회원 일 경우
             // edit.setEnabled(false);
+
+            GlideUrl url = new GlideUrl("http://product1.djicdn.com/uploads/photos/114/medium_4058afad-4331-40ab-9a4e-30b49c72447b.jpg");
+            Glide.with(MyApplication.getContext())
+                    .load(url)
+                    .asBitmap()
+                    .centerCrop()
+                    .into(new SimpleTarget<Bitmap>(140, 140) {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            Drawable drawable = new BitmapDrawable(resource);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                edit.setBackground(drawable);
+                            }
+                        }
+                    });
+
             Toast.makeText(context, "비회원은 매빅 프로 기종을 기준으로 비행 가능 여부를 확인합니다.", Toast.LENGTH_LONG).show();
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
