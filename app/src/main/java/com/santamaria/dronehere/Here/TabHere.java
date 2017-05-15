@@ -1261,6 +1261,7 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
 
                     //Log.e("내아이디","내놔"+mem_id);
 
+
                     NetworkManager.getInstance().getResistance(MyApplication.getContext(), mem_id, new NetworkManager.OnResultListener<DroneResistanceResult>() {
                         @Override
                         public void onSuccess(Request request, DroneResistanceResult result) {

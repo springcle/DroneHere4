@@ -42,26 +42,26 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void goLoginActivity() {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if ("" ==PropertyManager.getInstance().getId()){
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                /** 비회원 일 경우 startAcitvity 로 넘겨주는코드 -> 앱 시작 시 회원 구분없이 기본값이 매빅프로로 자동로그인로 변경**/
+                    /*if ("" ==PropertyManager.getInstance().getId()){
+                        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
                         startActivity(intent);
                         finish();
-                    } else {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            }, 2000);
+                    } else {*/
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 2000);
     }
 
     // GPS on/off 확인
-    public void gps_check(){
-        locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
-        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+    public void gps_check() {
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(SplashActivity.this);
             dialog.setTitle("GPS Check");
             dialog.setMessage("지역정보를 받아오기 위해 위치기능을 활성화 시킨 후 실행바랍니다.");
@@ -87,14 +87,15 @@ public class SplashActivity extends BaseActivity {
             //GPS 설정화면으로 이동
         } else {
             location_permission = checkLocationPermission();
-            if(location_permission == true){
+            if (location_permission == true) {
                 goLoginActivity();
-            } else if(location_permission == false){
+            } else if (location_permission == false) {
                 permission_check();
             }
         }
     }
-    public void permission_check(){
+
+    public void permission_check() {
         try {
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                     != MockPackageManager.PERMISSION_GRANTED) {
@@ -107,27 +108,27 @@ public class SplashActivity extends BaseActivity {
         }
 
     }
+
     // 권한 확인 체크
-    public boolean checkLocationPermission()
-    {
+    public boolean checkLocationPermission() {
         String permission = "android.permission.ACCESS_FINE_LOCATION";
         int res = this.checkCallingOrSelfPermission(permission);
         return (res == PackageManager.PERMISSION_GRANTED);
     }
+
     // 권한 확인 후 진행사항
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-       // Log.e("Req Code", "" + requestCode);
+        // Log.e("Req Code", "" + requestCode);
         if (requestCode == REQUEST_CODE_PERMISSION) {
             if (grantResults.length == 1 &&
-                    grantResults[0] == MockPackageManager.PERMISSION_GRANTED ) {
+                    grantResults[0] == MockPackageManager.PERMISSION_GRANTED) {
                 // Success Stuff here
                 goLoginActivity();
-            }
-            else{
+            } else {
                 // Failure Stuff
-                Toast.makeText(getApplicationContext(), "위치 권한이 승인되지 않았습니다.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "위치 권한이 승인되지 않았습니다.", Toast.LENGTH_SHORT).show();
                 System.exit(0);
             }
         }
