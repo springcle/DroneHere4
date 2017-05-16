@@ -567,11 +567,12 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
+                /*
                 if (mem_id == "" || drone_exist == false)
-                    return;
+                    return;*/
                 fly_enable_check_marker(latLng);
                 delay_marker_display(latLng);
-                /* 마커 찍었을때 카메라 포커스도 같이 움직이는 코드
+                /*마커 찍었을때 카메라 포커스도 같이 움직이는 코드
                 CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 11f);
                 if (mMap != null) {
                     mMap.moveCamera(update);
@@ -721,6 +722,12 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
             Toast.makeText(context, "데이터 읽어오는데 에러가 발생하였습니다.", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (fly == false) {
+            options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_11));
+        } else {
+            options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_pos1_11));
+        }
+        /*
         if (mem_id != "" && drone_exist == true) {
             if (fly == false) {
                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_11));
@@ -733,6 +740,7 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
             drone_exist = true; // 드론 유/무 확인 후 창 비활성화 용도 인데, 비회원 일때도 커스텀다이얼로그를 활성화 시킨 후 로그인 시켜야하므로 true값을 넣어줌
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.b_imp1_1_unable));
         }
+        */
         my_marker = mMap.addMarker(options);
     }
 
@@ -854,8 +862,6 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
         * 2017-03-24
         * 회원/비회원 구분 없이 4대비행 팝업창 노출! */
 
-
-
                 /* 4대 비행가능요소를 Detail하게 표시하는 코드
                 t1.setText("공역표시");
                 if(sunrise != null && sunset != null) {
@@ -878,7 +884,6 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
                 btn.setEnabled(true);
                 btn.setClickable(true);
                 */
-
 
             if (bool[1] == 1) {
                 i2.setImageResource(R.drawable.fly_enable_time_image);
@@ -1568,18 +1573,85 @@ Log.e("앵커포인트",""+sliding.getAnchorPoint());
                 }
             });
         } else { // 비회원 일때
-            drone_exist = false;
-            for (int i = 0; i < 4; i++) {
-                bool[i] = 0;
-                bool1[i] = 0;
-            }
-            /*
-            if(location != null) {
-                add_marker(location, bool1);
-            }
-            */
+            drone_exist = true;
+
+            // liesInside[] index is..
+            // [0]: 금지구역
+            // [1]: 제한구역
+            // [2]: 관제권
+            // [3]: 위험구역
+
+            /** 비행 구역 확인 **/
+            List<KmlPolygon> polygonsInLayer0 = getPolygons(prohibit_layer.getContainers());
+            liesInside[1][0] = liesOnPolygon(polygonsInLayer0, latlng);
+            List<KmlPolygon> polygonsInLayer1 = getPolygons(restrict_layer.getContainers());
+            liesInside[1][1] = liesOnPolygon(polygonsInLayer1, latlng);
+            List<KmlPolygon> polygonsInLayer2 = getPolygons(airControlZone_layer.getContainers());
+            liesInside[1][2] = liesOnPolygon(polygonsInLayer2, latlng);
+            List<KmlPolygon> polygonsInLayer3 = getPolygons(danger_layer.getContainers());
+            liesInside[1][3] = liesOnPolygon(polygonsInLayer3, latlng);
+
+            /** 자기장 **/
+            NetworkManager.getInstance().getMag(MyApplication.getContext(), new NetworkManager.OnResultListener<MagneticResult>() {
+                @Override
+                public void onSuccess(Request request, MagneticResult result) {
+                    magnetic = result.getKindex().getCurrentK();
+                }
+
+                @Override
+                public void onFail(Request request, IOException exception) {
+                    Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            /** 풍속,일출,일몰 값 받아오기 **/
+            NetworkManager.getInstance().getWind(MyApplication.getContext(), "" + latlng.latitude, "" + latlng.longitude, new NetworkManager.OnResultListener<WeatherResult>() {
+                @Override
+                public void onSuccess(Request request, WeatherResult result) {
+                    wind_click = result.getWind().getSpeed();
+                    sunrise_click = result.getSun().getSunrise();
+                    sunset_click = result.getSun().getSunset();
+                    /** 4대 비행 공식 계산 **/
+                    if ((wind_click != null && sunrise_click != null && sunset_click != null)) {
+                        dr_resistance = 10.0; // 비회원은 디폴트로 매빅 프로의 바람저항을 갖고 있다고 하고 4대비행팝업 보여줌.
+
+                        long now = System.currentTimeMillis() / 1000;
+                        double dr_wind;
+                        long l_sunrise;
+                        long l_sunset;
+                        dr_wind = Double.parseDouble(wind_click);
+                        l_sunrise = Long.parseLong(sunrise_click);
+                        l_sunset = Long.parseLong(sunset_click);
+                        if (liesInside[1][0] == false && liesInside[1][1] == false && liesInside[1][2] == false)
+                            bool1[0] = 1;
+                        else bool1[0] = 0;
+                        if (l_sunrise < now && now < l_sunset) bool1[1] = 1;
+                        else bool1[1] = 0;
+                        if (dr_wind < dr_resistance) bool1[2] = 1;
+                        else bool1[2] = 0;
+                        if (magnetic < 5) bool1[3] = 1;
+                        else bool1[3] = 0;
+                        // 비행 가능, 불가능 표시 마커
+                        /*
+                        if ((bool != null) && location != null) {
+                            add_marker(location, bool);
+                        }*/
+                        getData_success = true;
+                    }
+
+
+                }
+
+                // 풍속,일출,일물쪽 네트워크 통신
+                @Override
+                public void onFail(Request request, IOException exception) {
+                    Toast.makeText(context, "데이터를 받아오는데 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }
     }
+
+
 
     /**
      * 장소 검색 다이얼로그에서 위치 클릭 시
